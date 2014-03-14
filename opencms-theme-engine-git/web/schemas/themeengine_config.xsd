@@ -1,0 +1,49 @@
+<!--
+ Copyright (C) encoding="ISO-8859-1" 2010 Robert Diawara
+
+ This file is part of OpenCms Theme Engine.
+
+ OpenCms Theme Engine is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ OpenCms Theme Engine is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xsd:include schemaLocation="opencms://opencms-xmlcontent.xsd"/>
+
+    <xsd:element name="ThemeEngineConfigs" type="OpenCmsThemeEngineConfigs"/>
+
+    <xsd:complexType name="OpenCmsThemeEngineConfigs">
+        <xsd:sequence>
+            <xsd:element name="ThemeEngineConfig" type="OpenCmsThemeEngineConfig" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="OpenCmsThemeEngineConfig"> 
+        <xsd:sequence>
+            <xsd:element name="default-theme" type="OpenCmsVfsFile" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="config-folder" type="OpenCmsVfsFile" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="runtime-parameter" type="OpenCmsString" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="language" type="OpenCmsLocale" use="optional"/>
+    </xsd:complexType>
+
+    <xsd:annotation>
+        <xsd:appinfo>
+            <resourcebundle name="net.componio.opencms.modules.eight.skinndriva.rd.workplace"/>
+            <validationrules>
+                <rule element="default-theme" regex="^(\/[\dA-Za-z\-\._~\$]+)+(\.conf)$" message="Invalid value for field &#x22;default-theme&#x22; !"/>
+                <rule element="config-folder" regex="^(\/[\dA-Za-z\-\._~\$]+)+(\/)?$" message="Invalid value for field &#x22;config-folder&#x22; !"/>
+            </validationrules>
+        </xsd:appinfo>
+    </xsd:annotation>
+</xsd:schema>

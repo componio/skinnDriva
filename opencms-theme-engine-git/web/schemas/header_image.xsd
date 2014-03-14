@@ -1,0 +1,55 @@
+<!--
+ Copyright (C) encoding="ISO-8859-1" 2010 Robert Diawara
+
+ This file is part of OpenCms Theme Engine.
+
+ OpenCms Theme Engine is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ OpenCms Theme Engine is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xsd:include schemaLocation="opencms://opencms-xmlcontent.xsd"/>
+    <xsd:include schemaLocation="opencms://system/modules/net.componio.opencms.modules.eight.skinndriva.rd/schemas/nested/header_image_instance.xsd"/>
+
+    <xsd:element name="HeaderImages" type="OpenCmsHeaderImages"/>
+
+    <xsd:complexType name="OpenCmsHeaderImages">
+        <xsd:sequence>
+            <xsd:element name="HeaderImage" type="OpenCmsHeaderImage" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="OpenCmsHeaderImage">
+        <xsd:sequence>
+            <xsd:element name="instance" type="OpenCmsHeaderImageInstance" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="language" type="OpenCmsLocale" use="required"/>
+    </xsd:complexType>
+
+    <xsd:annotation>
+        <xsd:appinfo>
+            <resourcebundle name="net.componio.opencms.modules.eight.skinndriva.rd.workplace"/>
+            <formatters>
+                <formatter type="HEADER" uri="/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/formatters/default/HEADER.jsp"/>
+            </formatters>
+            <defaults>
+                <default element="instance/alt" value="image"/>
+                <default element="instance/h-pos" value="0"/>
+                <default element="instance/v-pos" value="0"/>
+                <default element="instance/h-orientation" value="left"/>
+                <default element="instance/v-orientation" value="top"/>
+                <default element="instance/img-link/link-target" value="_blank"/>
+            </defaults>
+        </xsd:appinfo>
+    </xsd:annotation>
+</xsd:schema>

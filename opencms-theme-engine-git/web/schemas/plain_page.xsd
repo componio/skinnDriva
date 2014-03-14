@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Document : plain_page.xsd
+ Created on Mi, Jan 18 2012, 19:12:08
+ Copyright (C) 2012 Robert Diawara
+
+ This file is part of OpenCms Theme Engine.
+
+ OpenCms Theme Engine is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ OpenCms Theme Engine is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xsd:include schemaLocation="opencms://opencms-xmlcontent.xsd"/>
+
+    <xsd:element name="PlainPages" type="OpenCmsPlainPages"/>
+
+    <xsd:complexType name="OpenCmsPlainPages">
+        <xsd:sequence>
+            <xsd:element name="PlainPage" type="OpenCmsPlainPage" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="OpenCmsPlainPage">
+        <xsd:sequence>
+            <xsd:element name="title" type="OpenCmsString" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="show-left-hand-bar" type="OpenCmsBoolean" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="show-right-hand-bar" type="OpenCmsBoolean" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="show-toolbar" type="OpenCmsBoolean" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="teaser" type="OpenCmsHtml" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="body" type="OpenCmsHtml" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="language" type="OpenCmsLocale" use="required"/>
+    </xsd:complexType>
+
+    <xsd:annotation>
+        <xsd:appinfo>
+            <resourcebundle name="net.componio.opencms.modules.eight.skinndriva.rd.workplace"/>
+            <mappings>
+                <mapping element="title" mapto="property:shared:Title" />
+                <mapping element="show-left-hand-bar" mapto="property:shared:ShowLeftHandBar" />
+                <mapping element="show-right-hand-bar" mapto="property:shared:ShowRightHandBar" />
+                <mapping element="show-toolbar" mapto="property:shared:ShowToolBar" />
+            </mappings>
+            <layouts>
+                <layout element="teaser" widget="HtmlWidget" configuration="source,link,anchor,formatselect,imagegallery,downloadgallery,linkgallery,htmlgallery,tablegallery,height:150px" />
+                <layout element="body" widget="HtmlWidget" configuration="source,link,anchor,formatselect,imagegallery,downloadgallery,linkgallery,htmlgallery,tablegallery,height:250px" />
+            </layouts>
+            <validationrules>
+                <rule element="title" regex="^(.+)$" message="Please provide a Title !"/>
+                <rule element="teaser" regex="^(.+)$" message="Please provide a Teaser !"/>
+            </validationrules>
+            <defaults>
+                <default element="title" value="[Please provide a Title]"/>
+                <default element="show-left-hand-bar" value="true"/>
+                <default element="show-right-hand-bar" value="true"/>
+                <default element="show-toolbar" value="true"/>
+            </defaults>
+        </xsd:appinfo>
+    </xsd:annotation>
+</xsd:schema>

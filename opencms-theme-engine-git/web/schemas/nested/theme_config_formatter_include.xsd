@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Document : theme_config_formatters.xsd
+ Created on Di, Okt 02 2012, 19:54:39
+ Copyright (C) 2012 Robert Diawara
+
+ This file is part of OpenCms Theme Engine.
+
+ OpenCms Theme Engine is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ OpenCms Theme Engine is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xsd:include schemaLocation="opencms://opencms-xmlcontent.xsd"/>
+
+    <xsd:element name="FormatterIncludes" type="OpenCmsFormatterIncludes"/>
+
+    <xsd:complexType name="OpenCmsFormatterIncludes">
+        <xsd:sequence>
+            <xsd:element name="FormatterInclude" type="OpenCmsFormatterInclude" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="OpenCmsFormatterInclude">
+        <xsd:sequence>
+            <xsd:element name="resource-type" type="OpenCmsString" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="container-type" type="OpenCmsString" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="jsp" type="OpenCmsVfsFile" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="minimum-width" type="OpenCmsString" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="maximum-width" type="OpenCmsString" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="preview" type="OpenCmsBoolean" minOccurs="0" maxOccurs="1"/>
+            <!--<xsd:element name="searchable" type="OpenCmsBoolean" minOccurs="0" maxOccurs="1"/>-->
+        </xsd:sequence>
+        <xsd:attribute name="language" type="OpenCmsLocale" use="optional"/>
+    </xsd:complexType>
+
+    <xsd:annotation>
+        <xsd:appinfo>
+            <resourcebundle name="net.componio.opencms.modules.eight.skinndriva.rd.workplace"/>
+           <layouts>
+                <layout element="resource-type" widget="TypeComboWidget"/>
+            </layouts>
+            <validationrules>
+                <rule element="resource-type" regex="^(.+)$" message="Please provide a resource type !"/>
+                <rule element="container-type" regex="^(.+)$" message="Please provide a container type !"/>
+                <rule element="minimum-width" regex="^[0-9]{1,4}$" message="Please provide a number between 1 and 4 digits as minimum width !"/>
+                <rule element="maximum-width" regex="^[0-9]{1,4}$" message="Please provide a number between 1 and 4 digits as maximum width !"/>
+            </validationrules>
+        </xsd:appinfo>
+    </xsd:annotation>
+</xsd:schema>

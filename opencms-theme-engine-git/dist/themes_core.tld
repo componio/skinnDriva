@@ -1,0 +1,1011 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Document : themes_core.tld
+ Created on So, Jan 08 2012, 21:36:15
+ Copyright (C) 2012 Robert Diawara
+
+ This file is part of OpenCms Theme Engine.
+
+ OpenCms Theme Engine is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ OpenCms Theme Engine is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<taglib version="2.1" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
+    <description>
+        The core Tag Library for the Theme Engine.
+        Developed by Robert Diawara, http://www.diawara.com.
+    </description>
+    <display-name>Theme Engine core taglib</display-name>
+    <tlib-version>2.1</tlib-version>
+    <short-name>Core</short-name>
+    <uri>http://www.diawara.com/themeengine/taglibs/core</uri>
+ 
+    <tag>
+        <description>
+            Provides the theme, which is assigned to a resource. First the tag tries to check, if a
+            runtime parameter is defined for the theme engine. If a runtime parameter is defined, the tag
+            tries to get the parameter value from the request. If the parameter is not provided with the request,
+            the tag tries to get the value of the Theme property from VFS. If this is not defined as well, the
+            tag gets the default theme defined in the theme engine.
+        </description>
+        <name>Theme</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.ThemeTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>resource</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>var</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+ 
+    <tag>
+        <description>
+            Renders all css styles, which are assigned to the theme, to the page.
+        </description>
+        <name>ThemeStyles</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.ThemeStylesTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>groups</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Renders all scripts, which are assigned to the theme, to the page.
+        </description>
+        <name>ThemeScripts</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.ThemeScriptsTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>groups</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Renders the favicon for the theme.
+        </description>
+        <name>FavIcon</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.FavIconTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Checks, if the left hand bar of a page resource has to be displayed or not. This tag first checks
+            if the property "ShowLeftHandBar" of the resource or of any folder above in the VFS hierarchy has
+            been set to true or false. If the property is not set, the value of the tag defaults to the property
+            "ShowLeftHandBar" of the theme specified via the "theme" atttribute of this tag. If no theme is found
+            neither, the tag value defaults to true. There are two ways, to use this tag. The first way is to
+            assign the output of the tag to a JSTL variable, by using the "var" attribute. This variable can be
+            assigned to a scope as well according to JSTL standards. If no scope is define, the vairable defaults
+            to page scope. The second way is to enclose the code, which you want to execute conditionally, as 
+            body in to the tag. If the result of the tag is true, the code will be executed. Otherwise it will
+            be skipped.
+        </description>
+        <name>ShowLeftHandBar</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.ShowLeftHandBarTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>resource</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Checks, if the right hand bar of a page resource has to be displayed or not. This tag first checks
+            if the property "ShowRightHandBar" of the resource or of any folder above in the VFS hierarchy has
+            been set to true or false. If the property is not set, the value of the tag defaults to the property
+            "ShowRightHandBar" of the theme specified via the "theme" atttribute of this tag. If no theme is found
+            neither, the tag value defaults to true. There are two ways, to use this tag. The first way is to
+            assign the output of the tag to a JSTL variable, by using the "var" attribute. This variable can be
+            assigned to a scope as well according to JSTL standards. If no scope is define, the vairable defaults
+            to page scope. The second way is to enclose the code, which you want to execute conditionally, as 
+            body in to the tag. If the result of the tag is true, the code will be executed. Otherwise it will
+            be skipped.
+        </description>
+        <name>ShowRightHandBar</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.ShowRightHandBarTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>resource</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Checks, if the toolbar of a page resource has to be displayed or not. This tag first checks
+            if the property "ShowToolBar" of the resource or of any folder above in the VFS hierarchy has
+            been set to true or false. If the property is not set, the value of the tag defaults to the property
+            "ShowToolBar" of the theme which is specified via the "theme" atttribute of this tag. If no theme is 
+            found neither, the tag value defaults to true. There are two ways, to use this tag. The first way is 
+            to assign the output of the tag to a JSTL variable, by using the "var" attribute. This variable can be
+            assigned to a scope as well according to JSTL standards. If no scope is define, the vairable defaults
+            to page scope. The second way is to enclose the code, which you want to execute conditionally, as 
+            body in to the tag. If the result of the tag is true, the code will be executed. Otherwise it will
+            be skipped.
+        </description>
+        <name>ShowToolBar</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.ShowToolBarTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>resource</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the inner width for the left column. This is the effective width, which can be
+            used for content.
+        </description>
+        <name>LeftColumnInnerWidth</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.LeftColumnInnerWidthTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the width of the left column. This is the inner width, which is effectively available
+            for content, plus the left and the right margin.
+        </description>
+        <name>LeftColumnWidth</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.LeftColumnWidthTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the inner width for the data area. This is the effective width, which can be
+            used for content.
+        </description>
+        <name>DataAreaInnerWidth</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.DataAreaInnerWidthTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the width of the left column. This is the inner width, which is effectively available
+            for content, plus the left and the right margin.
+        </description>
+        <name>DataAreaWidth</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.DataAreaWidthTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>  
+    
+    <tag>
+        <description>
+            Provides the inner width for the center column. This is the effective width, which can be
+            used for content.
+        </description>
+        <name>CenterColumnInnerWidth</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.CenterColumnInnerWidthTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the width of the center column. This is the inner width, which is effectively available
+            for content, plus the left and the right margin.
+        </description>
+        <name>CenterColumnWidth</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.CenterColumnWidthTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the inner width for the right column. This is the effective width, which can be
+            used for content.
+        </description>
+        <name>RightColumnInnerWidth</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.RightColumnInnerWidthTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the width of the right column. This is the inner width, which is effectively available
+            for content, plus the left and the right margin.
+        </description>
+        <name>RightColumnWidth</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.RightColumnWidthTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the inner width for the whole page. This is the effective width, which can be
+            used for content.
+        </description>
+        <name>PageInnerWidth</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.PageInnerWidthTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the width of the whole page. This is the inner width, which is effectively available
+            for content, plus the left and the right margin.
+        </description>
+        <name>PageWidth</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.PageWidthTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the inner height for the header. This is the effective height which can be
+            used for content.
+        </description>
+        <name>HeaderInnerHeight</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.HeaderInnerHeightTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the height of the header. This is the inner height, which is effectively available
+            for content, plus the top and the bottom margin.
+        </description>
+        <name>HeaderHeight</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.HeaderHeightTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the inner height for the footer. This is the effective height which can be
+            used for content.
+        </description>
+        <name>FooterInnerHeight</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.FooterInnerHeightTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the height of the footer. This is the inner height, which is effectively available
+            for content, plus the top and the bottom margin.
+        </description>
+        <name>FooterHeight</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.FooterHeightTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the inner height for the toolbar. This is the effective height which can be
+            used for content.
+        </description>
+        <name>ToolbarInnerHeight</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.ToolbarInnerHeightTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the height of the toolbar. This is the inner height, which is effectively available
+            for content, plus the top and the bottom margin.
+        </description>
+        <name>ToolbarHeight</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.ToolbarHeightTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides space between boxes on the pages in a theme.
+        </description>
+        <name>BoxSpacing</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.BoxSpacingTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the top margin of all boxes in a theme.
+        </description>
+        <name>TopMargin</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.TopMarginTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the right margin of all boxes in a theme.
+        </description>
+        <name>RightMargin</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.RightMarginTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the bottom margin of all boxes in a theme.
+        </description>
+        <name>BottomMargin</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.BottomMarginTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the left margin of all boxes in a theme.
+        </description>
+        <name>LeftMargin</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.LeftMarginTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>formatted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the template for the header to be included into the pages
+            of a theme.
+        </description>
+        <name>HeaderTemplate</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.HeaderTemplateTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the template for the right hand bar to be included into the pages
+            of a theme.
+        </description>
+        <name>RightHandTemplate</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.RightHandTemplateTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the template for the footer to be included into the pages
+            of a theme.
+        </description>
+        <name>FooterTemplate</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.FooterTemplateTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the template for the left hand bar to be included into the pages
+            of a theme.
+        </description>
+        <name>LeftHandTemplate</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.LeftHandTemplateTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Provides the template for the toolbar to be included into the pages
+            of a theme.
+        </description>
+        <name>ToolbarTemplate</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.ToolbarTemplateTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+    
+    <tag>
+        <description>
+            Is used to retrieve formatters which are assigned to resources for a specific container type
+            in a theme. This tag uses the resource type and the container type as key and returns the JSP.
+        </description>
+        <name>Formatter</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.FormatterTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>theme</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>elementTypeId</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>containerType</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+</taglib>

@@ -1,0 +1,45 @@
+<!--
+ Document : new_nested_opencms_schema.xsd
+ Created on So, Jun 12 2011, 22:05:10
+ Copyright (C) 2011 Robert Diawara
+
+ This file is part of OpenCms Theme Engine.
+
+ OpenCms Theme Engine is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ OpenCms Theme Engine is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xsd:include schemaLocation="opencms://opencms-xmlcontent.xsd"/>
+    <xsd:include schemaLocation="opencms://system/modules/net.componio.opencms.modules.eight.skinndriva.rd/schemas/nested/theme_config_style_include.xsd"/>
+
+    <xsd:element name="ThemeConfigStyles" type="OpenCmsThemeConfigStyles"/>
+
+    <xsd:complexType name="OpenCmsThemeConfigStyles">
+        <xsd:sequence>
+            <xsd:element name="ThemeConfigStyle" type="OpenCmsThemeConfigStyle" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="OpenCmsThemeConfigStyle">
+        <xsd:sequence>
+           <xsd:element name="style" type="OpenCmsThemeStyleInclude" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="language" type="OpenCmsLocale" use="optional"/>
+    </xsd:complexType>
+    <xsd:annotation>
+        <xsd:appinfo>
+            <resourcebundle name="net.componio.opencms.modules.eight.skinndriva.rd.workplace"/>
+        </xsd:appinfo>
+    </xsd:annotation>
+</xsd:schema>

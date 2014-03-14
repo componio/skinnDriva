@@ -1,0 +1,77 @@
+<!--
+Copyright (C) encoding="ISO-8859-1" 2010 Robert Diawara
+ 
+This file is part of OpenCms Theme Engine.
+
+OpenCms Theme Engine is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OpenCms Theme Engine is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+ 
+You should have received a copy of the GNU Lesser General Public License
+along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
+-->
+ 
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xsd:include schemaLocation="opencms://opencms-xmlcontent.xsd"/>
+ 
+    <xsd:element name="GenericArticles" type="OpenCmsGenericArticles"/>
+ 
+    <xsd:complexType name="OpenCmsGenericArticles">
+        <xsd:sequence>
+            <xsd:element name="GenericArticle" type="OpenCmsGenericArticle" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+ 
+    <xsd:complexType name="OpenCmsGenericArticle">
+        <xsd:sequence>
+            <xsd:element name="title" type="OpenCmsString" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="visual" type="OpenCmsVfsFile" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="teaser" type="OpenCmsHtml" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="body" type="OpenCmsHtml" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="show-decorations" type="OpenCmsBoolean" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="show-title" type="OpenCmsBoolean" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="category" type="OpenCmsCategory" minOccurs="0" />
+        </xsd:sequence>
+        <xsd:attribute name="language" type="OpenCmsLocale" use="required"/>
+    </xsd:complexType>
+ 
+    <xsd:annotation>
+        <xsd:appinfo>
+            <resourcebundle name="com.diawara.opencms.themes.workplace"/>
+            <mappings>
+                <mapping element="title" mapto="property:shared:Title" />
+                <mapping element="show-decorations" mapto="property:shared:ShowDecorations" />
+                <mapping element="show-title" mapto="property:shared:ShowTitle" />
+            </mappings>
+            <layouts>
+                <layout element="teaser" widget="HtmlWidget" configuration="source,link,anchor,formatselect,imagegallery,downloadgallery,linkgallery,htmlgallery,tablegallery,height:150px" />
+                <layout element="body" widget="HtmlWidget" configuration="source,link,anchor,formatselect,imagegallery,downloadgallery,linkgallery,htmlgallery,tablegallery,height:250px" />
+                <layout element="category" widget="CategoryWidget" configuration="onlyleafs=false" />
+            </layouts>
+            <formatters>
+                <formatter type="CONTENT" minwidth="500" maxwidth="900" uri="/system/modules/com.diawara.opencms.themes/formatters/default/CONTENT.jsp"/>
+                <formatter type="FOOTER" minwidth="500" maxwidth="900" uri="/system/modules/com.diawara.opencms.themes/formatters/default/FOOTER.jsp"/>
+            </formatters>
+            <validationrules>
+                <rule element="title" regex="^(.+)$" message="Please provide a Title !"/>
+                <rule element="teaser" regex="^(.+)(\n(.*))*$" message="Please provide a Teaser !"/>
+            </validationrules>
+            <defaults>
+                <default element="title" value="[Please provide a Title]"/>
+                <default element="show-decorations" value="false"/>
+                <default element="show-title" value="true"/>
+            </defaults>
+                <settings>
+                   <setting name="force-detail-view" nice-name="Force Detail View" type="string" widget="checkbox" default="false"/>
+                   <setting name="show-title" nice-name="Show Title" type="string" widget="checkbox" default="true"/>
+                   <setting name="show-decorations" nice-name="Show Decorations" type="string" widget="checkbox" default="true"/>
+                </settings>
+        </xsd:appinfo>
+    </xsd:annotation>
+</xsd:schema>

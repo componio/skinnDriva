@@ -1,0 +1,68 @@
+<!--
+ Copyright (C) encoding="ISO-8859-1" 2010 Robert Diawara
+
+ This file is part of OpenCms Theme Engine.
+
+ OpenCms Theme Engine is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ OpenCms Theme Engine is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xsd:include schemaLocation="opencms://opencms-xmlcontent.xsd"/>
+    <xsd:include schemaLocation="opencms://system/modules/net.componio.opencms.modules.eight.skinndriva.rd/schemas/nested/navigation_link.xsd"/>
+
+    <xsd:element name="HeaderImageInstances" type="OpenCmsHeaderImageInstances"/>
+
+    <xsd:complexType name="OpenCmsHeaderImageInstances">
+        <xsd:sequence>
+            <xsd:element name="HeaderImageInstance" type="OpenCmsHeaderImageInstance" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="OpenCmsHeaderImageInstance">
+        <xsd:sequence>
+            <xsd:element name="theme" type="OpenCmsString" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="img-source" type="OpenCmsString" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="alt" type="OpenCmsString" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="h-pos" type="OpenCmsString" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="v-pos" type="OpenCmsString" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="h-orientation" type="OpenCmsString" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="v-orientation" type="OpenCmsString" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="width" type="OpenCmsString" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="height" type="OpenCmsString" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="img-link" type="OpenCmsNavigationLink" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="language" type="OpenCmsLocale" use="optional"/>
+    </xsd:complexType>
+
+    <xsd:annotation>
+        <xsd:appinfo>
+            <resourcebundle name="net.componio.opencms.modules.eight.skinndriva.rd.workplace"/>
+            <layouts>
+                <layout element="img-source" widget="ImageGalleryWidget" />
+                <layout element="h-orientation" widget="ComboWidget" configuration="value='left' | value='right' " />
+                <layout element="v-orientation" widget="ComboWidget" configuration="value='top' | value='bottom' " />
+            </layouts>
+            <validationrules>
+                <rule element="img-source" regex="^(.+)$" message="Field can not be empty !"/>
+                <rule element="alt" regex="^(.+)$" message="Field can not be empty !"/>
+                <rule element="h-pos" regex="^\d{1,4}$" message="Please provide a number with 1 to 4 digits as horizontal position !"/>
+                <rule element="v-pos" regex="^\d{1,3}$" message="Please provide a number with 1 to 3 digits as vertical position !"/>
+                <rule element="h-orientation" regex="^(left|right)$" message="Please provide a number with 1 to 4 digits as horizontal position !"/>
+                <rule element="v-orientation" regex="^(top|bottom)$" message="Please provide a number with 1 to 3 digits as vertical position !"/>
+                <rule element="width" regex="^\d{1,3}$" message="Please provide a number with 1 to 3 digits as width !"/>
+                <rule element="height" regex="^\d{1,3}$" message="Please provide a number with 1 to 3 digits as height !"/>
+            </validationrules>
+        </xsd:appinfo>
+    </xsd:annotation>
+</xsd:schema>

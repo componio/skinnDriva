@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Document : themes_commons.tld
+ Created on So, Jan 08 2012, 21:36:15
+ Copyright (C) 2012 Robert Diawara
+
+ This file is part of OpenCms Theme Engine.
+
+ OpenCms Theme Engine is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ OpenCms Theme Engine is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<taglib version="2.1" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
+    <description>
+        The commons Tag Library for the Theme Engine.
+        Developed by Robert Diawara, http://www.diawara.com.
+    </description>
+    <display-name>Theme commons core taglib</display-name>
+    <tlib-version>2.1</tlib-version>
+    <short-name>Core</short-name>
+    <uri>http://www.diawara.com/themeengine/taglibs/commons</uri>
+    
+    <tag>
+        <description>
+            Provides the information, if the current project is the Online project or not.
+            This tag can be used in two ways. The first way consists in writing the result in
+            a JSTL variable using the var tag, and then later use this variable in the code.
+            The second way consists in directly using this tag for the conditional execution
+            of code. If the current project is the Online project, the body of this tag will
+            be executed. Otherwise it will be skipped.
+        </description>
+        <name>IsOnlineProject</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.commons.IsOnlineProjectTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag> 
+    
+    <tag>
+        <description>
+            Provides the information, if the current project is an Offline project or not.
+            This tag can be used in two ways. The first way consists in writing the result in
+            a JSTL variable using the var tag, and then later use this variable in the code.
+            The second way consists in directly using this tag for the conditional execution
+            of code. If the current project is anOffline project, the body of this tag will
+            be executed. Otherwise it will be skipped.
+        </description>
+        <name>IsOfflineProject</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.commons.IsOfflineProjectTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>     
+
+    <tag>
+        <description>
+            Provides the property of a VFS resource. In contrast to the property tag from the OpenCms taglib,
+            this tag not only provides properties of the resource requeset by the current request. I can provide
+            properties from any resource at the VFS, when the valid path to this VFS resource is provided via
+            the "resource" parameter. However, this parameter is optional. When its not provided, this tag
+            behaves like the standard property tag from the OpenCms taglib. Also this tag provides the possibility
+            to direcly store the result in an JSTL variable, by using the "var" attribute.
+        </description>
+        <name>Property</name>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.commons.IsOfflineProjectTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>resource</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>default</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>search</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Provides a Tree Navigation, which will be rendered automatically
+        </description>
+        <name>TreeNavigation</name>
+        <tag-class>com.diawara.commons.taglib.NavigationTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>linkStyleBundle</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>styleBundle</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>startLevel</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+</taglib>

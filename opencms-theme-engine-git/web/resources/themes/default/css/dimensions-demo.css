@@ -1,0 +1,84 @@
+/*
+ Document : sample.css
+ Created on So, Mrz 04 2012, 15:26:53
+ Copyright (C) 2012 Robert Diawara
+
+ This file is part of OpenCms Theme Engine.
+
+ OpenCms Theme Engine is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ OpenCms Theme Engine is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+p, li{
+    font-family         : Arial;
+    font-size           : 12px;
+    margin              : 0px 0px 0px 0px;
+    color               : rgb(230,230,230);
+}
+
+body, h1, h2, h3, h4, p, td, span, li, input{
+    font-family          : "Tahoma", "Arial", "Cataneo BT", "Comic Sans MS";
+    color                : rgb(75,75,75);
+}
+
+h1{
+    margin               : 0px 0px 10px 0px;
+    font-size            : 20px;
+}
+
+#HeaderContainer{
+    width                : 100%;
+    height               : 100%;
+    border               : none;
+    position             : relative;
+}
+
+#FooterContainer{
+    width                : 100%;
+    height               : 100%;
+}
+
+
+#BreadBrumbNavFrame{
+    position             : absolute;
+    bottom               : 2px;
+    left                 : 0px;
+    border               : none;
+    padding              : 0px 0px 0px 0px;
+    height               : 28px;
+    vertical-align       : bottom;
+}
+
+#CustomHeaderNavFrame{
+    position             : absolute;
+    top                  : 2px;
+    right                : 0px;
+    border               : none;
+    padding              : 0px 0px 0px 0px;
+    height               : 28px;
+    vertical-align       : bottom;
+}
+
+#CustomFooterNavFrame{
+    position             : relative;
+    border               : none;
+    padding              : 0px 0px 0px 0px;
+    height               : 25px;
+    vertical-align       : bottom;
+}
+
+div.image_frame{
+    border               : none;
+    position             : absolute;
+}
+

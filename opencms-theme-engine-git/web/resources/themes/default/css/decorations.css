@@ -1,0 +1,370 @@
+/*
+ *  Document : decorations.css
+ *  Created on  08.03.2012, 22:10:40
+ *  Copyright (C) 2012 Robert Diawara
+ * 
+ *  This file is part of OpenCms Theme Engine.
+ * 
+ *  OpenCms Theme Engine is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Lesser General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ * 
+ *  OpenCms Theme Engine is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Lesser General Public License for more details.
+ * 
+ *  You should have received a copy of the GNU Lesser General Public License
+ *  along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+body{
+    background            : rgb(245,245,245);
+    background-image      : url('./backgrounds/page/gradient-01.png');
+    background-repeat     : repeat-x;
+}
+
+div.header-menu{
+    border                : none;
+    height                : 100px;
+    position              : absolute;
+    bottom                : 0px;
+    background-image      : url('./backgrounds/header/header-menu.png');
+    background-repeat     : repeat-x;
+    background-position   : left bottom;
+    padding               : 0px 0px 0px 0px;
+}
+
+div.header-menu-left{
+    border                : none;
+    width                 : 20px;
+    height                : 100px;
+    position              : absolute;
+    left                  : -20px;
+    top                   : 0px;
+    background-image      : url('./backgrounds/header/header-menu-left.png');
+    background-repeat     : no-repeat;
+    background-position   : right bottom;
+}
+
+div.header-menu-right{
+    border                : none;
+    width                 : 20px;
+    height                : 100px;
+    position              : absolute;
+    right                 : -20px;
+    top                   : 0px;
+    background-image      : url('./backgrounds/header/header-menu-right.png');
+    background-repeat     : no-repeat;
+    background-position   : left bottom;
+}
+
+div.header-content{
+    background-image      : url('./backgrounds/header/body.png');
+    background-repeat     : repeat;
+}
+
+div.lefthandbar-content,
+div.righthandbar-content{
+    background-image      : url('./backgrounds/nav/body.png');
+    background-repeat     : repeat;
+}
+
+div.toolbar-content,
+div.dataarea-content_00,
+div.dataarea-content_01,
+div.dataarea-content_10,
+div.dataarea-content_11,
+div.footer-content{
+    background-image      : url('./backgrounds/body/body.png');
+    background-repeat     : repeat;
+}
+
+div.header_tl{
+    border                : none;
+    width                 : 20px;
+    height                : 20px;
+    position              : absolute;
+    left                  : -20px;
+    top                   : -20px;
+    background-image      : url('./backgrounds/header/top-left.png');
+    background-repeat     : no-repeat;
+    z-index               : 5;
+}
+
+div.header_tc{
+    border                : none;
+    width                 : 100%;
+    height                : 20px;
+    position              : absolute;
+    left                  : 0px;
+    top                   : -20px;
+    background-image      : url('./backgrounds/header/top.png');
+    background-repeat     : repeat-x;
+    z-index               : 5;
+}
+
+div.header_tr{
+    border                : none;
+    width                 : 20px;
+    height                : 20px;
+    position              : absolute;
+    right                 : -20px;
+    top                   : -20px;
+    background-image      : url('./backgrounds/header/top-right.png');
+    background-repeat     : no-repeat;
+    z-index               : 5;
+}
+
+div.header_bl{
+    border                : none;
+    width                 : 20px;
+    height                : 20px;
+    position              : absolute;
+    left                  : -20px;
+    bottom                : -20px;
+    background-image      : url('./backgrounds/header/bottom-left.png');
+    background-repeat     : no-repeat;
+    z-index               : 5;
+}
+
+div.header_bc{
+    border                : none;
+    width                 : 100%;
+    height                : 20px;
+    position              : absolute;
+    left                  : 0px;
+    bottom                : -20px;
+    background-image      : url('./backgrounds/header/bottom.png');
+    background-repeat     : repeat-x;
+    z-index               : 5;
+}
+
+div.header_br{
+    border                : none;
+    width                 : 20px;
+    height                : 20px;
+    position              : absolute;
+    right                 : -20px;
+    bottom                : -20px;
+    background-image      : url('./backgrounds/header/bottom-right.png');
+    background-repeat     : no-repeat;
+    z-index               : 5;
+}
+
+div.header_lc{
+    border                : none;
+    width                 : 20px;
+    height                : 100%;
+    position              : absolute;
+    left                  : -20px;
+    top                   : 0px;
+    background-image      : url('./backgrounds/header/left.png');
+    background-repeat     : repeat-y;
+    z-index               : 5;
+}
+
+div.header_rc{
+    border                : none;
+    width                 : 20px;
+    height                : 100%;
+    position              : absolute;
+    right                 : -20px;
+    top                   : 0px;
+    background-image      : url('./backgrounds/header/right.png');
+    background-repeat     : repeat-y;
+    z-index               : 5;
+}
+
+div.content_tl{
+    border                : none;
+    width                 : 20px;
+    height                : 20px;
+    position              : absolute;
+    left                  : -20px;
+    top                   : -20px;
+    background-image      : url('./backgrounds/body/top-left.png');
+    background-repeat     : no-repeat;
+    z-index               : 1;
+}
+
+div.content_tc{
+    border                : none;
+    width                 : 100%;
+    height                : 20px;
+    position              : absolute;
+    left                  : 0px;
+    top                   : -20px;
+    background-image      : url('./backgrounds/body/top.png');
+    background-repeat     : repeat-x;
+    z-index               : 1;
+}
+
+div.content_tr{
+    border                : none;
+    width                 : 20px;
+    height                : 20px;
+    position              : absolute;
+    right                 : -20px;
+    top                   : -20px;
+    background-image      : url('./backgrounds/body/top-right.png');
+    background-repeat     : no-repeat;
+    z-index               : 1;
+}
+
+div.content_bl{
+    border                : none;
+    width                 : 20px;
+    height                : 20px;
+    position              : absolute;
+    left                  : -20px;
+    bottom                : -20px;
+    background-image      : url('./backgrounds/body/bottom-left.png');
+    background-repeat     : no-repeat;
+    z-index               : 1;
+}
+
+div.content_bc{
+    border                : none;
+    width                 : 100%;
+    height                : 20px;
+    position              : absolute;
+    left                  : 0px;
+    bottom                : -20px;
+    background-image      : url('./backgrounds/body/bottom.png');
+    background-repeat     : repeat-x;
+    z-index               : 1;
+}
+
+div.content_br{
+    border                : none;
+    width                 : 20px;
+    height                : 20px;
+    position              : absolute;
+    right                 : -20px;
+    bottom                : -20px;
+    background-image      : url('./backgrounds/body/bottom-right.png');
+    background-repeat     : no-repeat;
+    z-index               : 1;
+}
+
+div.content_lc{
+    border                : none;
+    width                 : 20px;
+    height                : 100%;
+    position              : absolute;
+    left                  : -20px;
+    top                   : 0px;
+    background-image      : url('./backgrounds/body/left.png');
+    background-repeat     : repeat-y;
+    z-index               : 1;
+}
+
+div.content_rc{
+    border                : none;
+    width                 : 20px;
+    height                : 100%;
+    position              : absolute;
+    right                 : -20px;
+    top                   : 0px;
+    background-image      : url('./backgrounds/body/right.png');
+    background-repeat     : repeat-y;
+    z-index               : 1;
+}
+
+div.sidebar_tl{
+    border                : none;
+    width                 : 20px;
+    height                : 20px;
+    position              : absolute;
+    left                  : -20px;
+    top                   : -20px;
+    background-image      : url('./backgrounds/nav/top-left.png');
+    background-repeat     : no-repeat;
+    z-index               : 1;
+}
+
+div.sidebar_tc{
+    border                : none;
+    width                 : 100%;
+    height                : 20px;
+    position              : absolute;
+    left                  : 0px;
+    top                   : -20px;
+    background-image      : url('./backgrounds/nav/top.png');
+    background-repeat     : repeat-x;
+    z-index               : 1;
+}
+
+div.sidebar_tr{
+    border                : none;
+    width                 : 25px;
+    height                : 20px;
+    position              : absolute;
+    right                 : -25px;
+    top                   : -20px;
+    background-image      : url('./backgrounds/nav/top-right.png');
+    background-repeat     : no-repeat;
+    z-index               : 1;
+}
+
+div.sidebar_bl{
+    border                : none;
+    width                 : 20px;
+    height                : 20px;
+    position              : absolute;
+    left                  : -20px;
+    bottom                : -20px;
+    background-image      : url('./backgrounds/nav/bottom-left.png');
+    background-repeat     : no-repeat;
+    z-index               : 1;
+}
+
+div.sidebar_bc{
+    border                : none;
+    width                 : 100%;
+    height                : 20px;
+    position              : absolute;
+    left                  : 0px;
+    bottom                : -20px;
+    background-image      : url('./backgrounds/nav/bottom.png');
+    background-repeat     : repeat-x;
+    z-index               : 1;
+}
+
+div.sidebar_br{
+    border                : none;
+    width                 : 25px;
+    height                : 20px;
+    position              : absolute;
+    right                 : -25px;
+    bottom                : -20px;
+    background-image      : url('./backgrounds/nav/bottom-right.png');
+    background-repeat     : no-repeat;
+    z-index               : 1;
+}
+
+div.sidebar_lc{
+    border                : none;
+    width                 : 20px;
+    height                : 100%;
+    position              : absolute;
+    left                  : -20px;
+    top                   : 0px;
+    background-image      : url('./backgrounds/nav/left.png');
+    background-repeat     : repeat-y;
+    z-index               : 1;
+}
+
+div.sidebar_rc{
+    border                : none;
+    width                 : 25px;
+    height                : 100%;
+    position              : absolute;
+    right                 : -25px;
+    top                   : 0px;
+    background-image      : url('./backgrounds/nav/right.png');
+    background-repeat     : repeat-y;
+    z-index               : 1;
+}

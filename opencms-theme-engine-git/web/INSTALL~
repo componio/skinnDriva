@@ -1,0 +1,46 @@
+Document : INSTALL
+Created on Tue, Oct 02 2013, 12:40:00
+Copyright (C) 2013 Componio / Robert Diawara
+
+This file is part of skinnDriva.
+
+OpenCms Theme Engine is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OpenCms Theme Engine is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
+
+
+This document provides information on how to install skinnDriva. All installation parts are 
+described as single steps. After completing each step you are strongly advised to verify the 
+success of your work. Please note also, that skinnDriva doesn't work with OpenCms versions older
+than 8.0 and is tested with OpenCms 8.x and not with OpenCms 9.
+
+1) Install skinnDriva
+2) Restart OpenCms
+
+1) skinnDriva consists of 3 modules which are :
+   - The commons module "com.diawara.opencms.commons"
+     This module is mandatory and provides all library functions needed by skinnDriva. These
+     library functions may also be shared with other frameworks.
+     
+   - The skinnDriva core module "net.componio.opencms.modules.eight.skinndriva.rd"
+     This is the skinnDriva main module and is also mandatory. It provides you with all the skinnDriva 
+     funtionalities like generic formatters, the admin point, the tag libraries and much more.
+     
+   - The skinnDriva base module "net.componio.opencms.modules.eight.skinndriva.rd.skins.base"
+     This module is optional and provides you with some optional add ons like some resource types
+     which you can use in all your skins. If you don't use this one, it's recommmended to create your
+     own one, so that you can use the same set of resource types in all your skins. This assures
+     that your skins are all compatible each to the other.
+   
+   To install skinnDriva, please install these three modules in the order in which they are mentionned
+   above.
+   

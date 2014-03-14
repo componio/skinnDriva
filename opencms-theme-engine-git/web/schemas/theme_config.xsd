@@ -1,0 +1,106 @@
+<!--
+ Copyright (C) encoding="ISO-8859-1" 2010 Robert Diawara
+
+ This file is part of OpenCms Theme Engine.
+
+ OpenCms Theme Engine is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ OpenCms Theme Engine is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xsd:include schemaLocation="opencms://opencms-xmlcontent.xsd"/>
+    <xsd:include schemaLocation="opencms://system/modules/net.componio.opencms.modules.eight.skinndriva.rd/schemas/nested/theme_dimensions.xsd"/>
+    <xsd:include schemaLocation="opencms://system/modules/net.componio.opencms.modules.eight.skinndriva.rd/schemas/nested/theme_config_grid.xsd"/>
+    <xsd:include schemaLocation="opencms://system/modules/net.componio.opencms.modules.eight.skinndriva.rd/schemas/nested/theme_config_includes.xsd"/>
+    <xsd:include schemaLocation="opencms://system/modules/net.componio.opencms.modules.eight.skinndriva.rd/schemas/nested/theme_config_scripts.xsd"/>
+    <xsd:include schemaLocation="opencms://system/modules/net.componio.opencms.modules.eight.skinndriva.rd/schemas/nested/theme_config_styles.xsd"/>
+    <xsd:include schemaLocation="opencms://system/modules/net.componio.opencms.modules.eight.skinndriva.rd/schemas/nested/theme_config_formatters.xsd"/>
+
+    <xsd:element name="ThemeConfigs" type="OpenCmsThemeConfigs"/>
+
+    <xsd:complexType name="OpenCmsThemeConfigs">
+        <xsd:sequence>
+            <xsd:element name="ThemeConfig" type="OpenCmsThemeConfig" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="OpenCmsThemeConfig">
+        <xsd:sequence>
+            <xsd:element name="name" type="OpenCmsString" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="favicon" type="OpenCmsVfsFile" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="show-lefthand-bar" type="OpenCmsBoolean" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="show-righthand-bar" type="OpenCmsBoolean" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="show-toolbar" type="OpenCmsBoolean" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="main-template" type="OpenCmsVfsFile" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="dimensions" type="OpenCmsThemeDimension" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="grid" type="OpenCmsGrid" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="scripts" type="OpenCmsThemeConfigScript" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="styles" type="OpenCmsThemeConfigStyle" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="formatters" type="OpenCmsFormatter" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="includes" type="OpenCmsThemeConfigInclude" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="language" type="OpenCmsLocale" use="optional"/>
+    </xsd:complexType>
+
+    <xsd:annotation>
+        <xsd:appinfo>
+            <resourcebundle name="net.componio.opencms.modules.eight.skinndriva.rd.workplace"/>
+            <tabs>
+                <tab element="name" name="Details" collapse="false"/>
+                <tab element="dimensions" name="dimensions" collapse="false"/>
+                <tab element="grid" name="grid" collapse="false"/>
+                <tab element="scripts" name="scripts" collapse="false"/>
+                <tab element="styles" name="styles" collapse="false"/>
+                <tab element="formatters" name="formatters" collapse="false"/>
+                <tab element="includes" name="includes" collapse="false"/>
+            </tabs>
+            <mappings>
+                <mapping element="name" mapto="property:shared:Title" />
+            </mappings>
+            <validationrules>
+                <rule element="name" regex="^(.+)$" message="Please provide a name !"/>
+            </validationrules>
+            <defaults>
+                <default element="show-lefthand-bar" value="true"/>
+                <default element="show-righthand-bar" value="true"/>
+                <default element="show-toolbar" value="true"/>
+                <default element="main-template" value="/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/templates/main.jsp"/>
+                <default element="scripts/script-include/visibility" value="all"/>
+                <default element="styles/style/media" value="all"/>
+                <default element="styles/style/user-agent" value="^(.*)$"/>
+                <default element="dimensions/unit" value="px"/>
+                <default element="dimensions/box-spacing" value="10"/>
+                <default element="dimensions/left-column-inner-width" value="250"/>
+                <default element="dimensions/center-column-inner-width" value="800"/>
+                <default element="dimensions/right-column-inner-width" value="250"/>
+                <default element="dimensions/header-inner-height" value="150"/>
+                <default element="dimensions/toolbar-inner-height" value="100"/>
+                <default element="dimensions/footer-inner-height" value="100"/>
+                <default element="dimensions/margins/top-margin" value="15"/>
+                <default element="dimensions/margins/right-margin" value="15"/>
+                <default element="dimensions/margins/bottom-margin" value="15"/>
+                <default element="dimensions/margins/left-margin" value="15"/>
+                <default element="grid/header-height" value="180"/>
+                <default element="grid/footer-height" value="130"/>
+                <default element="grid/toolbar-height" value="130"/>
+                <default element="grid/column-count" value="12"/>
+                <default element="grid/column-width" value="40"/>
+                <default element="grid/orientation" value="left"/>
+                <default element="grid/top-margin" value="10"/>
+                <default element="grid/right-margin" value="10"/>
+                <default element="grid/bottom-margin" value="10"/>
+                <default element="grid/left-margin" value="10"/>
+            </defaults>
+        </xsd:appinfo>
+    </xsd:annotation>
+</xsd:schema>

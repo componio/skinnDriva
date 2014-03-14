@@ -1,0 +1,30 @@
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+
+    <!--  -->
+    <description>
+        The core Software AG tag library for OpenCms.
+        Developed by Robert Diawara, ETS Product Marketing, Software AG.
+    </description>
+    <display-name>Software AG OpenCms standard taglib</display-name>
+    <tlib-version>1.0</tlib-version>
+    <short-name>sag</short-name>
+    <uri>http://communities.softwareag.com/taglibs/core</uri>
+
+    <tag>
+        <description>
+            This tag gets the full vfs path to the resource, which provies
+            the main navigation for a page.
+        </description>
+        <name>mainNav</name>
+        <tag-class>com.softwareag.util.opencms.tags.FindMainNavigationTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>uri</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>        
+</taglib>

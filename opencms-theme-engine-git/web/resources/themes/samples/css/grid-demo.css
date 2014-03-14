@@ -1,0 +1,76 @@
+/*
+ Document : grid-demo.css
+ Created on So, Mrz 04 2012, 16:51:29
+ Copyright (C) 2012 Robert Diawara
+
+ This file is part of OpenCms Theme Engine.
+
+ OpenCms Theme Engine is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ OpenCms Theme Engine is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+body {
+  background: #123;
+  color: #333;
+  font-size: 11px;
+  height: auto;
+  padding-bottom: 20px;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  font-family: Georgia, serif;
+  font-weight: normal;
+  padding-top: 20px;
+  text-align: center;
+}
+
+h2 {
+  padding-top: 20px;
+  text-align: center;
+}
+
+p {
+  border: 1px solid #666;
+  overflow: hidden;
+  padding: 10px 0;
+  text-align: center;
+}
+
+.container_12,
+.container_16,
+.container_24 {
+  background-color: #fff;
+  background-repeat: repeat-y;
+  margin-bottom: 20px;
+}
+
+.container_12 {
+  background-image: url(./backgrounds/12_col.gif);
+}
+
+.container_16 {
+  background-image: url(./backgrounds/16_col.gif);
+}
+
+.container_24 {
+  background-image: url(./backgrounds/24_col.gif);
+}

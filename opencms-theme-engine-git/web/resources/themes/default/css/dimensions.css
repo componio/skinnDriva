@@ -1,0 +1,169 @@
+/*
+ Document : dimensions.css
+ Created on Thu, Apr 05 2012, 20:50:09
+ Copyright (C) 2012 Robert Diawara
+
+ This file is part of OpenCms Theme Engine.
+
+ OpenCms Theme Engine is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ OpenCms Theme Engine is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
+
+ -----------------------------------------------------------------------------------
+
+  Dimensions for OpenCms Theme Engine ~ Core CSS.  This is automatically generated CSS code.
+  Please do not modify.  Learn more ~ http://www.diawara.com/
+*/
+
+
+
+div#CONTAINER{
+    width              : 960px;
+    margin-left        : auto;
+    margin-right       : auto;
+}
+
+div.header{
+    height             : 180px;
+    margin             : 4px 4px 0px 4px;
+}
+
+div.header-content{
+    position           : relative;
+    top                : 20px;
+    left               : 20px;
+    height             : 140px;
+    width              : 912px;
+    overflow           : visible;
+}
+
+div.toolbar{
+    height             : 80px;
+    margin             : 4px 4px 4px 4px;
+}
+
+div.toolbar-content{
+    position           : relative;
+    top                : 20px;
+    left               : 20px;
+    height             : 40px;
+    width              : 912px;
+    overflow           : visible;
+}
+
+div.lefthandbar{
+    display            : inline;
+    float              : left;
+    width              : 156px;
+    margin             : 0px 0px 4px 4px;
+}
+
+div.lefthandbar-content{
+    width              : 116px;
+    position           : relative;
+    margin             : 20px 20px 24px 20px;
+}
+
+div.dataarea_00{
+    display            : inline;
+    float              : left;
+    width              : 952px;
+    margin             : 0px 4px 4px 4px;
+}
+
+div.dataarea-content_00{
+    width              : 912px;
+    position           : relative;
+    margin             : 20px 20px 24px 20px;
+}
+
+div.dataarea_01{
+    display            : inline;
+    float              : left;
+    width              : 756px;
+    margin             : 0px 0px 4px 4px;
+}
+
+div.dataarea-content_01{
+    width              : 716px;
+    position           : relative;
+    margin             : 20px 20px 24px 20px;
+}
+
+div.dataarea_10{
+    display            : inline;
+    float              : left;
+    width              : 792px;
+    margin             : 0px 0px 4px 4px;
+}
+
+div.dataarea-content_10{
+    width              : 752px;
+    position           : relative;
+    margin             : 20px 20px 24px 20px;
+}
+
+div.dataarea_11{
+    display            : inline;
+    float              : left;
+    width              : 596px;
+    margin             : 0px 0px 4px 4px;
+}
+
+div.dataarea-content_11{
+    width              : 556px;
+    position           : relative;
+    margin             : 20px 20px 24px 20px;
+}
+
+div.righthandbar{
+    display            : inline;
+    float              : right;
+    width              : 192px;
+    margin             : 0px 4px 4px 4px;
+}
+
+div.righthandbar-content{
+    width              : 152px;
+    position           : relative;
+    margin             : 20px 20px 24px 20px;
+}
+
+div.footer{
+    height             : 80px;
+    margin             : 0px 4px 4px 4px;
+}
+
+div.footer-content{
+    position           : relative;
+    height             : 40px;
+    width              : 912px;
+    margin             : 20px 20px 24px 20px;
+}
+
+.clear {
+    clear              : both;
+    display            : block;
+    overflow           : hidden;
+    visibility         : hidden;
+    width              : 0;
+    height             : 0;
+}
+
+.vspace {
+    clear              : both;
+    display            : block;
+    overflow           : hidden;
+    visibility         : hidden;
+    width              : 0;
+    height             : 0;
+}
