@@ -766,7 +766,7 @@ public class ThemeDimensions extends ThemeEngineModel{
         writeln(out, "}");
         writeln(out);
         writeln(out, "div.dataarea-content_00{");
-        writeln(out, "    width              : " + getFormattedDataAreaInnerWidth(ThemeDimensions.ONE_COL_LAYOUT) + ";");
+        writeln(out, "    width              : " + getFormattedDataAreaInnerWidth(ThemeDimensions.ONE_COL_LAYOUT) + ";"); 
         writeln(out, "    min-height         : 20px;");
         writeln(out, "    position           : relative;");
         writeln(out, "    margin             : " + topMargin + " " + rightMargin + " " + contentBottomMargin + " " + leftMargin + ";");
