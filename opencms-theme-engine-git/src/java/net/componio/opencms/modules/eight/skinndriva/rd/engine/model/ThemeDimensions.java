@@ -517,7 +517,7 @@ public class ThemeDimensions extends ThemeEngineModel{
      * @return the value of dataAreaInnerWidth
      */
     public int getDataAreaInnerWidth(int p_layout) {
-        int result = 0;
+        int result;
         
         validateLayout(p_layout);
         switch(p_layout){
@@ -753,6 +753,7 @@ public class ThemeDimensions extends ThemeEngineModel{
         writeln(out);
         writeln(out, "div.lefthandbar-content{");
         writeln(out, "    width              : " + getFormattedLeftColumnInnerWidth() + ";");
+        writeln(out, "    min-height         : 20px;");
         writeln(out, "    position           : relative;");
         writeln(out, "    margin             : " + topMargin + " " + rightMargin + " " + contentBottomMargin + " " + leftMargin + ";");
         writeln(out, "}");
@@ -766,6 +767,7 @@ public class ThemeDimensions extends ThemeEngineModel{
         writeln(out);
         writeln(out, "div.dataarea-content_00{");
         writeln(out, "    width              : " + getFormattedDataAreaInnerWidth(ThemeDimensions.ONE_COL_LAYOUT) + ";");
+        writeln(out, "    min-height         : 20px;");
         writeln(out, "    position           : relative;");
         writeln(out, "    margin             : " + topMargin + " " + rightMargin + " " + contentBottomMargin + " " + leftMargin + ";");
         writeln(out, "}");
@@ -779,6 +781,7 @@ public class ThemeDimensions extends ThemeEngineModel{
         writeln(out);
         writeln(out, "div.dataarea-content_01{");
         writeln(out, "    width              : " + getFormattedDataAreaInnerWidth(ThemeDimensions.TWO_COL_LAYOUT_NOLEFTPANE) + ";");
+        writeln(out, "    min-height         : 20px;");
         writeln(out, "    position           : relative;");
         writeln(out, "    margin             : " + topMargin + " " + rightMargin + " " + contentBottomMargin + " " + leftMargin + ";");
         writeln(out, "}");
@@ -792,6 +795,7 @@ public class ThemeDimensions extends ThemeEngineModel{
         writeln(out);
         writeln(out, "div.dataarea-content_10{");
         writeln(out, "    width              : " + getFormattedDataAreaInnerWidth(ThemeDimensions.TWO_COL_LAYOUT_NORIGHTPANE) + ";");
+        writeln(out, "    min-height         : 20px;");
         writeln(out, "    position           : relative;");
         writeln(out, "    margin             : " + topMargin + " " + rightMargin + " " + contentBottomMargin + " " + leftMargin + ";");
         writeln(out, "}");
@@ -805,6 +809,7 @@ public class ThemeDimensions extends ThemeEngineModel{
         writeln(out);
         writeln(out, "div.dataarea-content_11{");
         writeln(out, "    width              : " + getFormattedDataAreaInnerWidth(ThemeDimensions.THREE_COL_LAYOUT) + ";");
+        writeln(out, "    min-height         : 20px;");
         writeln(out, "    position           : relative;");
         writeln(out, "    margin             : " + topMargin + " " + rightMargin + " " + contentBottomMargin + " " + leftMargin + ";");
         writeln(out, "}");
@@ -818,6 +823,7 @@ public class ThemeDimensions extends ThemeEngineModel{
         writeln(out);
         writeln(out, "div.righthandbar-content{");
         writeln(out, "    width              : " + getFormattedRightColumnInnerWidth() + ";");
+        writeln(out, "    min-height         : 20px;");
         writeln(out, "    position           : relative;");
         writeln(out, "    margin             : " + topMargin + " " + rightMargin + " " + contentBottomMargin + " " + leftMargin + ";");
         writeln(out, "}");

@@ -184,7 +184,7 @@
             <!-- The righthand bar, if one is used -->
             <c:if test="${showRightHandBar}">
                 <div class="righthandbar" style="display:block">
-                    <div class="righthandbar-content" style="display:block">
+                    <div class="righthandbar-content" style="display:block;min-height:20px">
                         <div class="sidebar_tl"></div>
                         <div class="sidebar_tc"></div>
                         <div class="sidebar_tr"></div>
@@ -199,11 +199,11 @@
                 </div>
             </c:if>
 
-            <div class="clear">&nbsp;</div>
+            <div class="clear"></div>
 
             <!-- The footer, if one is used -->
-            <div class="footer">
-                <div class="footer-content">
+            <div class="toolbar">
+                <div class="toolbar-content">
                     <div class="content_tl"></div>
                     <div class="content_tc"></div>
                     <div class="content_tr"></div>
