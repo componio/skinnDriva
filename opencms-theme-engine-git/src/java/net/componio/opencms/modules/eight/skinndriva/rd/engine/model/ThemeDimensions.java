@@ -767,7 +767,11 @@ public class ThemeDimensions extends ThemeEngineModel{
         writeln(out, "}");
         writeln(out);
         writeln(out, "div.dataarea-content_00{");
+<<<<<<< HEAD
         writeln(out, "    width              : " + getFormattedDataAreaInnerWidth(ThemeDimensions.ONE_COL_LAYOUT) + ";");
+=======
+        writeln(out, "    width              : " + getFormattedDataAreaInnerWidth(ThemeDimensions.ONE_COL_LAYOUT) + ";"); 
+>>>>>>> 658c3789ba306595d25a6d602e528835fc324c56
         writeln(out, "    min-height         : 20px;");
         writeln(out, "    position           : relative;");
         writeln(out, "    margin             : " + topMargin + " " + rightMargin + " " + contentBottomMargin + " " + leftMargin + ";");
