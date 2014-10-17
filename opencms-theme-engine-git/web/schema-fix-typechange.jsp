@@ -34,7 +34,7 @@
         String        schemaLog;
         
         schemaFixer = new SchemaFixer(pageContext, request, response, "/");
-        schemaFixer.setTypePattern("^(generic\\_overview)$");
+        schemaFixer.setTypePattern("^(generic\\_overview$");
         schemaFixer.setOriginalString("generic_article");
         schemaFixer.setReplacementString("skinndriva_article");
         schemaLog = schemaFixer.run();

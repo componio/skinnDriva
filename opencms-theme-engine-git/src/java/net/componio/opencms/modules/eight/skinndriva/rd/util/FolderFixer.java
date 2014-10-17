@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
-import org.opencms.file.CmsFolder;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
@@ -64,117 +63,53 @@ public class FolderFixer extends A_TreeBrowser{
      */
     @Override
     protected String processResource(CmsObject p_cmsObj, CmsResource p_res) throws CmsException {
-        String    parentFolderName;
-        String    parentFolderPath;
-        String    folderName;
-        String    resTypeName;
-        String    result           = null;
-        int       newTypeId;
-        String    siteRoot         = OpenCms.getSiteManager().getDefaultSite().getSiteRoot();
-        String    rootPath;
-        String    newPath;
-        CmsFolder folder;
+        String parentFolderName;
+        String folderName;
+        String resTypeName;
+        String result           = null;
+        int    newTypeId;
         
         parentFolderName = CmsResource.getParentFolder(p_res.getRootPath());
         if(parentFolderName.matches("^(.*)\\/\\.content(\\/)?$")){
             folderName = p_res.getName();
             resTypeName = OpenCms.getResourceManager().getResourceType(p_res).getTypeName();
-
-            rootPath = p_res.getRootPath();
-            if(rootPath.startsWith(siteRoot)){
-                rootPath = rootPath.substring(siteRoot.length());
-            }
-            parentFolderPath = rootPath.substring(0, rootPath.length() - (folderName.length() + 1));
             
             // Fix folder names and folder types
             if(folderName.matches("^(\\.)?custom\\_navigation$")){
-                newPath = parentFolderPath + "skinndriva_link_list";
-                p_cmsObj.lockResource(p_res);
-                p_cmsObj.renameResource(rootPath, newPath);
-                
-                folder = p_cmsObj.readFolder(newPath);
+                p_cmsObj.renameResource(folderName, "skinndriva_link_list");
                 if(resTypeName.matches("^((custom\\_navigation|generic\\_article)\\_gallery)|folder$")){
                     newTypeId = OpenCms.getResourceManager().getResourceType("skinndriva_link_list_gallery").getTypeId();
-                    folder.setType(newTypeId);
+                    p_res.setType(newTypeId);
                 }
-                p_cmsObj.lockResource(folder);
-                p_cmsObj.writeResource(folder);
-                p_cmsObj.unlockResource(folder);
             }else if(folderName.matches("^(\\.)?generic\\_article$")){
-                newPath = parentFolderPath + "skinndriva_article";
-                p_cmsObj.lockResource(p_res);
-                p_cmsObj.renameResource(rootPath, newPath);
-
-                folder = p_cmsObj.readFolder(newPath);
+                p_cmsObj.renameResource(folderName, "skinndriva_article");
                 if(resTypeName.matches("^(generic\\_article\\_gallery)|folder$")){
                     newTypeId = OpenCms.getResourceManager().getResourceType("skinndriva_article_gallery").getTypeId();
-                    folder.setType(newTypeId);
+                    p_res.setType(newTypeId);
                 }
-                p_cmsObj.lockResource(folder);
-                p_cmsObj.writeResource(folder);
-                p_cmsObj.unlockResource(folder);
             }else if(folderName.matches("^(\\.)?generic\\_navigation$")){
-                newPath = parentFolderPath + "skinndriva_navigation";
-                p_cmsObj.lockResource(p_res);
-                p_cmsObj.renameResource(rootPath, newPath);
-
-                folder = p_cmsObj.readFolder(newPath);
+                p_cmsObj.renameResource(folderName, "skinndriva_navigation");
                 if(resTypeName.matches("^(generic\\_(article|navigation)\\_gallery)|folder$")){
                     newTypeId = OpenCms.getResourceManager().getResourceType("skinndriva_navigation_gallery").getTypeId();
-                    folder.setType(newTypeId);
+                    p_res.setType(newTypeId);
                 }
-                p_cmsObj.lockResource(folder);
-                p_cmsObj.writeResource(folder);
-                p_cmsObj.unlockResource(folder);
             }else if(folderName.matches("^(\\.)?generic\\_news$")){
-                newPath = parentFolderPath + "skinndriva_news";
-                p_cmsObj.lockResource(p_res);
-                p_cmsObj.renameResource(rootPath, newPath);
-
-                folder = p_cmsObj.readFolder(newPath);
+                p_cmsObj.renameResource(folderName, "skinndriva_news");
                 if(resTypeName.matches("^(generic\\_(article|news)\\_gallery)|folder$")){
                     newTypeId = OpenCms.getResourceManager().getResourceType("skinndriva_news_gallery").getTypeId();
-                    folder.setType(newTypeId);
+                    p_res.setType(newTypeId);
                 }
-                p_cmsObj.lockResource(folder);
-                p_cmsObj.writeResource(folder);
-                p_cmsObj.unlockResource(folder);
             }else if(folderName.matches("^(\\.)?header\\_image$")){
-                newPath = parentFolderPath + "skinndriva_image";
-                p_cmsObj.lockResource(p_res);
-                p_cmsObj.renameResource(rootPath, newPath);
-
-                folder = p_cmsObj.readFolder(newPath);
+                p_cmsObj.renameResource(folderName, "skinndriva_image");
                 if(resTypeName.matches("^((generic\\_article|header\\_image)\\_gallery)|folder$")){
                     newTypeId = OpenCms.getResourceManager().getResourceType("skinndriva_image_gallery").getTypeId();
-                    folder.setType(newTypeId);
+                    p_res.setType(newTypeId);
                 }
-                p_cmsObj.lockResource(folder);
-                p_cmsObj.writeResource(folder);
-                p_cmsObj.unlockResource(folder);
-            }else if(folderName.matches("^(\\.)?webform$")){
-                newPath = parentFolderPath + "webform";
-                if(folderName.startsWith(".")){
-                    p_cmsObj.lockResource(p_res);
-                    p_cmsObj.renameResource(rootPath, newPath);
-                }
-
-                folder = p_cmsObj.readFolder(newPath);
-                if(resTypeName.matches("^(generic\\_article\\_gallery)|folder$")){
-                    newTypeId = OpenCms.getResourceManager().getResourceType("webform_gallery").getTypeId();
-                    folder.setType(newTypeId);
-                }
-                p_cmsObj.lockResource(folder);
-                p_cmsObj.writeResource(folder);
-                p_cmsObj.unlockResource(folder);
             }else{
                 if(!folderName.matches("^(\\.)?(new|detail)$")){
                     if(resTypeName.matches("^(generic\\_article\\_gallery)|folder$")){
                         newTypeId = OpenCms.getResourceManager().getResourceType("skinndriva_common_gallery").getTypeId();
-                        p_cmsObj.lockResource(p_res);
                         p_res.setType(newTypeId);
-                        p_cmsObj.writeResource(p_res);
-                        p_cmsObj.unlockResource(p_res);
                     }
                 }
             }
