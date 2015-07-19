@@ -1,6 +1,6 @@
 /*
  Document : dimensions.css
- Created on Thu, Apr 05 2012, 20:50:09
+ Created on Fri, Apr 17 2015, 22:51:52
  Copyright (C) 2012 Robert Diawara
 
  This file is part of OpenCms Theme Engine.
@@ -27,28 +27,28 @@
 
 
 div#CONTAINER{
-    width              : 960px;
+    width              : 964px;
     margin-left        : auto;
     margin-right       : auto;
 }
 
 div.header{
-    height             : 180px;
-    margin             : 4px 4px 0px 4px;
+    height             : 190px;
+    margin             : 4px 4px 4px 4px;
 }
 
 div.header-content{
     position           : relative;
     top                : 20px;
     left               : 20px;
-    height             : 140px;
-    width              : 912px;
+    height             : 150px;
+    width              : 916px;
     overflow           : visible;
 }
 
 div.toolbar{
     height             : 80px;
-    margin             : 4px 4px 4px 4px;
+    margin             : 0px 4px 4px 4px;
 }
 
 div.toolbar-content{
@@ -56,73 +56,78 @@ div.toolbar-content{
     top                : 20px;
     left               : 20px;
     height             : 40px;
-    width              : 912px;
+    width              : 916px;
     overflow           : visible;
 }
 
 div.lefthandbar{
     display            : inline;
     float              : left;
-    width              : 156px;
+    width              : 260px;
     margin             : 0px 0px 4px 4px;
 }
 
 div.lefthandbar-content{
-    width              : 116px;
+    width              : 220px;
+    min-height         : 20px;
     position           : relative;
-    margin             : 20px 20px 24px 20px;
+    margin             : 20px 20px 20px 20px;
 }
 
 div.dataarea_00{
     display            : inline;
     float              : left;
-    width              : 952px;
+    width              : 956px;
     margin             : 0px 4px 4px 4px;
 }
 
 div.dataarea-content_00{
-    width              : 912px;
+    width              : 916px;
+    min-height         : 20px;
     position           : relative;
-    margin             : 20px 20px 24px 20px;
+    margin             : 20px 20px 20px 20px;
 }
 
 div.dataarea_01{
     display            : inline;
     float              : left;
-    width              : 756px;
+    width              : 760px;
     margin             : 0px 0px 4px 4px;
 }
 
 div.dataarea-content_01{
-    width              : 716px;
+    width              : 720px;
+    min-height         : 20px;
     position           : relative;
-    margin             : 20px 20px 24px 20px;
+    margin             : 20px 20px 20px 20px;
 }
 
 div.dataarea_10{
     display            : inline;
     float              : left;
-    width              : 792px;
+    width              : 692px;
     margin             : 0px 0px 4px 4px;
 }
 
 div.dataarea-content_10{
-    width              : 752px;
+    width              : 652px;
+    min-height         : 20px;
     position           : relative;
-    margin             : 20px 20px 24px 20px;
+    margin             : 20px 20px 20px 20px;
 }
 
 div.dataarea_11{
     display            : inline;
     float              : left;
-    width              : 596px;
+    width              : 496px;
     margin             : 0px 0px 4px 4px;
 }
 
 div.dataarea-content_11{
-    width              : 556px;
+    width              : 456px;
+    min-height         : 20px;
     position           : relative;
-    margin             : 20px 20px 24px 20px;
+    margin             : 20px 20px 20px 20px;
 }
 
 div.righthandbar{
@@ -134,20 +139,22 @@ div.righthandbar{
 
 div.righthandbar-content{
     width              : 152px;
+    min-height         : 20px;
     position           : relative;
-    margin             : 20px 20px 24px 20px;
+    margin             : 20px 20px 20px 20px;
 }
 
 div.footer{
-    height             : 80px;
+    display            : inline;
+    float              : left;
     margin             : 0px 4px 4px 4px;
 }
 
 div.footer-content{
+    height             : 60px;
+    width              : 916px;
     position           : relative;
-    height             : 40px;
-    width              : 912px;
-    margin             : 20px 20px 24px 20px;
+    margin             : 20px 20px 20px 20px;
 }
 
 .clear {
@@ -157,6 +164,13 @@ div.footer-content{
     visibility         : hidden;
     width              : 0;
     height             : 0;
+}
+
+div.dummy{
+    position           : relative;
+    height             : 1px;
+    width              : 100%;
+    border             : none;
 }
 
 .vspace {

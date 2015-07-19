@@ -36,6 +36,9 @@
             <xsd:element name="uri" type="OpenCmsVfsFile" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="group" type="OpenCmsString" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="media" type="OpenCmsString" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="large-screen" type="OpenCmsBoolean" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="medium-screen" type="OpenCmsBoolean" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="small-screen" type="OpenCmsBoolean" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="user-agent" type="OpenCmsString" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
         <xsd:attribute name="language" type="OpenCmsLocale" use="optional"/>

@@ -34,6 +34,7 @@ import  javax.servlet.ServletException;
 import  javax.servlet.jsp.PageContext;
 import  javax.servlet.http.HttpServletRequest;
 import  javax.servlet.http.HttpServletResponse;
+import org.opencms.widgets.CmsCheckboxWidget;
 
 import  org.opencms.workplace.CmsWorkplaceSettings;
 import  org.opencms.workplace.CmsWidgetDialogParameter;
@@ -65,6 +66,15 @@ public class ThemeStyleDialog extends ThemeEngineWidgetDialog{
     private String          m_styleMedia;
     /** Holds the value of the property styleUserAgents. */
     private List<String>    m_styleUserAgents;
+    /** Determines, if the style sheet has to be used for large screens. */
+    private boolean         m_usedForLargeScreens;
+    /** Determines, if the style sheet has to be used for medium screens. */
+    private boolean         m_usedForMediumScreens;
+    /** Determines, if the style sheet has to be used for small screens. */
+    private boolean         m_usedForSmallScreens;
+
+
+
     
     /**
      * Public constructor with all JSP variables.
@@ -123,6 +133,55 @@ public class ThemeStyleDialog extends ThemeEngineWidgetDialog{
     public void setStyleMedia(String styleMedia) {
         this.m_styleMedia = styleMedia;
     }
+    
+    /**
+     * Get the value of usedForLargeScreens
+     * @return the value of usedForLargeScreens
+     */
+    public boolean isUsedForLargeScreens() {
+        return m_usedForLargeScreens;
+    }
+
+    /**
+     * Set the value of usedForLargeScreens
+     * @param usedForLargeScreens new value of usedForLargeScreens
+     */
+    public void setUsedForLargeScreens(boolean usedForLargeScreens) {
+        this.m_usedForLargeScreens = usedForLargeScreens;
+    }
+
+    /**
+     * Get the value of usedForMediumScreens
+     * @return the value of usedForMediumScreens
+     */
+    public boolean isUsedForMediumScreens() {
+        return m_usedForMediumScreens;
+    }
+
+    /**
+     * Set the value of usedForMediumScreens
+     * @param usedForMediumScreens new value of usedForMediumScreens
+     */
+    public void setUsedForMediumScreens(boolean usedForMediumScreens) {
+        this.m_usedForMediumScreens = usedForMediumScreens;
+    }
+
+    /**
+     * Get the value of usedForSmallScreens
+     * @return the value of usedForSmallScreens
+     */
+    public boolean isUsedForSmallScreens() {
+        return m_usedForSmallScreens;
+    }
+
+    /**
+     * Set the value of usedForSmallScreens
+     * @param usedForSmallScreens new value of usedForSmallScreens
+     */
+    public void setUsedForSmallScreens(boolean usedForSmallScreens) {
+        this.m_usedForSmallScreens = usedForSmallScreens;
+    }
+    
 
     /**
      * Get the value of styleUserAgents
@@ -161,6 +220,9 @@ public class ThemeStyleDialog extends ThemeEngineWidgetDialog{
             m_styleURI = m_styleReference.getURI();
             m_styleGroup = m_styleReference.getGroup();
             m_styleMedia = m_styleReference.getMedia();
+            m_usedForLargeScreens = m_styleReference.isUsedForLargeScreens();
+            m_usedForMediumScreens = m_styleReference.isUsedForMediumScreens();
+            m_usedForSmallScreens = m_styleReference.isUsedForSmallScreens();
             m_styleUserAgents = m_styleReference.getUserAgents();
         }else{
             styleURI       = request.getParameter(StylesList.PARAM_STYLE_URI);
@@ -172,12 +234,18 @@ public class ThemeStyleDialog extends ThemeEngineWidgetDialog{
                 m_styleURI = m_styleReference.getURI();
                 m_styleGroup = m_styleReference.getGroup();
                 m_styleMedia = m_styleReference.getMedia();
+                m_usedForLargeScreens = m_styleReference.isUsedForLargeScreens();
+                m_usedForMediumScreens = m_styleReference.isUsedForMediumScreens();
+                m_usedForSmallScreens = m_styleReference.isUsedForSmallScreens();
                 m_styleUserAgents = m_styleReference.getUserAgents();
             }else{
                 m_styleReference = null;
                 m_styleURI = "";
                 m_styleGroup = null;
                 m_styleMedia = null;
+                m_usedForLargeScreens = true;
+                m_usedForMediumScreens = true;
+                m_usedForSmallScreens = true;
                 m_styleUserAgents = new ArrayList();
             }
         }
@@ -203,6 +271,9 @@ public class ThemeStyleDialog extends ThemeEngineWidgetDialog{
                 m_styleReference.setURI(m_styleURI);
                 m_styleReference.setGroup(m_styleGroup);
                 m_styleReference.setMedia(m_styleMedia);
+                m_styleReference.setUsedForLargeScreens(m_usedForLargeScreens);
+                m_styleReference.setUsedForMediumScreens(m_usedForMediumScreens);
+                m_styleReference.setUsedForSmallScreens(m_usedForSmallScreens);
                 m_styleReference.setUserAgents(m_styleUserAgents);
             }else{
                 if(m_styleURI.trim().length() > 0){
@@ -210,8 +281,12 @@ public class ThemeStyleDialog extends ThemeEngineWidgetDialog{
                     m_styleReference.setURI(m_styleURI);
                     m_styleReference.setGroup(m_styleGroup);
                     m_styleReference.setMedia(m_styleMedia);
+                    m_styleReference.setUsedForLargeScreens(m_usedForLargeScreens);
+                    m_styleReference.setUsedForMediumScreens(m_usedForMediumScreens);
+                    m_styleReference.setUsedForSmallScreens(m_usedForSmallScreens);
                     m_styleReference.setUserAgents(m_styleUserAgents);
-                    getThemeConfig().addStyle(m_styleReference.getURI(), m_styleReference.getGroup());
+                    getThemeConfig().addStyle(m_styleURI, m_styleGroup, m_styleMedia, m_styleUserAgents, 
+                          m_usedForLargeScreens, m_usedForMediumScreens, m_usedForSmallScreens);
                 }
             }
             saveData();
@@ -232,14 +307,20 @@ public class ThemeStyleDialog extends ThemeEngineWidgetDialog{
      */
     @Override
     protected void defineWidgets() {
-       addWidget(new CmsWidgetDialogParameter(this, "styleURI", PAGE_ARRAY[0], 
+        addWidget(new CmsWidgetDialogParameter(this, "styleURI", PAGE_ARRAY[0], 
                new CmsVfsFileWidget()));
-       addWidget(new CmsWidgetDialogParameter(this, "styleGroup", "", PAGE_ARRAY[0], 
+        addWidget(new CmsWidgetDialogParameter(this, "styleGroup", "", PAGE_ARRAY[0], 
                new CmsInputWidget(), 0, 1));
-       addWidget(new CmsWidgetDialogParameter(this, "styleMedia", "", PAGE_ARRAY[0], 
+        addWidget(new CmsWidgetDialogParameter(this, "styleMedia", "", PAGE_ARRAY[0], 
                new CmsInputWidget(), 0, 1));
-       addWidget(new CmsWidgetDialogParameter(this, "styleUserAgents", PAGE_ARRAY[0], 
+        addWidget(new CmsWidgetDialogParameter(this, "styleUserAgents", PAGE_ARRAY[0], 
                new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"usedForLargeScreens", "", PAGE_ARRAY[0], 
+              new CmsCheckboxWidget(), 1, 1));
+        addWidget(new CmsWidgetDialogParameter(this,"usedForMediumScreens", "", PAGE_ARRAY[0], 
+              new CmsCheckboxWidget(), 1, 1));
+        addWidget(new CmsWidgetDialogParameter(this,"usedForSmallScreens", "", PAGE_ARRAY[0], 
+              new CmsCheckboxWidget(), 1, 1));
     }
 
     /**

@@ -42,8 +42,11 @@
             <xsd:element name="show-righthand-bar" type="OpenCmsBoolean" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="show-toolbar" type="OpenCmsBoolean" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="main-template" type="OpenCmsVfsFile" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="responsive-css-file" type="OpenCmsVfsFile" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="dimensions" type="OpenCmsThemeDimension" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="grid" type="OpenCmsGrid" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="medium-size-grid" type="OpenCmsGrid" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="small-size-grid" type="OpenCmsGrid" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="scripts" type="OpenCmsThemeConfigScript" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="styles" type="OpenCmsThemeConfigStyle" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="formatters" type="OpenCmsFormatter" minOccurs="0" maxOccurs="1"/>
@@ -59,6 +62,8 @@
                 <tab element="name" name="Details" collapse="false"/>
                 <tab element="dimensions" name="dimensions" collapse="false"/>
                 <tab element="grid" name="grid" collapse="false"/>
+                <tab element="medium-size-grid" name="medium-size-grid" collapse="false"/>
+                <tab element="small-size-grid" name="small-size-grid" collapse="false"/>
                 <tab element="scripts" name="scripts" collapse="false"/>
                 <tab element="styles" name="styles" collapse="false"/>
                 <tab element="formatters" name="formatters" collapse="false"/>
@@ -94,12 +99,32 @@
                 <default element="grid/footer-height" value="130"/>
                 <default element="grid/toolbar-height" value="130"/>
                 <default element="grid/column-count" value="12"/>
-                <default element="grid/column-width" value="40"/>
+                <default element="grid/column-width" value="60"/>
                 <default element="grid/orientation" value="left"/>
                 <default element="grid/top-margin" value="10"/>
                 <default element="grid/right-margin" value="10"/>
                 <default element="grid/bottom-margin" value="10"/>
                 <default element="grid/left-margin" value="10"/>
+                <default element="medium-size-grid/header-height" value="90"/>
+                <default element="medium-size-grid/footer-height" value="70"/>
+                <default element="medium-size-grid/toolbar-height" value="70"/>
+                <default element="medium-size-grid/column-count" value="6"/>
+                <default element="medium-size-grid/column-width" value="60"/>
+                <default element="medium-size-grid/orientation" value="left"/>
+                <default element="medium-size-grid/top-margin" value="5"/>
+                <default element="medium-size-grid/right-margin" value="5"/>
+                <default element="medium-size-grid/bottom-margin" value="5"/>
+                <default element="medium-size-grid/left-margin" value="5"/>
+                <default element="small-size-grid/header-height" value="90"/>
+                <default element="small-size-grid/footer-height" value="70"/>
+                <default element="small-size-grid/toolbar-height" value="70"/>
+                <default element="small-size-grid/column-count" value="2"/>
+                <default element="small-size-grid/column-width" value="60"/>
+                <default element="small-size-grid/orientation" value="left"/>
+                <default element="small-size-grid/top-margin" value="2"/>
+                <default element="small-size-grid/right-margin" value="2"/>
+                <default element="small-size-grid/bottom-margin" value="2"/>
+                <default element="small-size-grid/left-margin" value="2"/>
             </defaults>
         </xsd:appinfo>
     </xsd:annotation>

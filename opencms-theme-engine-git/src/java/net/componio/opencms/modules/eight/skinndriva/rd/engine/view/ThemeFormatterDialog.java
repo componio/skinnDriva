@@ -34,9 +34,9 @@ import  javax.servlet.http.HttpServletRequest;
 import  javax.servlet.http.HttpServletResponse;
 import  javax.servlet.jsp.PageContext;
 
-import org.opencms.widgets.CmsCheckboxWidget;
+import  org.opencms.widgets.CmsCheckboxWidget;
 import  org.opencms.widgets.CmsInputWidget;
-import org.opencms.widgets.CmsTypeComboWidget;
+import  org.opencms.widgets.CmsTypeComboWidget;
 import  org.opencms.widgets.CmsVfsFileWidget;
 import  org.opencms.workplace.CmsWidgetDialogParameter;
 import  org.opencms.workplace.CmsWorkplaceSettings;

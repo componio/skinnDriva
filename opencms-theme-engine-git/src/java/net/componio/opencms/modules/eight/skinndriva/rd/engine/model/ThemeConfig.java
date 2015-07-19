@@ -57,6 +57,8 @@ public class ThemeConfig extends ThemeEngineModel{
     private String                           vfsPath;
     private String                           mainTemplate;
     private String                           favIcon;              // The favicon for the theme.
+    private String                           responsiveCssFile;  // The name of the CSS file with all media queries
+
 
 
     /**
@@ -177,6 +179,24 @@ public class ThemeConfig extends ThemeEngineModel{
             setChanged();
         }
     }
+    
+    /**
+     * Get the value of responsiveCssFile
+     * @return the value of responsiveCssFile
+     */
+    public String getResponsiveCssFile() {
+        return responsiveCssFile;
+    }
+
+    /**
+     * Set the value of responsiveCssFile
+     * @param responsiveCssFile new value of responsiveCssFile
+     */
+    public void setResponsiveCssFile(String responsiveCssFile) {
+        checkStatus(this.responsiveCssFile, responsiveCssFile);
+        this.responsiveCssFile = responsiveCssFile;
+    }
+    
 
 
     /**
@@ -291,7 +311,7 @@ public class ThemeConfig extends ThemeEngineModel{
      */
     public ScriptReference getScriptReference(String p_referenceURI){
         ScriptReference           result  = null;
-        ScriptReference           current = null;
+        ScriptReference           current;
         Iterator<ScriptReference> it;
         
         if(p_referenceURI != null){
@@ -480,7 +500,7 @@ public class ThemeConfig extends ThemeEngineModel{
      * within the theme configuration.
      */
     public void addStyle(String p_style) throws ThemeConfigException{
-        StyleReference styleRef = new StyleReference();
+        StyleReference styleRef;
         
         // Abort with an exception, when the style to be added is null.
         if(p_style == null){
@@ -522,7 +542,28 @@ public class ThemeConfig extends ThemeEngineModel{
      * within the theme configuration.
      */
     public void addStyle(String p_style, String p_group, String p_media, ArrayList<String> p_userAgents) throws ThemeConfigException{
-        StyleReference styleRef = new StyleReference();
+        addStyle(p_style, p_group, p_media, p_userAgents, true, true, true);
+    }
+
+    /**
+     * Adds a new style to the theme configuration.
+     * @param p_style The style to be added.
+     * @param p_group The group, which the style has to be assigned to.
+     * @param p_media The media, which the CSS style has to be used for.
+     * @param p_userAgents A list of regular expressions, which determines the browsers which the CSS
+     * style has to be used for.
+     * @param p_useForLargeScreens <code>True</code>, if the style sheet is to be used for large 
+     * screens. Otherwise <code>false</code>.
+     * @param p_useForMediumScreens <code>True</code>, if the style sheet is to be used for medium 
+     * screens. Otherwise <code>false</code>.
+     * @param p_useForSmallScreens <code>True</code>, if the style sheet is to be used for small 
+     * screens. Otherwise <code>false</code>.
+     * @throws ThemeConfigException When the style to be added is null or already exists
+     * within the theme configuration.
+     */
+    public void addStyle(String p_style, String p_group, String p_media, List<String> p_userAgents,
+          boolean p_useForLargeScreens, boolean p_useForMediumScreens, boolean p_useForSmallScreens) throws ThemeConfigException{
+        StyleReference styleRef;
         
         // Abort with an exception, when the style to be added is null.
         if(p_style == null){
@@ -546,6 +587,10 @@ public class ThemeConfig extends ThemeEngineModel{
         if((p_userAgents != null) && (p_userAgents.size() > 0)){
             styleRef.setUserAgents(p_userAgents);
         }
+        styleRef.setUsedForLargeScreens(p_useForLargeScreens);
+        styleRef.setUsedForMediumScreens(p_useForMediumScreens);
+        styleRef.setUsedForSmallScreens(p_useForSmallScreens);
+        
         styles.add(styleRef);
         stylesMap.put(p_style, styleRef);
         setChanged();

@@ -32,15 +32,24 @@ public class StyleReference {
     private String initialURI;
     /** Holds the URI of the Style. */
     private String URI;
-    /** Holds the group, which the script is assigend to. */
+    /** Holds the group, which the script is assigned to. */
     private String group;
     /** Tue if the URI was initially set. Otherwise false. */
     private boolean uriInitialized;
     /** Holds a list of regular expressions, matching the user agents
-     * which ths style reference has to be valid for.*/
+     * which this style reference has to be valid for.*/
     private List<String> userAgents;
-    /** Holds the media for the stylesheef. */
+    /** Holds the media for the style sheet. */
     private String media;
+    /** Determines, if the style sheet has to be used for large screens. */
+    private boolean usedForLargeScreens;
+    /** Determines, if the style sheet has to be used for medium screens. */
+    private boolean usedForMediumScreens;
+    /** Determines, if the style sheet has to be used for small screens. */
+    private boolean usedForSmallScreens;
+
+
+
     
     /**
      * Default constructor
@@ -51,6 +60,9 @@ public class StyleReference {
         URI = null;
         group = null;
         userAgents = new ArrayList<String>();
+        usedForLargeScreens = true;
+        usedForMediumScreens = true;
+        usedForSmallScreens = true;
     }
 
     /**
@@ -146,11 +158,7 @@ public class StyleReference {
                     result = false;
                 }
             }else{
-                if(other.getURI() != null){
-                    result = false;
-                }else{
-                    result = true;
-                }
+                result = other.getURI() == null;
             }
             
             // Compare groups
@@ -162,11 +170,7 @@ public class StyleReference {
                         result = false;
                     }
                 }else{
-                    if(other.getGroup() != null){
-                        result = false;
-                    }else{
-                        result = true;
-                    }
+                    result = other.getGroup() == null;
                 }
             }
             
@@ -179,11 +183,7 @@ public class StyleReference {
                         result = false;
                     }
                 }else{
-                    if(other.getMedia() != null){
-                        result = false;
-                    }else{
-                        result = true;
-                    }
+                    result = other.getMedia() == null;
                 }
             }
             
@@ -196,11 +196,7 @@ public class StyleReference {
                         result = false;
                     }
                 }else{
-                    if(other.getUserAgents() != null){
-                        result = false;
-                    }else{
-                        result = true;
-                    }
+                    result = other.getUserAgents() == null;
                 }
             }
             
@@ -260,7 +256,56 @@ public class StyleReference {
     public void setMedia(String media) {
         this.media = media;
     }
+    
+    /**
+     * Get the value of usedForLargeScreens
+     * @return the value of usedForLargeScreens
+     */
+    public boolean isUsedForLargeScreens() {
+        return usedForLargeScreens;
+    }
 
+    /**
+     * Set the value of usedForLargeScreens
+     * @param usedForLargeScreens new value of usedForLargeScreens
+     */
+    public void setUsedForLargeScreens(boolean usedForLargeScreens) {
+        this.usedForLargeScreens = usedForLargeScreens;
+    }
+
+    /**
+     * Get the value of usedForMediumScreens
+     * @return the value of usedForMediumScreens
+     */
+    public boolean isUsedForMediumScreens() {
+        return usedForMediumScreens;
+    }
+
+    /**
+     * Set the value of usedForMediumScreens
+     * @param usedForMediumScreens new value of usedForMediumScreens
+     */
+    public void setUsedForMediumScreens(boolean usedForMediumScreens) {
+        this.usedForMediumScreens = usedForMediumScreens;
+    }
+    
+    /**
+     * Get the value of usedForSmallScreens
+     * @return the value of usedForSmallScreens
+     */
+    public boolean isUsedForSmallScreens() {
+        return usedForSmallScreens;
+    }
+
+    /**
+     * Set the value of usedForSmallScreens
+     * @param usedForSmallScreens new value of usedForSmallScreens
+     */
+    public void setUsedForSmallScreens(boolean usedForSmallScreens) {
+        this.usedForSmallScreens = usedForSmallScreens;
+    }
+    
+    
     /**
      * Get the value of userAgents
      * @return the value of userAgents

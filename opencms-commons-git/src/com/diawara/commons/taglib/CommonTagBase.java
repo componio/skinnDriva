@@ -161,7 +161,7 @@ public class CommonTagBase extends BodyTagSupport{
     }
 
      /**
-     * Gets the HTTP servlet response associated with the invoked page which contains the tag.
+     * Gets the HTTP servlet response associated th the invokec page which contains the tag.
      * @return The HTTP servlet response
      */
     protected HttpServletResponse getResponse(){

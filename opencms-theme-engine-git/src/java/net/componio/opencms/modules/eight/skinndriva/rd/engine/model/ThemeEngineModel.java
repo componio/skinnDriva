@@ -96,7 +96,7 @@ public class ThemeEngineModel {
     
     /**
      * Can be called to set the status of the bean, when a property is changed. by comparing the current value of the 
-     * property and the new value of the property. If they are different, the status will be set to changed, reardless 
+     * property and the new value of the property. If they are different, the status will be set to changed, regardless 
      * if one of them or both are null or not. Otherwise the status will stay as it is.
      * @param currentValue The current value of the property.
      * @param newValue The new value of the property to be set.

@@ -42,6 +42,8 @@ import  org.opencms.widgets.CmsVfsFileWidget;
 import  org.opencms.widgets.CmsSelectWidgetOption;
 import  org.opencms.workplace.CmsWidgetDialogParameter;
 
+import  com.diawara.commons.etc.PropertySetter;
+
 
 
 
@@ -51,7 +53,7 @@ import  org.opencms.workplace.CmsWidgetDialogParameter;
  */
 public class ThemeGridDialog extends ThemeEngineWidgetDialog{
     /** The array defining the pages making up the dialog. */
-    public static final String[]      PAGE_ARRAY = new String[]{"grid"};
+    public static final String[]      PAGE_ARRAY = new String[]{"common", "grid", "medium-size-grid", "small-size-grid"};
     /** The key prefix for localized messages. Prevents duplicated keys. */
     public static final String        KEY_PREFIX = "ThemeGrid";
     /** The list defining the pages making up the dialog. Built from PAGE_ARRAY*/
@@ -59,26 +61,69 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
     
     /** Holds the value of the property headerHeight. */
     private int m_headerHeight;
+    /** Holds the value of the property headerHeight for medium size grids. */
+    private int m_mediumSizeHeaderHeight;
+    /** Holds the value of the property headerHeight for small size grids. */
+    private int m_smallSizeHeaderHeight;
     /** Holds the value of the property footerHeight. */
     private int m_footerHeight;
+    /** Holds the value of the property footerHeight for medium size grids. */
+    private int m_mediumSizeFooterHeight;
+    /** Holds the value of the property footerHeight for small size grids. */
+    private int m_smallSizeFooterHeight;
     /** Holds the value of the property toolbarHeight. */
     private int m_toolbarHeight;
+    /** Holds the value of the property toolbarHeight for medium size grids. */
+    private int m_mediumSizeToolbarHeight;
+    /** Holds the value of the property toolbarHeight for small size grids. */
+    private int m_smallSizeToolbarHeight;
     /** Holds the value of the property columnCount. */
     private int m_columnCount;
+    /** Holds the value of the property columnCount for medium size grids. */
+    private int m_mediumSizeColumnCount;
+    /** Holds the value of the property columnCount for small size grids. */
+    private int m_smallSizeColumnCount;
     /** Holds the value of the property columnWidth. */
     private int m_columnWidth;
+    /** Holds the value of the property columnWidth for medium size grids. */
+    private int m_mediumSizeColumnWidth;
+    /** Holds the value of the property columnWidth for small size grids. */
+    private int m_smallSizeColumnWidth;
     /** Holds the value of the property orientation. */
     private String m_orientation;
     /** Holds the value of the property topMargin. */
     private int m_topMargin;
+    /** Holds the value of the property topMargin for medium size grids. */
+    private int m_mediumSizeTopMargin;
+    /** Holds the value of the property topMargin for small size grids. */
+    private int m_smallSizeTopMargin;
     /** Holds the value of the property rightMargin. */
     private int m_rightMargin;
+    /** Holds the value of the property rightMargin for medium size grids. */
+    private int m_mediumSizeRightMargin;
+    /** Holds the value of the property rightMargin for small size grids. */
+    private int m_smallSizeRightMargin;
     /** Holds the value of the property bottomMargin. */
     private int m_bottomMargin;
+    /** Holds the value of the property bottomMargin for medium size grids. */
+    private int m_mediumSizeBottomMargin;
+    /** Holds the value of the property bottomMargin for small size grids. */
+    private int m_smallSizeBottomMargin;
     /** Holds the value of the property leftMargin. */
     private int m_leftMargin;
+    /** Holds the value of the property leftMargin for medium size grids. */
+    private int m_mediumSizeLeftMargin;
+    /** Holds the value of the property leftMargin for small size grids. */
+    private int m_smallSizeLeftMargin;
     /** Holds the value of the property cssFile. */
     private String m_cssFile;
+     /** Holds the value of the property &quot;mediumSizeCssFile&quot;. */
+    private String m_mediumSizeCssFile;
+     /** Holds the value of the property &quot;smallSizeCssFile&quot;. */
+    private String m_smallSizeCssFile;
+    /** Holds the name of the CSS file, which contains all media queries. */
+    private String m_responsiveCssFile;
+
 
     /**
      * Public constructor with all JSP variables.
@@ -105,7 +150,43 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
     public void setHeaderHeight(int headerHeight) {
         this.m_headerHeight = headerHeight;
     }
+    
+    /**
+     * Get the value of mediumSizeHeaderHeight
+     *
+     * @return the value of mediumSizeHeaderHeight
+     */
+    public int getMediumSizeHeaderHeight() {
+        return m_mediumSizeHeaderHeight;
+    }
 
+    /**
+     * Set the value of mediumSizeHeaderHeight
+     *
+     * @param mediumSizeHeaderHeight new value of mediumSizeHeaderHeight
+     */
+    public void setMediumSizeHeaderHeight(int mediumSizeHeaderHeight) {
+        this.m_mediumSizeHeaderHeight = mediumSizeHeaderHeight;
+    }
+
+    /**
+     * Get the value of smallSizeHeaderHeight
+     *
+     * @return the value of smallSizeHeaderHeight
+     */
+    public int getSmallSizeHeaderHeight() {
+        return m_smallSizeHeaderHeight;
+    }
+
+    /**
+     * Set the value of smallSizeHeaderHeight
+     *
+     * @param smallSizeHeaderHeight new value of smallSizeHeaderHeight
+     */
+    public void setSmallSizeHeaderHeight(int smallSizeHeaderHeight) {
+        this.m_smallSizeHeaderHeight = smallSizeHeaderHeight;
+    }
+    
     /**
      * Get the value of footerHeight
      * @return the value of footerHeight
@@ -120,6 +201,42 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
      */
     public void setFooterHeight(int footerHeight) {
         this.m_footerHeight = footerHeight;
+    }
+    
+    /**
+     * Get the value of mediumSizeFooterheight
+     *
+     * @return the value of mediumSizeFooterheight
+     */
+    public int getMediumSizeFooterHeight() {
+        return m_mediumSizeFooterHeight;
+    }
+
+    /**
+     * Set the value of mediumSizeFooterheight
+     *
+     * @param mediumSizeFooterHeight new value of mediumSizeFooterheight
+     */
+    public void setMediumSizeFooterHeight(int mediumSizeFooterHeight) {
+        this.m_mediumSizeFooterHeight = mediumSizeFooterHeight;
+    }
+
+    /**
+     * Get the value of smallSizeFooterHeight
+     *
+     * @return the value of smallSizeFooterHeight
+     */
+    public int getSmallSizeFooterHeight() {
+        return m_smallSizeFooterHeight;
+    }
+
+    /**
+     * Set the value of smallSizeFooterHeight
+     *
+     * @param smallSizeFooterHeight new value of smallSizeFooterHeight
+     */
+    public void setSmallSizeFooterHeight(int smallSizeFooterHeight) {
+        this.m_smallSizeFooterHeight = smallSizeFooterHeight;
     }
 
     /**
@@ -137,6 +254,42 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
     public void setToolbarHeight(int toolbarHeight) {
         this.m_toolbarHeight = toolbarHeight;
     }
+    
+    /**
+     * Get the value of mediumSizeToolbarHeight
+     *
+     * @return the value of mediumSizeToolbarHeight
+     */
+    public int getMediumSizeToolbarHeight() {
+        return m_mediumSizeToolbarHeight;
+    }
+
+    /**
+     * Set the value of mediumSizeToolbarHeight
+     *
+     * @param mediumSizeToolbarHeight new value of mediumSizeToolbarHeight
+     */
+    public void setMediumSizeToolbarHeight(int mediumSizeToolbarHeight) {
+        this.m_mediumSizeToolbarHeight = mediumSizeToolbarHeight;
+    }
+
+    /**
+     * Get the value of smallSizeToolbarHeight
+     *
+     * @return the value of smallSizeToolbarHeight
+     */
+    public int getSmallSizeToolbarHeight() {
+        return m_smallSizeToolbarHeight;
+    }
+
+    /**
+     * Set the value of smallSizeToolbarHeight
+     *
+     * @param smallSizeToolbarHeight new value of smallSizeToolbarHeight
+     */
+    public void setSmallSizeToolbarHeight(int smallSizeToolbarHeight) {
+        this.m_smallSizeToolbarHeight = smallSizeToolbarHeight;
+    }
 
     /**
      * Get the value of columnCount
@@ -145,6 +298,43 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
     public int getColumnCount() {
         return m_columnCount;
     }
+    
+    /**
+     * Get the value of mediumSizeColumnCount
+     *
+     * @return the value of mediumSizeColumnCount
+     */
+    public int getMediumSizeColumnCount() {
+        return m_mediumSizeColumnCount;
+    }
+
+    /**
+     * Set the value of mediumSizeColumnCount
+     *
+     * @param mediumSizeColumnCount new value of mediumSizeColumnCount
+     */
+    public void setMediumSizeColumnCount(int mediumSizeColumnCount) {
+        this.m_mediumSizeColumnCount = mediumSizeColumnCount;
+    }
+
+    /**
+     * Get the value of smallSizeColumnCount
+     *
+     * @return the value of smallSizeColumnCount
+     */
+    public int getSmallSizeColumnCount() {
+        return m_smallSizeColumnCount;
+    }
+
+    /**
+     * Set the value of smallSizeColumnCount
+     *
+     * @param smallSizeColumnCount new value of smallSizeColumnCount
+     */
+    public void setSmallSizeColumnCount(int smallSizeColumnCount) {
+        this.m_smallSizeColumnCount = smallSizeColumnCount;
+    }
+    
 
     /**
      * Set the value of columnCount
@@ -161,6 +351,43 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
     public int getColumnWidth() {
         return m_columnWidth;
     }
+    
+    /**
+     * Get the value of mediumSizeColumnWidth
+     *
+     * @return the value of mediumSizeColumnWidth
+     */
+    public int getMediumSizeColumnWidth() {
+        return m_mediumSizeColumnWidth;
+    }
+
+    /**
+     * Set the value of mediumSizeColumnWidth
+     *
+     * @param mediumSizeColumnWidth new value of mediumSizeColumnWidth
+     */
+    public void setMediumSizeColumnWidth(int mediumSizeColumnWidth) {
+        this.m_mediumSizeColumnWidth = mediumSizeColumnWidth;
+    }
+
+    /**
+     * Get the value of smallSizeColumnWidth
+     *
+     * @return the value of smallSizeColumnWidth
+     */
+    public int getSmallSizeColumnWidth() {
+        return m_smallSizeColumnWidth;
+    }
+
+    /**
+     * Set the value of smallSizeColumnWidth
+     *
+     * @param smallSizeColumnWidth new value of smallSizeColumnWidth
+     */
+    public void setSmallSizeColumnWidth(int smallSizeColumnWidth) {
+        this.m_smallSizeColumnWidth = smallSizeColumnWidth;
+    }
+    
 
     /**
      * Set the value of columnWidth
@@ -201,6 +428,43 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
     public void setTopMargin(int topMargin) {
         this.m_topMargin = topMargin;
     }
+    
+    /**
+     * Get the value of mediumSizeTopMargin
+     *
+     * @return the value of mediumSizeTopMargin
+     */
+    public int getMediumSizeTopMargin() {
+        return m_mediumSizeTopMargin;
+    }
+
+    /**
+     * Set the value of mediumSizeTopMargin
+     *
+     * @param mediumSizeTopMargin new value of mediumSizeTopMargin
+     */
+    public void setMediumSizeTopMargin(int mediumSizeTopMargin) {
+        this.m_mediumSizeTopMargin = mediumSizeTopMargin;
+    }
+
+    /**
+     * Get the value of smallSizeTopMargin
+     *
+     * @return the value of smallSizeTopMargin
+     */
+    public int getSmallSizeTopMargin() {
+        return m_smallSizeTopMargin;
+    }
+
+    /**
+     * Set the value of smallSizeTopMargin
+     *
+     * @param smallSizeTopMargin new value of smallSizeTopMargin
+     */
+    public void setSmallSizeTopMargin(int smallSizeTopMargin) {
+        this.m_smallSizeTopMargin = smallSizeTopMargin;
+    }
+    
 
     /**
      * Get the value of rightMargin
@@ -216,6 +480,42 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
      */
     public void setRightMargin(int rightMargin) {
         this.m_rightMargin = rightMargin;
+    }
+    
+    /**
+     * Get the value of mediumSizeRightMargin
+     *
+     * @return the value of mediumSizeRightMargin
+     */
+    public int getMediumSizeRightMargin() {
+        return m_mediumSizeRightMargin;
+    }
+
+    /**
+     * Set the value of mediumSizeRightMargin
+     *
+     * @param mediumSizeRightMargin new value of mediumSizeRightMargin
+     */
+    public void setMediumSizeRightMargin(int mediumSizeRightMargin) {
+        this.m_mediumSizeRightMargin = mediumSizeRightMargin;
+    }
+
+    /**
+     * Get the value of smallSizeRightMargin
+     *
+     * @return the value of smallSizeRightMargin
+     */
+    public int getSmallSizeRightMargin() {
+        return m_smallSizeRightMargin;
+    }
+
+    /**
+     * Set the value of smallSizeRightMargin
+     *
+     * @param smallSizeRightMargin new value of smallSizeRightMargin
+     */
+    public void setSmallSizeRightMargin(int smallSizeRightMargin) {
+        this.m_smallSizeRightMargin = smallSizeRightMargin;
     }
 
     /**
@@ -233,7 +533,43 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
     public void setBottomMargin(int bottomMargin) {
         this.m_bottomMargin = bottomMargin;
     }
+    
+    /**
+     * Get the value of mediumSizeBottomMargin
+     *
+     * @return the value of mediumSizeBottomMargin
+     */
+    public int getMediumSizeBottomMargin() {
+        return m_mediumSizeBottomMargin;
+    }
 
+    /**
+     * Set the value of mediumSizeBottomMargin
+     *
+     * @param mediumSizeBottomMargin new value of mediumSizeBottomMargin
+     */
+    public void setMediumSizeBottomMargin(int mediumSizeBottomMargin) {
+        this.m_mediumSizeBottomMargin = mediumSizeBottomMargin;
+    }
+
+    /**
+     * Get the value of smallSizeBottomMargin
+     *
+     * @return the value of smallSizeBottomMargin
+     */
+    public int getSmallSizeBottomMargin() {
+        return m_smallSizeBottomMargin;
+    }
+
+    /**
+     * Set the value of smallSizeBottomMargin
+     *
+     * @param smallSizeBottomMargin new value of smallSizeBottomMargin
+     */
+    public void setSmallSizeBottomMargin(int smallSizeBottomMargin) {
+        this.m_smallSizeBottomMargin = smallSizeBottomMargin;
+    }
+    
     /**
      * Get the value of leftMargin
      * @return the value of leftMargin
@@ -249,6 +585,43 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
     public void setLeftMargin(int leftMargin) {
         this.m_leftMargin = leftMargin;
     }
+    
+    /**
+     * Get the value of mediumSizeLeftMargin
+     *
+     * @return the value of mediumSizeLeftMargin
+     */
+    public int getMediumSizeLeftMargin() {
+        return m_mediumSizeLeftMargin;
+    }
+
+    /**
+     * Set the value of mediumSizeLeftMargin
+     *
+     * @param mediumSizeLeftMargin new value of mediumSizeLeftMargin
+     */
+    public void setMediumSizeLeftMargin(int mediumSizeLeftMargin) {
+        this.m_mediumSizeLeftMargin = mediumSizeLeftMargin;
+    }
+
+    /**
+     * Get the value of smallSizeLeftMargin
+     *
+     * @return the value of smallSizeLeftMargin
+     */
+    public int getSmallSizeLeftMargin() {
+        return m_smallSizeLeftMargin;
+    }
+
+    /**
+     * Set the value of smallSizeLeftMargin
+     *
+     * @param smallSizeLeftMargin new value of smallSizeLeftMargin
+     */
+    public void setSmallSizeLeftMargin(int smallSizeLeftMargin) {
+        this.m_smallSizeLeftMargin = smallSizeLeftMargin;
+    }
+    
 
     /**
      * Get the value of cssFile
@@ -267,6 +640,55 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
     }
 
     /**
+     * Get the value of mediumSizeCssFile
+     * @return the value of mediumSizeCssFile
+     */
+    public String getMediumSizeCssFile() {
+        return m_mediumSizeCssFile;
+    }
+
+    /**
+     * Set the value of mediumSizeCssFile
+     * @param mediumSizeCssFile new value of mediumSizeCssFile
+     */
+    public void setMediumSizeCssFile(String mediumSizeCssFile) {
+        this.m_mediumSizeCssFile = mediumSizeCssFile;
+    }
+
+    /**
+     * Get the value of smallSizeCssFile
+     * @return the value of smallSizeCssFile
+     */
+    public String getSmallSizeCssFile() {
+        return m_smallSizeCssFile;
+    }
+
+    /**
+     * Set the value of smallSizeCssFile
+     * @param smallSizeCssFile new value of smallSizeCssFile
+     */
+    public void setSmallSizeCssFile(String smallSizeCssFile) {
+        this.m_smallSizeCssFile = smallSizeCssFile;
+    }
+    
+    /**
+     * Get the value of responsiveCssFile
+     * @return the value of responsiveCssFile
+     */
+    public String getResponsiveCssFile() {
+        return m_responsiveCssFile;
+    }
+
+    /**
+     * Set the value of responsiveCssFile
+     * @param responsiveCssFile new value of responsiveCssFile
+     */
+    public void setResponsiveCssFile(String responsiveCssFile) {
+        this.m_responsiveCssFile = responsiveCssFile;
+    }
+
+    
+    /**
      * First calls {@link ThemeEngineWidgetDialog#initPropertyValues(CmsWorkplaceSettings, HttpServletRequest) 
      * ThemeEngineWidgetDialog.initPropertyValues()} to load the needed theme configurations from backend, then
      * analyzes the request for workplace parameters and adjusts the workplace settings accordingly.
@@ -275,16 +697,30 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
      */
     @Override
     protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
-        GridModel   grid     = null;
+        GridModel   grid;
         ThemeConfig themeCfg;
+        int         gridMode;
+        boolean     mediumModeEnabled;
+        boolean     smallModeEnabled;
         
         // set the dialog message prefix
         setKeyPrefix(KEY_PREFIX);
         initPropertyValues(settings, request);
         
         themeCfg = getThemeConfig();
-        grid = themeCfg != null ? themeCfg.getGrid() : null;
+        
+        if(themeCfg != null){
+            m_responsiveCssFile = themeCfg.getResponsiveCssFile();
+            grid = themeCfg.getGrid();
+        }else{
+            m_responsiveCssFile = "";
+            grid = null;
+        }
+        
         if(grid != null){
+            gridMode = grid.getMode();
+            
+            grid.setMode(GridModel.MODE_DESKTOP);
             m_headerHeight = grid.getHeaderHeight();
             m_footerHeight = grid.getFooterHeight();
             m_toolbarHeight = grid.getToolbarHeight();
@@ -296,6 +732,38 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
             m_bottomMargin = grid.getBottomMargin();
             m_leftMargin = grid.getLeftMargin();
             m_cssFile = grid.getCssFile();
+            
+            mediumModeEnabled = grid.isModeEnabled(GridModel.MODE_MEDIUM);
+            if(mediumModeEnabled){
+                grid.setMode(GridModel.MODE_MEDIUM);
+            }
+            m_mediumSizeHeaderHeight = mediumModeEnabled ? grid.getHeaderHeight() :90;
+            m_mediumSizeFooterHeight = mediumModeEnabled ? grid.getFooterHeight() : 70;
+            m_mediumSizeToolbarHeight = mediumModeEnabled ? grid.getToolbarHeight() : 70;
+            m_mediumSizeColumnCount = mediumModeEnabled ? grid.getColumnCount() : 6;
+            m_mediumSizeColumnWidth = mediumModeEnabled ? grid.getColumnWidth() : 60;
+            m_mediumSizeTopMargin = mediumModeEnabled ? grid.getTopMargin() : 5;
+            m_mediumSizeRightMargin = mediumModeEnabled ? grid.getRightMargin() : 5;
+            m_mediumSizeBottomMargin = mediumModeEnabled ? grid.getBottomMargin() : 5;
+            m_mediumSizeLeftMargin = mediumModeEnabled ? grid.getLeftMargin() : 5;
+            m_mediumSizeCssFile = mediumModeEnabled ? grid.getCssFile() : "";
+            
+            smallModeEnabled = grid.isModeEnabled(GridModel.MODE_SMALL);
+            if(smallModeEnabled){
+                grid.setMode(GridModel.MODE_SMALL);
+            }
+            m_smallSizeHeaderHeight = smallModeEnabled ? grid.getHeaderHeight() : 90;
+            m_smallSizeFooterHeight = smallModeEnabled ? grid.getFooterHeight() : 70;
+            m_smallSizeToolbarHeight = smallModeEnabled ? grid.getToolbarHeight() : 70;
+            m_smallSizeColumnCount = smallModeEnabled ? grid.getColumnCount() : 2;
+            m_smallSizeColumnWidth = smallModeEnabled ? grid.getColumnWidth() : 60;
+            m_smallSizeTopMargin = smallModeEnabled ? grid.getTopMargin() : 2;
+            m_smallSizeRightMargin = smallModeEnabled ? grid.getRightMargin() : 2;
+            m_smallSizeBottomMargin = smallModeEnabled ? grid.getBottomMargin() : 2;
+            m_smallSizeLeftMargin = smallModeEnabled ? grid.getLeftMargin() : 2;
+            m_smallSizeCssFile = smallModeEnabled ? grid.getCssFile() : "";
+        
+            grid.setMode(gridMode);
         }else{
             m_headerHeight = 180;
             m_footerHeight = 130;
@@ -308,6 +776,28 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
             m_bottomMargin = 10;
             m_leftMargin = 10;
             m_cssFile = "";
+
+            m_mediumSizeHeaderHeight = 90;
+            m_mediumSizeFooterHeight = 70;
+            m_mediumSizeToolbarHeight = 70;
+            m_mediumSizeColumnCount = 6;
+            m_mediumSizeColumnWidth = 60;
+            m_mediumSizeTopMargin = 5;
+            m_mediumSizeRightMargin = 5;
+            m_mediumSizeBottomMargin = 5;
+            m_mediumSizeLeftMargin = 5;
+            m_mediumSizeCssFile = "";
+
+            m_smallSizeHeaderHeight = 90;
+            m_smallSizeFooterHeight = 70;
+            m_smallSizeToolbarHeight = 70;
+            m_smallSizeColumnCount = 2;
+            m_smallSizeColumnWidth = 60;
+            m_smallSizeTopMargin = 2;
+            m_smallSizeRightMargin = 2;
+            m_smallSizeBottomMargin = 2;
+            m_smallSizeLeftMargin = 2;
+            m_smallSizeCssFile = "";
         }
         
         super.initWorkplaceRequestValues(settings, request);
@@ -315,7 +805,124 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
         // save the current state of the job
         setDialogObject(getThemeConfig());
     }
+    
+    /**
+     * 
+     * @param p_bean
+     * @param p_dialogProperty
+     * @param p_beanProperty 
+     */
+    protected void commitIntWidgetValue(Object p_bean, String p_beanProperty, String p_dialogProperty){
+        String         tmpStr       = getParamValue(p_dialogProperty);
+        int            tmpInt;
+        PropertySetter beanSetter   = new PropertySetter(p_bean);
+        PropertySetter dialogSetter = new PropertySetter(this);
+        
 
+        if((tmpStr != null) && (tmpStr.trim().length() > 0)){
+           tmpInt = Integer.parseInt(tmpStr);
+           
+           beanSetter.setBeanProperty(p_beanProperty, tmpInt);
+           dialogSetter.setBeanProperty(p_dialogProperty, tmpInt);
+        }
+    }
+    
+    /**
+     * 
+     * @param p_bean
+     * @param p_dialogProperty
+     * @param p_beanProperty 
+     */
+    protected void commitStringWidgetValue(Object p_bean, String p_beanProperty, String p_dialogProperty){
+        String         tmpStr       = getParamValue(p_dialogProperty);
+        PropertySetter beanSetter   = new PropertySetter(p_bean);
+        PropertySetter dialogSetter = new PropertySetter(this);
+        
+
+        if((tmpStr != null) && (tmpStr.trim().length() > 0)){
+           beanSetter.setBeanProperty(p_beanProperty, tmpStr);
+           dialogSetter.setBeanProperty(p_dialogProperty, tmpStr);
+        }
+    }
+    
+     /**
+     * Commits all values on the given dialog page
+     * @param dialogPage The dialog page
+     * @return A list with all exceptions which may occur during the execution.
+     */
+    @Override
+    protected List commitWidgetValues(String dialogPage) {
+        List            result      = new ArrayList();
+        ThemeConfig     themeCfg;
+        GridModel       grid;
+        String          dlgPage     = dialogPage != null ? dialogPage : getParamPage();
+        String          tmp;
+ 
+        themeCfg = getThemeConfig();
+        if(themeCfg != null){
+            grid = themeCfg.getGrid();
+
+            if(ThemeGridDialog.PAGE_ARRAY[0].equals(dlgPage)){
+                tmp = getParamValue("orientation");
+                grid.setOrientation(((tmp != null) && (tmp.toLowerCase().equals("left"))) ? GridModel.ORIENTATION_LEFT : GridModel.ORIENTATION_RIGHT);
+                commitStringWidgetValue(themeCfg, "responsiveCssFile", "responsiveCssFile");
+            }else{
+                if(ThemeGridDialog.PAGE_ARRAY[1].equals(dlgPage)){
+                    grid.enableMode(GridModel.MODE_DESKTOP);
+                    grid.setMode(GridModel.MODE_DESKTOP);
+                    try{
+                        commitIntWidgetValue(grid, "headerHeight", "headerHeight");
+                        commitIntWidgetValue(grid, "footerHeight", "footerHeight");
+                        commitIntWidgetValue(grid, "toolbarHeight", "toolbarHeight");
+                        commitIntWidgetValue(grid, "columnCount", "columnCount");
+                        commitIntWidgetValue(grid, "columnWidth", "columnWidth");
+                        commitIntWidgetValue(grid, "topMargin", "topMargin");
+                        commitIntWidgetValue(grid, "rightMargin", "rightMargin");
+                        commitIntWidgetValue(grid, "bottomMargin", "bottomMargin");
+                        commitIntWidgetValue(grid, "leftMargin", "leftMargin");
+                        commitStringWidgetValue(grid, "cssFile", "cssFile");
+                    } catch (Throwable ex) {
+                        result.add(ex);
+                    }
+                }else if(ThemeGridDialog.PAGE_ARRAY[2].equals(dlgPage)){
+                    grid.enableMode(GridModel.MODE_MEDIUM);
+                    grid.setMode(GridModel.MODE_MEDIUM);
+                    try{
+                        commitIntWidgetValue(grid, "headerHeight", "mediumSizeHeaderHeight");
+                        commitIntWidgetValue(grid, "footerHeight", "mediumSizeFooterHeight");
+                        commitIntWidgetValue(grid, "toolbarHeight", "mediumSizeToolbarHeight");
+                        commitIntWidgetValue(grid, "columnCount", "mediumSizeColumnCount");
+                        commitIntWidgetValue(grid, "columnWidth", "mediumSizeColumnWidth");
+                        commitIntWidgetValue(grid, "topMargin", "mediumSizeTopMargin");
+                        commitIntWidgetValue(grid, "rightMargin", "mediumSizeRightMargin");
+                        commitIntWidgetValue(grid, "bottomMargin", "mediumSizeBottomMargin");
+                        commitIntWidgetValue(grid, "leftMargin", "mediumSizeLeftMargin");
+                        commitStringWidgetValue(grid, "cssFile", "mediumSizeCssFile");
+                    } catch (Throwable ex) {
+                        result.add(ex);
+                    }
+                }else if(ThemeGridDialog.PAGE_ARRAY[3].equals(dlgPage)){
+                    grid.enableMode(GridModel.MODE_SMALL);
+                    grid.setMode(GridModel.MODE_SMALL);
+                    try{
+                        commitIntWidgetValue(grid, "headerHeight", "smallSizeHeaderHeight");
+                        commitIntWidgetValue(grid, "footerHeight", "smallSizeFooterHeight");
+                        commitIntWidgetValue(grid, "toolbarHeight", "smallSizeToolbarHeight");
+                        commitIntWidgetValue(grid, "columnCount", "smallSizeColumnCount");
+                        commitIntWidgetValue(grid, "columnWidth", "smallSizeColumnWidth");
+                        commitIntWidgetValue(grid, "topMargin", "smallSizeTopMargin");
+                        commitIntWidgetValue(grid, "rightMargin", "smallSizeRightMargin");
+                        commitIntWidgetValue(grid, "bottomMargin", "smallSizeBottomMargin");
+                        commitIntWidgetValue(grid, "leftMargin", "smallSizeLeftMargin");
+                        commitStringWidgetValue(grid, "cssFile", "smallSizeCssFile");
+                    } catch (Throwable ex) {
+                        result.add(ex);
+                    }
+                }
+            }
+        }
+        return result;
+    }
     /**
      * Commits the edited object after pressing the "OK" button.
      * @throws IOException In case of errors forwarding to the required result page.
@@ -323,13 +930,19 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
      */
     @Override
     public void actionCommit() throws IOException, ServletException {
-        GridModel   grid     = null;
+        GridModel   grid;
         ThemeConfig themeCfg;
+        int         gridMode;
         
         themeCfg = getThemeConfig();
         grid = themeCfg != null ? themeCfg.getGrid() : null;
-        if(grid != null){
+        if((grid != null) && (themeCfg != null)){
             try{
+                themeCfg.setResponsiveCssFile(m_responsiveCssFile);
+                
+                gridMode = grid.getMode();
+                
+                grid.setMode(GridModel.MODE_DESKTOP);
                 grid.setHeaderHeight(m_headerHeight);
                 grid.setFooterHeight(m_footerHeight);
                 grid.setToolbarHeight(m_toolbarHeight);
@@ -342,6 +955,33 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
                 grid.setLeftMargin(m_leftMargin);
                 grid.setCssFile(m_cssFile);
                 
+                grid.enableMode(GridModel.MODE_MEDIUM);
+                grid.setMode(GridModel.MODE_MEDIUM);
+                grid.setHeaderHeight(m_mediumSizeHeaderHeight);
+                grid.setFooterHeight(m_mediumSizeFooterHeight);
+                grid.setToolbarHeight(m_mediumSizeToolbarHeight);
+                grid.setColumnCount(m_mediumSizeColumnCount);
+                grid.setColumnWidth(m_mediumSizeColumnWidth);
+                grid.setTopMargin(m_mediumSizeTopMargin);
+                grid.setRightMargin(m_mediumSizeRightMargin);
+                grid.setBottomMargin(m_mediumSizeBottomMargin);
+                grid.setLeftMargin(m_mediumSizeLeftMargin);
+                grid.setCssFile(m_mediumSizeCssFile);
+                
+                grid.enableMode(GridModel.MODE_SMALL);
+                grid.setMode(GridModel.MODE_SMALL);
+                grid.setHeaderHeight(m_smallSizeHeaderHeight);
+                grid.setFooterHeight(m_smallSizeFooterHeight);
+                grid.setToolbarHeight(m_smallSizeToolbarHeight);
+                grid.setColumnCount(m_smallSizeColumnCount);
+                grid.setColumnWidth(m_smallSizeColumnWidth);
+                grid.setTopMargin(m_smallSizeTopMargin);
+                grid.setRightMargin(m_smallSizeRightMargin);
+                grid.setBottomMargin(m_smallSizeBottomMargin);
+                grid.setLeftMargin(m_smallSizeLeftMargin);
+                grid.setCssFile(m_smallSizeCssFile);
+                
+                grid.setMode(gridMode);
                 saveData();
                 getSettings().setDialogObject(null);
                 clear();
@@ -356,17 +996,44 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
      */
     @Override
     protected void defineWidgets() {
-        addWidget(new CmsWidgetDialogParameter(this,"headerHeight", PAGE_ARRAY[0], new CmsInputWidget()));
-        addWidget(new CmsWidgetDialogParameter(this,"footerHeight", PAGE_ARRAY[0], new CmsInputWidget()));
-        addWidget(new CmsWidgetDialogParameter(this,"toolbarHeight", PAGE_ARRAY[0], new CmsInputWidget()));
-        addWidget(new CmsWidgetDialogParameter(this,"columnCount", PAGE_ARRAY[0], new CmsSelectWidget(getColumnCountWidgetConfiguration())));
-        addWidget(new CmsWidgetDialogParameter(this,"columnWidth", PAGE_ARRAY[0], new CmsSelectWidget(getColumnWidthWidgetConfiguration())));
         addWidget(new CmsWidgetDialogParameter(this,"orientation", PAGE_ARRAY[0], new CmsSelectWidget(getOrientationWidgetConfiguration())));
-        addWidget(new CmsWidgetDialogParameter(this,"topMargin", PAGE_ARRAY[0], new CmsInputWidget()));
-        addWidget(new CmsWidgetDialogParameter(this,"rightMargin", PAGE_ARRAY[0], new CmsInputWidget()));
-        addWidget(new CmsWidgetDialogParameter(this,"bottomMargin", PAGE_ARRAY[0], new CmsInputWidget()));
-        addWidget(new CmsWidgetDialogParameter(this,"leftMargin", PAGE_ARRAY[0], new CmsInputWidget()));
-        addWidget(new CmsWidgetDialogParameter(this,"cssFile", PAGE_ARRAY[0], new CmsVfsFileWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"responsiveCssFile", PAGE_ARRAY[0], new CmsVfsFileWidget()));
+
+        addWidget(new CmsWidgetDialogParameter(this,"headerHeight", PAGE_ARRAY[1], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"footerHeight", PAGE_ARRAY[1], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"toolbarHeight", PAGE_ARRAY[1], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"columnCount", PAGE_ARRAY[1], new CmsSelectWidget(getColumnCountWidgetConfiguration())));
+        /*addWidget(new CmsWidgetDialogParameter(this,"columnWidth", PAGE_ARRAY[1], new CmsSelectWidget(getColumnWidthWidgetConfiguration())));*/
+        addWidget(new CmsWidgetDialogParameter(this,"columnWidth", PAGE_ARRAY[1], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"topMargin", PAGE_ARRAY[1], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"rightMargin", PAGE_ARRAY[1], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"bottomMargin", PAGE_ARRAY[1], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"leftMargin", PAGE_ARRAY[1], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"cssFile", PAGE_ARRAY[1], new CmsVfsFileWidget()));
+
+        addWidget(new CmsWidgetDialogParameter(this,"mediumSizeHeaderHeight", PAGE_ARRAY[2], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"mediumSizeFooterHeight", PAGE_ARRAY[2], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"mediumSizeToolbarHeight", PAGE_ARRAY[2], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"mediumSizeColumnCount", PAGE_ARRAY[2], new CmsSelectWidget(getColumnCountWidgetConfiguration())));
+        /*addWidget(new CmsWidgetDialogParameter(this,"mediumSizeColumnWidth", PAGE_ARRAY[2], new CmsSelectWidget(getColumnWidthWidgetConfiguration())));*/
+        addWidget(new CmsWidgetDialogParameter(this,"mediumSizeColumnWidth", PAGE_ARRAY[2], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"mediumSizeTopMargin", PAGE_ARRAY[2], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"mediumSizeRightMargin", PAGE_ARRAY[2], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"mediumSizeBottomMargin", PAGE_ARRAY[2], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"mediumSizeLeftMargin", PAGE_ARRAY[2], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"mediumSizeCssFile", PAGE_ARRAY[2], new CmsVfsFileWidget()));
+
+        addWidget(new CmsWidgetDialogParameter(this,"smallSizeHeaderHeight", PAGE_ARRAY[3], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"smallSizeFooterHeight", PAGE_ARRAY[3], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"smallSizeToolbarHeight", PAGE_ARRAY[3], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"smallSizeColumnCount", PAGE_ARRAY[3], new CmsSelectWidget(getColumnCountWidgetConfiguration())));
+        /*addWidget(new CmsWidgetDialogParameter(this,"smallSizeColumnWidth", PAGE_ARRAY[3], new CmsSelectWidget(getColumnWidthWidgetConfiguration())));*/
+        addWidget(new CmsWidgetDialogParameter(this,"smallSizeColumnWidth", PAGE_ARRAY[3], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"smallSizeTopMargin", PAGE_ARRAY[3], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"smallSizeRightMargin", PAGE_ARRAY[3], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"smallSizeBottomMargin", PAGE_ARRAY[3], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"smallSizeLeftMargin", PAGE_ARRAY[3], new CmsInputWidget()));
+        addWidget(new CmsWidgetDialogParameter(this,"smallSizeCssFile", PAGE_ARRAY[3], new CmsVfsFileWidget()));
     }
 
     /**
@@ -397,6 +1064,8 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
     private List<CmsSelectWidgetOption> getColumnCountWidgetConfiguration(){
         List<CmsSelectWidgetOption> result = new ArrayList<CmsSelectWidgetOption>();
         
+        result.add(new CmsSelectWidgetOption("2", true));
+        result.add(new CmsSelectWidgetOption("6", true));
         result.add(new CmsSelectWidgetOption("12", true));
         result.add(new CmsSelectWidgetOption("16", false));
         result.add(new CmsSelectWidgetOption("24", false));

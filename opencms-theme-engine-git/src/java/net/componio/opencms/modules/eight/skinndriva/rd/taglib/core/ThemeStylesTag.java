@@ -71,7 +71,7 @@ public class ThemeStylesTag extends ThemeEngineThemeTagBase{
      * 
      * @return 
      */
-    private HashSet<String> getGroupsSet(){
+    protected HashSet<String> getGroupsSet(){
         HashSet<String> result = null;
         String[]        groupsList    = getGroups() != null ? getGroups().split(";") : null;
         int             loopCount;
@@ -87,19 +87,19 @@ public class ThemeStylesTag extends ThemeEngineThemeTagBase{
     }
 
     /**
-     * Checks if restricitions are present in form of regular expressions, which limit the
+     * Checks if restrictions are present in form of regular expressions, which limit the
      * usage of a CSS style to a certain set of browsers. If regular expressions are present,
      * this method checks, if the user agent of the request matches one of them. If the user agent
-     * matches one of them, this means that the CSS style represented bc the <code>p_styleRef</code>
-     * parameter has to be used for the current request. So the method returnd <code>true</code>. Otherwise
-     * The metod returns <code>false</code>
+     * matches one of them, this means that the CSS style represented by the <code>p_styleRef</code>
+     * parameter has to be used for the current request. So the method returned <code>true</code>. Otherwise
+     * The method returns <code>false</code>
      * @param p_styleRef Represents the CSS style, which the validity has to be checked for.
-     * @return <code>true</code>, if all above mentionned conditions apply and the CSS style has to be used. 
+     * @return <code>true</code>, if all above mentioned conditions apply and the CSS style has to be used. 
      * Otherwise <code>false</code>
      */
-    private boolean isUserAgentValid(StyleReference p_styleRef){
+    protected boolean isUserAgentValid(StyleReference p_styleRef){
         boolean          result    = false;
-        String           userAgent = getRequest().getHeader("User-Agent");
+        String           userAgent;
         List<String>     regexList = p_styleRef.getUserAgents();
         Iterator<String> regexIt;
         
@@ -137,7 +137,7 @@ public class ThemeStylesTag extends ThemeEngineThemeTagBase{
     @Override
     public int doEndTag() throws JspException {
         ThemeConfig          themeCfg   = getTheme();
-        StringBuffer         sb         = null;
+        StringBuffer         sb;
         String               result;
         StyleReference[]     stylesList;
         StyleReference       style;

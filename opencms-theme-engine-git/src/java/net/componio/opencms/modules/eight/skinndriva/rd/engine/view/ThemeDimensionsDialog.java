@@ -79,6 +79,10 @@ public class ThemeDimensionsDialog extends ThemeEngineWidgetDialog{
     private int m_toolbarInnerHeight;
      /** Holds the value of the property &quot;cssFile&quot;. */
     private String m_cssFile;
+     /** Holds the value of the property &quot;mediumSizeCssFile&quot;. */
+    private String m_mediumSizeCssFile;
+     /** Holds the value of the property &quot;smallSizeCssFile&quot;. */
+    private String m_smallSizeCssFile;
 
     /**
      * Public constructor with all JSP variables.
@@ -299,6 +303,38 @@ public class ThemeDimensionsDialog extends ThemeEngineWidgetDialog{
     }
 
     /**
+     * Get the value of mediumSizeCssFile
+     * @return the value of mediumSizeCssFile
+     */
+    public String getMediumSizeCssFile() {
+        return m_mediumSizeCssFile;
+    }
+
+    /**
+     * Set the value of mediumSizeCssFile
+     * @param mediumSizeCssFile new value of mediumSizeCssFile
+     */
+    public void setMediumSizeCssFile(String mediumSizeCssFile) {
+        this.m_mediumSizeCssFile = mediumSizeCssFile;
+    }
+
+    /**
+     * Get the value of smallSizeCssFile
+     * @return the value of smallSizeCssFile
+     */
+    public String getSmallSizeCssFile() {
+        return m_smallSizeCssFile;
+    }
+
+    /**
+     * Set the value of smallSizeCssFile
+     * @param smallSizeCssFile new value of smallSizeCssFile
+     */
+    public void setSmallSizeCssFile(String smallSizeCssFile) {
+        this.m_smallSizeCssFile = smallSizeCssFile;
+    }
+    
+    /**
      * First calls {@link ThemeEngineWidgetDialog#initPropertyValues(CmsWorkplaceSettings, HttpServletRequest) 
      * ThemeEngineWidgetDialog.initPropertyValues()} to load the needed theme configurations from backend, then
      * analyzes the request for workplace parameters and adjusts the workplace settings accordingly.
@@ -321,6 +357,8 @@ public class ThemeDimensionsDialog extends ThemeEngineWidgetDialog{
             m_footerInnerHeight = getDimensions().getFooterInnerHeight();
             m_toolbarInnerHeight = getDimensions().getToolbarInnerHeight();
             m_cssFile = getDimensions().getCssFile();
+            m_mediumSizeCssFile = getDimensions().getMediumSizeCssFile();
+            m_smallSizeCssFile = getDimensions().getSmallSizeCssFile();
             if(getDimensions().hasMargins()){
                 m_topMargin = getDimensions().getMargins().getTopMargin();
                 m_rightMargin = getDimensions().getMargins().getRightMargin();
@@ -403,6 +441,18 @@ public class ThemeDimensionsDialog extends ThemeEngineWidgetDialog{
                    m_cssFile = tmp;
                    getDimensions().setCssFile(m_cssFile);
                 }
+                
+                tmp = getParamValue("mediumSizeCssFile");
+                if((tmp != null) && (tmp.trim().length() > 0)){
+                   m_mediumSizeCssFile = tmp;
+                   getDimensions().setMediumSizeCssFile(m_mediumSizeCssFile);
+                }
+                
+                tmp = getParamValue("smallSizeCssFile");
+                if((tmp != null) && (tmp.trim().length() > 0)){
+                   m_smallSizeCssFile = tmp;
+                   getDimensions().setSmallSizeCssFile(m_smallSizeCssFile);
+                }
             }else{
                 tmp = getParamValue("topMargin");
                 if((tmp != null) && (tmp.trim().length() > 0)){
@@ -460,6 +510,8 @@ public class ThemeDimensionsDialog extends ThemeEngineWidgetDialog{
             getDimensions().setFooterInnerHeight(m_footerInnerHeight);
             getDimensions().setToolbarInnerHeight(m_toolbarInnerHeight);
             getDimensions().setCssFile(m_cssFile);
+            getDimensions().setMediumSizeCssFile(m_mediumSizeCssFile);
+            getDimensions().setSmallSizeCssFile(m_smallSizeCssFile);
             if(m_topMargin >= 0){
                 getDimensions().getMargins().setTopMargin(m_topMargin);
             }
@@ -494,6 +546,8 @@ public class ThemeDimensionsDialog extends ThemeEngineWidgetDialog{
         addWidget(new CmsWidgetDialogParameter(this,"toolbarInnerHeight", PAGE_ARRAY[0], new CmsInputWidget()));
         addWidget(new CmsWidgetDialogParameter(this,"footerInnerHeight", PAGE_ARRAY[0], new CmsInputWidget()));
         addWidget(new CmsWidgetDialogParameter(this,"cssFile", "", PAGE_ARRAY[0], new CmsVfsFileWidget(), 0, 1));
+        addWidget(new CmsWidgetDialogParameter(this,"mediumSizeCssFile", "", PAGE_ARRAY[0], new CmsVfsFileWidget(), 0, 1));
+        addWidget(new CmsWidgetDialogParameter(this,"smallSizeCssFile", "", PAGE_ARRAY[0], new CmsVfsFileWidget(), 0, 1));
         addWidget(new CmsWidgetDialogParameter(this,"topMargin", "", PAGE_ARRAY[1], new CmsInputWidget(), 0, 1));
         addWidget(new CmsWidgetDialogParameter(this,"rightMargin", "", PAGE_ARRAY[1], new CmsInputWidget(), 0, 1));
         addWidget(new CmsWidgetDialogParameter(this,"bottomMargin", "", PAGE_ARRAY[1], new CmsInputWidget(), 0, 1));

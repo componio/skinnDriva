@@ -1,6 +1,6 @@
 /*
  Document : grid.css
- Created on Mon, Feb 27 2012, 23:06:08
+ Created on Sun, Jul 19 2015, 18:26:30
  Copyright (C) 2012 Robert Diawara
 
  This file is part of OpenCms Theme Engine.
@@ -17,16 +17,29 @@
 
  You should have received a copy of the GNU Lesser General Public License
  along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
+
+ -----------------------------------------------------------------------------------
+
+ Grid for OpenCms Theme Engine ~ Core CSS.  This is automatically generated CSS code.
+ Please do not modify.  Learn more ~ http://www.diawara.com/
 */
 
-/*
-  Grid for OpenCms Theme Engine ~ Core CSS.
-  This is automatically generated CSS code.
-  Please do not modify.
-  Learn more ~ http://www.diawara.com/
 
-  Licensed under LGPL.
-*/
+
+/* `Individual formats
+----------------------------------------------------------------------------------------------------*/
+
+#GRID_HEADER{
+    height              : 190px;
+}
+
+#GRID_FOOTER{
+    height              : 130px;
+}
+
+#GRID_TOOLBAR{
+    height              : 130px;
+}
 
 /*
   Forces backgrounds to span full width,
@@ -37,19 +50,28 @@
 */
 
 body {
-    min-width          : 960px;
+    min-width           : 1020px;
 }
 
-/* `Container
+/* Container
 ----------------------------------------------------------------------------------------------------*/
 
 .container_12 {
-    margin-left        : auto;
-    margin-right       : auto;
-    width              : 960px;
+    margin-left         : auto;
+    margin-right        : auto;
+    width               : 1020px;
 }
 
-/* `Grid >> Global
+.container_full {
+    margin-left         : auto;
+    margin-right        : auto;
+    min-width           : 1020px;
+    max-width           : 100%;
+    width               : 100%;
+    overflow            : auto;
+}
+
+/* Grid >> Global
 ----------------------------------------------------------------------------------------------------*/
 
 .grid_1,
@@ -63,10 +85,30 @@ body {
 .grid_9,
 .grid_10,
 .grid_11,
+.grid_12,
+.grid_full {
+    display             : inline;
+    float               : left;
+}
+
+.grid_1,
+.grid_2,
+.grid_3,
+.grid_4,
+.grid_5,
+.grid_6,
+.grid_7,
+.grid_8,
+.grid_9,
+.grid_10,
+.grid_11,
 .grid_12 {
-    display            : inline;
-    float              : left;
-    margin             : 10px 10px 10px 10px;
+    margin              : 10px 10px 10px 10px;
+}
+
+
+.grid_full {
+    margin              : 10px 1% 10px 1%;
 }
 
 .push_1, .pull_1,
@@ -80,10 +122,10 @@ body {
 .push_9, .pull_9,
 .push_10, .pull_10,
 .push_11, .pull_11 {
-    position           : relative;
+    position            : relative;
 }
 
-/* `Grid >> Children (Alpha ~ First, Omega ~ Last)
+/* Grid >> Children (Alpha ~ First, Omega ~ Last)
 ----------------------------------------------------------------------------------------------------*/
 
 .alpha {
@@ -91,246 +133,263 @@ body {
 }
 
 .omega {
-    margin-right       : 0;
+    margin-right        : 0;
 }
 
-/* `Grid >> 12 Columns
+/* Grid >> 12 Columns
 ----------------------------------------------------------------------------------------------------*/
 
 .container_12 .grid_1 {
-    width              : 60px;
+    width               : 65px;
 }
 
 .container_12 .grid_2 {
-    width              : 140px;
+    width               : 150px;
 }
 
 .container_12 .grid_3 {
-    width              : 220px;
+    width               : 235px;
 }
 
 .container_12 .grid_4 {
-    width              : 300px;
+    width               : 320px;
 }
 
 .container_12 .grid_5 {
-    width              : 380px;
+    width               : 405px;
 }
 
 .container_12 .grid_6 {
-    width              : 460px;
+    width               : 490px;
 }
 
 .container_12 .grid_7 {
-    width              : 540px;
+    width               : 575px;
 }
 
 .container_12 .grid_8 {
-    width              : 620px;
+    width               : 660px;
 }
 
 .container_12 .grid_9 {
-    width              : 700px;
+    width               : 745px;
 }
 
 .container_12 .grid_10 {
-    width              : 780px;
+    width               : 830px;
 }
 
 .container_12 .grid_11 {
-    width              : 860px;
+    width               : 915px;
 }
 
 .container_12 .grid_12 {
-    width              : 940px;
+    width               : 1000px;
+}
+
+.container_12 .grid_full,
+.container_full .grid_full {
+    width               : 98%;
+}
+
+/* Invisible Elements
+----------------------------------------------------------------------------------------------------*/
+.container_12 .grid_hidden,
+.container_full .grid_hidden{
+    display             : none;
+    visibility          : hidden;
+    font-size           : 0;
+    line-height         : 0;
+    width               : 0;
+    height              : 0;
 }
 
 /* Prefix Extra Space >> 12 Columns
 ----------------------------------------------------------------------------------------------------*/
 
 .container_12 .prefix_1 {
-    padding-left       : 80px;
+    padding-left        : 85px;
 }
 
 .container_12 .prefix_2 {
-    padding-left       : 160px;
+    padding-left        : 170px;
 }
 
 .container_12 .prefix_3 {
-    padding-left       : 240px;
+    padding-left        : 255px;
 }
 
 .container_12 .prefix_4 {
-    padding-left       : 320px;
+    padding-left        : 340px;
 }
 
 .container_12 .prefix_5 {
-    padding-left       : 400px;
+    padding-left        : 425px;
 }
 
 .container_12 .prefix_6 {
-    padding-left       : 480px;
+    padding-left        : 510px;
 }
 
 .container_12 .prefix_7 {
-    padding-left       : 560px;
+    padding-left        : 595px;
 }
 
 .container_12 .prefix_8 {
-    padding-left       : 640px;
+    padding-left        : 680px;
 }
 
 .container_12 .prefix_9 {
-    padding-left       : 720px;
+    padding-left        : 765px;
 }
 
 .container_12 .prefix_10 {
-    padding-left       : 800px;
+    padding-left        : 850px;
 }
 
 .container_12 .prefix_11 {
-    padding-left       : 880px;
+    padding-left        : 935px;
 }
 
-/* Suffix Extra Space >> 12 Columns
+/* Suffix Extra Space >> px Columns
 ----------------------------------------------------------------------------------------------------*/
 
 .container_12 .suffix_1 {
-    padding-right      : 80px;
+    padding-right       : 85px;
 }
 
 .container_12 .suffix_2 {
-    padding-right      : 160px;
+    padding-right       : 170px;
 }
 
 .container_12 .suffix_3 {
-    padding-right      : 240px;
+    padding-right       : 255px;
 }
 
 .container_12 .suffix_4 {
-    padding-right      : 320px;
+    padding-right       : 340px;
 }
 
 .container_12 .suffix_5 {
-    padding-right      : 400px;
+    padding-right       : 425px;
 }
 
 .container_12 .suffix_6 {
-    padding-right      : 480px;
+    padding-right       : 510px;
 }
 
 .container_12 .suffix_7 {
-    padding-right      : 560px;
+    padding-right       : 595px;
 }
 
 .container_12 .suffix_8 {
-    padding-right      : 640px;
+    padding-right       : 680px;
 }
 
 .container_12 .suffix_9 {
-    padding-right      : 720px;
+    padding-right       : 765px;
 }
 
 .container_12 .suffix_10 {
-    padding-right      : 800px;
+    padding-right       : 850px;
 }
 
 .container_12 .suffix_11 {
-    padding-right      : 880px;
+    padding-right       : 935px;
 }
 
 /* Push Space >> 12 Columns
 ----------------------------------------------------------------------------------------------------*/
 
 .container_12 .push_1 {
-    left               : 80px;
+    left                : 85px;
 }
 
 .container_12 .push_2 {
-    left               : 160px;
+    left                : 170px;
 }
 
 .container_12 .push_3 {
-    left               : 240px;
+    left                : 255px;
 }
 
 .container_12 .push_4 {
-    left               : 320px;
+    left                : 340px;
 }
 
 .container_12 .push_5 {
-    left               : 400px;
+    left                : 425px;
 }
 
 .container_12 .push_6 {
-    left               : 480px;
+    left                : 510px;
 }
 
 .container_12 .push_7 {
-    left               : 560px;
+    left                : 595px;
 }
 
 .container_12 .push_8 {
-    left               : 640px;
+    left                : 680px;
 }
 
 .container_12 .push_9 {
-    left               : 720px;
+    left                : 765px;
 }
 
 .container_12 .push_10 {
-    left               : 800px;
+    left                : 850px;
 }
 
 .container_12 .push_11 {
-    left               : 880px;
+    left                : 935px;
 }
 
 /* Pull Space >> 12 Columns
 ----------------------------------------------------------------------------------------------------*/
 
 .container_12 .pull_1 {
-    left               : -80px;
+    left                : -85px;
 }
 
 .container_12 .pull_2 {
-    left               : -160px;
+    left                : -170px;
 }
 
 .container_12 .pull_3 {
-    left               : -240px;
+    left                : -255px;
 }
 
 .container_12 .pull_4 {
-    left               : -320px;
+    left                : -340px;
 }
 
 .container_12 .pull_5 {
-    left               : -400px;
+    left                : -425px;
 }
 
 .container_12 .pull_6 {
-    left               : -480px;
+    left                : -510px;
 }
 
 .container_12 .pull_7 {
-    left               : -560px;
+    left                : -595px;
 }
 
 .container_12 .pull_8 {
-    left               : -640px;
+    left                : -680px;
 }
 
 .container_12 .pull_9 {
-    left               : -720px;
+    left                : -765px;
 }
 
 .container_12 .pull_10 {
-    left               : -800px;
+    left                : -850px;
 }
 
 .container_12 .pull_11 {
-    left               : -880px;
+    left                : -935px;
 }
 
 /* Clear Floated Elements
@@ -339,12 +398,12 @@ body {
 /* http://sonspring.com/journal/clearing-floats */
 
 .clear {
-    clear              : both;
-    display            : block;
-    overflow           : hidden;
-    visibility         : hidden;
-    width              : 0;
-    height             : 0;
+    clear               : both;
+    display             : block;
+    overflow            : hidden;
+    visibility          : hidden;
+    width               : 0;
+    height              : 0;
 }
 
 /* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
@@ -353,19 +412,19 @@ body {
 .clearfix:after,
 .container_12:before,
 .container_12:after {
-    content            : '.';
-    display            : block;
-    overflow           : hidden;
-    visibility         : hidden;
-    font-size          : 0;
-    line-height        : 0;
-    width              : 0;
-    height             : 0;
+    content             : '.';
+    display             : block;
+    overflow            : hidden;
+    visibility          : hidden;
+    font-size           : 0;
+    line-height         : 0;
+    width               : 0;
+    height              : 0;
 }
 
 .clearfix:after,
 .container_12:after {
-    clear              : both;
+    clear               : both;
 }
 
 /*
@@ -375,5 +434,5 @@ body {
 
 .clearfix,
 .container_12 {
-    zoom               : 1;
+    zoom                : 1;
 }

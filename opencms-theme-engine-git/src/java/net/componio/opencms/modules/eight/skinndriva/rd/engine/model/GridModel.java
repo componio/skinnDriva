@@ -25,6 +25,7 @@ import  net.componio.opencms.modules.eight.skinndriva.rd.engine.ThemeConfigExcep
 import  java.io.StringWriter;
 import  java.text.SimpleDateFormat;
 import  java.util.Date;
+import  org.opencms.jsp.CmsJspActionElement;
 
 /**
  *
@@ -36,31 +37,43 @@ public class GridModel extends ThemeEngineModel{
     /** Constant used to determine the orientation of the grid. */
     public static final int ORIENTATION_RIGHT = 2;
     
+    /** Determines that the grid is for big screen sizes. */
+    public static final int MODE_DESKTOP = 0;
+    /** Determines that the grid is for medium sizes. */
+    public static final int MODE_MEDIUM  = 1;
+    /** Determines that the grid is for small sizes. */
+    public static final int MODE_SMALL   = 2;
+    /** Determines the minimum size limit for desktops in pixels. */
+    public static final int DESKTOP_SIZE_LIMIT = 1024;
+    
+    /** Holds the mode which determines the screen size. */
+    private int     mode;
     /** Holds the value of the property columnWidth. */
-    private int    columnWidth;
+    private int[]   columnWidth;
     /** Holds the value of the property columnCount. */
-    private int    columnCount;
+    private int[]   columnCount;
     /** Holds the value of the property topMargin. */
-    private int    topMargin;
+    private int[]   topMargin;
     /** Holds the value of the property rightMargin. */
-    private int    rightMargin;
+    private int[]   rightMargin;
     /** Holds the value of the property bottomMargin. */
-    private int    bottomMargin;
+    private int[]   bottomMargin;
     /** Holds the value of the property leftMargin. */
-    private int    leftMargin;
+    private int[]   leftMargin;
     /** Holds the unit used for the grid dimensions. */
-    private String unit;
+    private String  unit;
     /** Holds the orientation of the grid (left or right). */
-    private int    orientation;
+    private int     orientation;
     /** Holds the value of the property headerHeight. */
-    private int    headerHeight;
+    private int[]     headerHeight;
     /** Holds the value of the property toolbarHeight. */
-    private int    toolbarHeight;
+    private int[]     toolbarHeight;
     /** Holds the value of the property footerHeight. */
-    private int    footerHeight;
+    private int[]    footerHeight;
     /** Holds the value of the property cssFile. */
-    private String cssFile;
-
+    private String[]  cssFile;
+    /** Determines, which modes are enabled with the current grid. **/
+    private boolean[] modesEnabled;
 
 
     
@@ -68,23 +81,95 @@ public class GridModel extends ThemeEngineModel{
      * Default constructor
      */
     public GridModel(){
-        this.headerHeight = 180;
-        this.footerHeight = 130;
-        this.toolbarHeight = 130;
-        this.columnCount = 12;
-        this.columnWidth = 60;
-        this.topMargin = 10;
-        this.rightMargin = 10;
-        this.bottomMargin = 10;
-        this.leftMargin = 10;
+        this.mode = GridModel.MODE_DESKTOP;
+        this.headerHeight = new int[]{180,90,90};
+        this.footerHeight = new int[]{130,70,70};
+        this.toolbarHeight = new int[]{130,70,70};
+        this.columnCount = new int[]{12,6,2};
+        this.columnWidth = new int[]{60,60,60};
+        this.topMargin = new int[]{10,5,2};
+        this.rightMargin = new int[]{10,5,2};
+        this.bottomMargin = new int[]{10,5,2};
+        this.leftMargin = new int[]{10,5,2};
+        this.modesEnabled = new boolean[]{true, false, false};
+        this.cssFile = new String[]{"", "", ""};
         this.unit = "px";
         this.orientation = GridModel.ORIENTATION_LEFT;
     }
 
+    /**
+     * Get the value of mode
+     * @return the value of mode.
+     */
+    public int getMode() {
+        return mode;
+    }
 
     /**
+     * Set the value of mode
+     * @param p_mode new value of mode
+     */
+    public void setMode(int p_mode) {
+        if((p_mode < GridModel.MODE_DESKTOP) || (p_mode > GridModel.MODE_SMALL)){
+            throw new RuntimeException("Only values between " + String.valueOf(GridModel.MODE_DESKTOP) +
+                  " and " + String.valueOf(GridModel.MODE_SMALL) + " are allowed for mode !");
+        }
+        if(!isModeEnabled(p_mode)){
+            throw new RuntimeException("Can't set a mode, if it's not enabled. Please enable mode " + String.valueOf(p_mode) + " first !");
+        }
+        synchronized(this){
+            this.mode = p_mode;
+        }
+    }
+    
+    /**
+     * Enables a mode (desktop, medium size or small size).
+     * @param p_mode The mode to be enabled.
+     */
+    public void enableMode(int p_mode){
+        if((p_mode < GridModel.MODE_DESKTOP) || (p_mode > GridModel.MODE_SMALL)){
+            throw new RuntimeException("Only values between " + String.valueOf(GridModel.MODE_DESKTOP) +
+                  " and " + String.valueOf(GridModel.MODE_SMALL) + " are allowed for mode !");
+        }
+        synchronized(this){
+            modesEnabled[p_mode] = true;
+        }
+    }
+    
+    /**
+     * Disables a mode (desktop, medium size or small size).
+     * @param p_mode The mode to be disabled.
+     */
+    public void disableMode(int p_mode){
+        if((p_mode < GridModel.MODE_MEDIUM) || (p_mode > GridModel.MODE_SMALL)){
+            throw new RuntimeException("Only modes between " + String.valueOf(GridModel.MODE_MEDIUM) +
+                  " (medium size) and " + String.valueOf(GridModel.MODE_SMALL) + " (small size are allowed to be disabled !");
+        }
+        synchronized(this){
+            modesEnabled[p_mode] = false;
+            if(this.mode == p_mode){
+                this.mode = GridModel.MODE_DESKTOP;
+            }
+        }
+    }
+    
+    /**
+     * Checks if a mode  (desktop, medium size or small size) is enabled for this grid model.
+     * @param p_mode The mode to be checked.
+     * @return 
+     */
+    public boolean isModeEnabled(int p_mode){
+        if((p_mode < GridModel.MODE_DESKTOP) || (p_mode > GridModel.MODE_SMALL)){
+            throw new RuntimeException("Only values between " + String.valueOf(GridModel.MODE_DESKTOP) +
+                  " and " + String.valueOf(GridModel.MODE_SMALL) + " are allowed for mode !");
+        }
+        synchronized(this){
+            return modesEnabled[p_mode];
+        }
+    }
+    
+    /**
      * Get the value of orientation
-     *
      * @return the value of orientation
      */
     public int getOrientation() {
@@ -93,7 +178,6 @@ public class GridModel extends ThemeEngineModel{
 
     /**
      * Set the value of orientation
-     *
      * @param orientation new value of orientation
      */
     public void setOrientation(int orientation) {
@@ -111,7 +195,29 @@ public class GridModel extends ThemeEngineModel{
      * @return the value of columnCount
      */
     public int getColumnCount() {
-        return columnCount;
+        synchronized(this){
+            return columnCount[getMode()];
+        }
+    }
+
+
+    /**
+     * Get the value of columnCount
+     * @param p_mode The grid mode, which the column count is to be got for.
+     * @return the value of columnCount
+     */
+    public int getColumnCount(int p_mode) {
+        if((p_mode < GridModel.MODE_DESKTOP) || (p_mode > GridModel.MODE_SMALL)){
+            throw new RuntimeException("Only values between " + String.valueOf(GridModel.MODE_DESKTOP) +
+                  " and " + String.valueOf(GridModel.MODE_SMALL) + " are allowed for mode !");
+        }
+        if(!isModeEnabled(p_mode)){
+            throw new RuntimeException("Can't get the value for a disabled mode. Please enabe mode " + 
+                  String.valueOf(p_mode) + " first !");
+        }
+        synchronized(this){
+            return columnCount[p_mode];
+        }
     }
 
     /**
@@ -122,12 +228,14 @@ public class GridModel extends ThemeEngineModel{
     public void setColumnCount(int columnCount) throws ThemeConfigException{
         // Abort with an exception, when coluzmnCount has an invalid value.
         // Note that only 12 or 16 are accepted as value.
-        if((columnCount != 12) && (columnCount != 16) && (columnCount != 24)){
-            throw new ThemeConfigException("Tried to initialize the grid with an invalid column count. Only 12, 16 and "
+        if((columnCount != 2) && (columnCount != 6) && (columnCount != 12) && (columnCount != 16) && (columnCount != 24)){
+            throw new ThemeConfigException("Tried to initialize the grid with an invalid column count. Only 2, 6, 12, 16 and "
                     + "24 are allowed as values. Therefore the setter has been aborted !");
         }
-        checkStatus(this.columnCount, columnCount);
-        this.columnCount = columnCount;
+        synchronized(this){
+            checkStatus(this.columnCount[getMode()], columnCount);
+            this.columnCount[getMode()] = columnCount;
+        }
     }
 
     /**
@@ -135,9 +243,31 @@ public class GridModel extends ThemeEngineModel{
      * @return the value of columnWidth
      */
     public int getColumnWidth() {
-        return columnWidth;
+        synchronized(this){
+            return columnWidth[getMode()];
+        }
     }
 
+
+    /**
+     * Get the value of columnWidth
+     * @param p_mode The grid mode, which the column width is to be got for.
+     * @return the value of columnWidth
+     */
+    public int getColumnWidth(int p_mode) {
+        if((p_mode < GridModel.MODE_DESKTOP) || (p_mode > GridModel.MODE_SMALL)){
+            throw new RuntimeException("Only values between " + String.valueOf(GridModel.MODE_DESKTOP) +
+                  " and " + String.valueOf(GridModel.MODE_SMALL) + " are allowed for mode !");
+        }
+        if(!isModeEnabled(p_mode)){
+            throw new RuntimeException("Can't get the value for a disabled mode. Please enabe mode " + 
+                  String.valueOf(p_mode) + " first !");
+        }
+        synchronized(this){
+            return columnWidth[p_mode];
+        }
+    }
+    
     /**
      * Gets the column width as a formatted string also containg the unit which the value is related to.
      * @return The formatted column  width.
@@ -147,18 +277,29 @@ public class GridModel extends ThemeEngineModel{
     }
     
     /**
+     * Gets the column width as a formatted string also containing the unit which the value is related to.
+     * @param p_mode The grid mode, which the formatted column width is to be got for.
+     * @return The formatted column  width.
+     */
+    public String getFormattedColumnWidth(int p_mode){
+        return formatValue(getColumnWidth(p_mode), unit);
+    }
+    
+    /**
      * Set the value of columnWidth
      * @param columnWidth new value of columnWidth
      * @throws ThemeConfigException When trying to specify an invalid value for the columns width
      */
     public void setColumnWidth(int columnWidth) throws ThemeConfigException{
         // Abort with an exception, when an invalaid value was specified for the column width.
-        if((columnWidth % 5 != 0) || (columnWidth < 30) || (columnWidth > 70)){
+        if(columnWidth <= 0){
            throw new ThemeConfigException("Tried to specify an invalid value for the column width. Only values "
-                   + "between 30 and 70 and divisible by 5 are allowed !");
+                   + "greater than 0 are allowed !");
         }
-        checkStatus(this.columnWidth, columnWidth);
-        this.columnWidth = columnWidth;
+        synchronized(this){
+            checkStatus(this.columnWidth[getMode()], columnWidth);
+            this.columnWidth[getMode()] = columnWidth;
+        }
     }
 
     /**
@@ -166,15 +307,45 @@ public class GridModel extends ThemeEngineModel{
      * @return the value of topMargin
      */
     public int getTopMargin() {
-        return topMargin;
+        synchronized(this){
+            return topMargin[getMode()];
+        }
     }
 
     /**
-     * Gets the top margin as a formatted string also containg the unit which the value is related to.
+     * Get the value of topMargin
+     * @param p_mode The mode which the top margin is to be got for.
+     * @return the value of topMargin
+     */
+    public int getTopMargin(int p_mode) {
+        if((p_mode < GridModel.MODE_DESKTOP) || (p_mode > GridModel.MODE_SMALL)){
+            throw new RuntimeException("Only values between " + String.valueOf(GridModel.MODE_DESKTOP) +
+                  " and " + String.valueOf(GridModel.MODE_SMALL) + " are allowed for mode !");
+        }
+        if(!isModeEnabled(p_mode)){
+            throw new RuntimeException("Can't get the value for a disabled mode. Please enabe mode " + 
+                  String.valueOf(p_mode) + " first !");
+        }
+        synchronized(this){
+            return topMargin[p_mode];
+        }
+    }
+
+    /**
+     * Gets the top margin as a formatted string also containing the unit which the value is related to.
      * @return The formatted top margin.
      */
     public String getFormattedTopMargin(){
         return formatValue(getTopMargin(), unit);
+    }
+    
+    /**
+     * Gets the top margin as a formatted string also containing the unit which the value is related to.
+     * @param p_mode The mode which the formatted top margin is to be got for.
+     * @return The formatted top margin.
+     */
+    public String getFormattedTopMargin(int p_mode){
+        return formatValue(getTopMargin(p_mode), unit);
     }
     
     /**
@@ -188,8 +359,10 @@ public class GridModel extends ThemeEngineModel{
             throw new ThemeConfigException("Tried to specify an invalid value for the top margin. Only values "
                     + "between 0 and 15 are allowed !");
         }
-        checkStatus(this.topMargin, topMargin);
-        this.topMargin = topMargin;
+        synchronized(this){
+            checkStatus(this.topMargin[getMode()], topMargin);
+            this.topMargin[getMode()] = topMargin;
+        }
     }
 
     /**
@@ -197,15 +370,45 @@ public class GridModel extends ThemeEngineModel{
      * @return the value of rightMargin
      */
     public int getRightMargin() {
-        return rightMargin;
+        synchronized(this){
+            return rightMargin[getMode()];
+        }
     }
 
     /**
-     * Gets the right margin as a formatted string also containg the unit which the value is related to.
+     * Get the value of rightMargin
+     * @param p_mode The mode which the right margin is to be got for.
+     * @return the value of rightMargin
+     */
+    public int getRightMargin(int p_mode) {
+        if((p_mode < GridModel.MODE_DESKTOP) || (p_mode > GridModel.MODE_SMALL)){
+            throw new RuntimeException("Only values between " + String.valueOf(GridModel.MODE_DESKTOP) +
+                  " and " + String.valueOf(GridModel.MODE_SMALL) + " are allowed for mode !");
+        }
+        if(!isModeEnabled(p_mode)){
+            throw new RuntimeException("Can't get the value for a disabled mode. Please enabe mode " + 
+                  String.valueOf(p_mode) + " first !");
+        }
+        synchronized(this){
+            return rightMargin[p_mode];
+        }
+    }
+
+    /**
+     * Gets the right margin as a formatted string also containing the unit which the value is related to.
      * @return The formatted right margin.
      */
     public String getFormattedRightMargin(){
         return formatValue(getRightMargin(), unit);
+    }
+    
+    /**
+     * Gets the right margin as a formatted string also containing the unit which the value is related to.
+     * @param p_mode The mode which the formatted right margin is to be got for.
+     * @return The formatted right margin.
+     */
+    public String getFormattedRightMargin(int p_mode){
+        return formatValue(getRightMargin(p_mode), unit);
     }
     
     /**
@@ -219,8 +422,10 @@ public class GridModel extends ThemeEngineModel{
             throw new ThemeConfigException("Tried to specify an invalid value for the right margin. Only values "
                     + "between 0 and 15 are allowed !");
         }
-        checkStatus(this.rightMargin, rightMargin);
-        this.rightMargin = rightMargin;
+        synchronized(this){
+            checkStatus(this.rightMargin[getMode()], rightMargin);
+            this.rightMargin[getMode()] = rightMargin;
+        }
     }
 
     /**
@@ -228,15 +433,46 @@ public class GridModel extends ThemeEngineModel{
      * @return the value of bottomMargin
      */
     public int getBottomMargin() {
-        return bottomMargin;
+        synchronized(this){
+            return bottomMargin[getMode()];
+        }
     }
 
+
     /**
-     * Gets the bottom margin as a formatted string also containg the unit which the value is related to.
+     * Get the value of bottomMargin
+     * @param p_mode The mode, which the bottom margin is to b got for.
+     * @return the value of bottomMargin
+     */
+    public int getBottomMargin(int p_mode) {
+        if((p_mode < GridModel.MODE_DESKTOP) || (p_mode > GridModel.MODE_SMALL)){
+            throw new RuntimeException("Only values between " + String.valueOf(GridModel.MODE_DESKTOP) +
+                  " and " + String.valueOf(GridModel.MODE_SMALL) + " are allowed for mode !");
+        }
+        if(!isModeEnabled(p_mode)){
+            throw new RuntimeException("Can't get the value for a disabled mode. Please enabe mode " + 
+                  String.valueOf(p_mode) + " first !");
+        }
+        synchronized(this){
+            return bottomMargin[p_mode];
+        }
+    }
+    
+    /**
+     * Gets the bottom margin as a formatted string also containing the unit which the value is related to.
      * @return The formatted bottom margin.
      */
     public String getFormattedBottomMargin(){
         return formatValue(getBottomMargin(), unit);
+    }
+    
+    /**
+     * Gets the bottom margin as a formatted string also containing the unit which the value is related to.
+     * @param p_mode The mode, which the formatted bottom margin is to b got for.
+     * @return The formatted bottom margin.
+     */
+    public String getFormattedBottomMargin(int p_mode){
+        return formatValue(getBottomMargin(p_mode), unit);
     }
     
     /**
@@ -250,8 +486,10 @@ public class GridModel extends ThemeEngineModel{
             throw new ThemeConfigException("Tried to specify an invalid value for the bottom margin. Only values "
                     + "between 0 and 15 are allowed !");
         }
-        checkStatus(this.bottomMargin, bottomMargin);
-        this.bottomMargin = bottomMargin;
+        synchronized(this){
+            checkStatus(this.bottomMargin[getMode()], bottomMargin);
+            this.bottomMargin[getMode()] = bottomMargin;
+        }
     }
 
     /**
@@ -259,15 +497,45 @@ public class GridModel extends ThemeEngineModel{
      * @return the value of leftMargin
      */
     public int getLeftMargin() {
-        return leftMargin;
+        synchronized(this){
+            return leftMargin[getMode()];
+        }
     }
 
     /**
-     * Gets the left margin as a formatted string also containg the unit which the value is related to.
+     * Get the value of leftMargin
+     * @param p_mode The mode, which the left margin is to be got for.
+     * @return the value of leftMargin
+     */
+    public int getLeftMargin(int p_mode) {
+        if((p_mode < GridModel.MODE_DESKTOP) || (p_mode > GridModel.MODE_SMALL)){
+            throw new RuntimeException("Only values between " + String.valueOf(GridModel.MODE_DESKTOP) +
+                  " and " + String.valueOf(GridModel.MODE_SMALL) + " are allowed for mode !");
+        }
+        if(!isModeEnabled(p_mode)){
+            throw new RuntimeException("Can't get the value for a disabled mode. Please enabe mode " + 
+                  String.valueOf(p_mode) + " first !");
+        }
+        synchronized(this){
+            return leftMargin[p_mode];
+        }
+    }
+
+    /**
+     * Gets the left margin as a formatted string also containing the unit which the value is related to.
      * @return The formatted left margin.
      */
     public String getFormattedLeftMargin(){
         return formatValue(getLeftMargin(), unit);
+    }
+    
+    /**
+     * Gets the left margin as a formatted string also containing the unit which the value is related to.
+     * @param p_mode The mode, which the formatted left margin is to be got for.
+     * @return The formatted left margin.
+     */
+    public String getFormattedLeftMargin(int p_mode){
+        return formatValue(getLeftMargin(p_mode), unit);
     }
     
     /**
@@ -281,8 +549,10 @@ public class GridModel extends ThemeEngineModel{
             throw new ThemeConfigException("Tried to specify an invalid value for the left margin. Only values "
                     + "between 0 and 15 are allowed !");
         }
-        checkStatus(this.leftMargin, leftMargin);
-        this.leftMargin = leftMargin;
+        synchronized(this){
+            checkStatus(this.leftMargin[getMode()], leftMargin);
+            this.leftMargin[getMode()] = leftMargin;
+        }
     }
 
     /**
@@ -290,11 +560,28 @@ public class GridModel extends ThemeEngineModel{
      * @return the value of pageWidth
      */
     public int getPageWidth() {
-        return this.columnCount * (columnWidth + leftMargin + rightMargin);
+        return getColumnCount() * (getColumnWidth() + getLeftMargin() + getRightMargin());
     }
     
     /**
-     * Gets the page width as a formatted string also containg the unit which the value is related to.
+     * Get the value of pageWidth
+     * @param p_mode The mode, which the page width is to be got for.
+     * @return the value of pageWidth
+     */
+    public int getPageWidth(int p_mode) {
+        if((p_mode < GridModel.MODE_DESKTOP) || (p_mode > GridModel.MODE_SMALL)){
+            throw new RuntimeException("Only values between " + String.valueOf(GridModel.MODE_DESKTOP) +
+                  " and " + String.valueOf(GridModel.MODE_SMALL) + " are allowed for mode !");
+        }
+        if(!isModeEnabled(p_mode)){
+            throw new RuntimeException("Can't get the value for a disabled mode. Please enabe mode " + 
+                  String.valueOf(p_mode) + " first !");
+        }
+        return getColumnCount(p_mode) * (getColumnWidth(p_mode) + getLeftMargin(p_mode) + getRightMargin(p_mode));
+    }
+    
+    /**
+     * Gets the page width as a formatted string also containing the unit which the value is related to.
      * @return The formatted page width.
     */
     public String getFormattedPageWidth(){
@@ -302,15 +589,45 @@ public class GridModel extends ThemeEngineModel{
     }
     
     /**
+     * Gets the page width as a formatted string also containing the unit which the value is related to.
+     * @param p_mode The mode, which the page width is to be got for.
+     * @return The formatted page width.
+    */
+    public String getFormattedPageWidth(int p_mode){
+        return formatValue(getPageWidth(p_mode), unit);
+    }
+    
+    /**
      * Get the value of headerHeight
      * @return the value of headerHeight
      */
     public int getHeaderHeight() {
-        return headerHeight;
+        synchronized(this){
+            return headerHeight[getMode()];
+        }
     }
 
     /**
-     * Gets the header height as a formatted string also containg the unit which the value is related to.
+     * Get the value of headerHeight
+     * @param p_mode The mode, which the header height is to be got for.
+     * @return the value of headerHeight
+     */
+    public int getHeaderHeight(int p_mode) {
+        if((p_mode < GridModel.MODE_DESKTOP) || (p_mode > GridModel.MODE_SMALL)){
+            throw new RuntimeException("Only values between " + String.valueOf(GridModel.MODE_DESKTOP) +
+                  " and " + String.valueOf(GridModel.MODE_SMALL) + " are allowed for mode !");
+        }
+        if(!isModeEnabled(p_mode)){
+            throw new RuntimeException("Can't get the value for a disabled mode. Please enabe mode " + 
+                  String.valueOf(p_mode) + " first !");
+        }
+        synchronized(this){
+            return headerHeight[p_mode];
+        }
+    }
+
+    /**
+     * Gets the header height as a formatted string also containing the unit which the value is related to.
      * @return The formatted header height.
      */
     public String getFormattedHeaderHeight() {
@@ -318,12 +635,23 @@ public class GridModel extends ThemeEngineModel{
     }
 
     /**
+     * Gets the header height as a formatted string also containing the unit which the value is related to.
+     * @param p_mode The mode, which the formatted header height is to be got for.
+     * @return The formatted header height.
+     */
+    public String getFormattedHeaderHeight(int p_mode) {
+        return formatValue(getHeaderHeight(p_mode), unit);
+    }
+
+    /**
      * Set the value of headerHeight
      * @param headerHeight new value of headerHeight
      */
     public void setHeaderHeight(int headerHeight) {
-        checkStatus(this.headerHeight, headerHeight);
-        this.headerHeight = headerHeight;
+        synchronized(this){
+            checkStatus(this.headerHeight[getMode()], headerHeight);
+            this.headerHeight[getMode()] = headerHeight;
+        }
     }
 
 
@@ -332,11 +660,32 @@ public class GridModel extends ThemeEngineModel{
      * @return the value of toolbarHeight
      */
     public int getToolbarHeight() {
-        return toolbarHeight;
+        synchronized(this){
+            return toolbarHeight[getMode()];
+        }
     }
 
     /**
-     * Gets the toolbar height as a formatted string also containg the unit which the value is related to.
+     * Get the value of toolbarHeight
+     * @param p_mode The mode, which the toolbar height is to be got for.
+     * @return the value of toolbarHeight
+     */
+    public int getToolbarHeight(int p_mode) {
+        if((p_mode < GridModel.MODE_DESKTOP) || (p_mode > GridModel.MODE_SMALL)){
+            throw new RuntimeException("Only values between " + String.valueOf(GridModel.MODE_DESKTOP) +
+                  " and " + String.valueOf(GridModel.MODE_SMALL) + " are allowed for mode !");
+        }
+        if(!isModeEnabled(p_mode)){
+            throw new RuntimeException("Can't get the value for a disabled mode. Please enabe mode " + 
+                  String.valueOf(p_mode) + " first !");
+        }
+        synchronized(this){
+            return toolbarHeight[p_mode];
+        }
+    }
+
+    /**
+     * Gets the toolbar height as a formatted string also containing the unit which the value is related to.
      * @return The formatted toolbar height
      */
     public String getFormattedToolbarHeight() {
@@ -344,12 +693,23 @@ public class GridModel extends ThemeEngineModel{
     }
 
     /**
+     * Gets the toolbar height as a formatted string also containing the unit which the value is related to.
+     * @param p_mode The mode, which the formatted toolbar height is to be got for.
+     * @return The formatted toolbar height
+     */
+    public String getFormattedToolbarHeight(int p_mode) {
+        return formatValue(getToolbarHeight(p_mode), unit);
+    }
+
+    /**
      * Set the value of toolbarHeight
      * @param toolbarHeight new value of toolbarHeight
      */
     public void setToolbarHeight(int toolbarHeight) {
-        checkStatus(this.toolbarHeight, toolbarHeight);
-        this.toolbarHeight = toolbarHeight;
+        synchronized(this){
+            checkStatus(this.toolbarHeight[getMode()], toolbarHeight);
+            this.toolbarHeight[getMode()] = toolbarHeight;
+        }
     }
 
 
@@ -358,11 +718,32 @@ public class GridModel extends ThemeEngineModel{
      * @return the value of footerHeight
      */
     public int getFooterHeight() {
-        return footerHeight;
+        synchronized(this){
+            return footerHeight[getMode()];
+        }
     }
 
     /**
-     * Gets the footer height as a formatted string also containg the unit which the value is related to.
+     * Get the value of footerHeight
+     * @param p_mode The mode, which the footer height is to be got for.
+     * @return the value of footerHeight
+     */
+    public int getFooterHeight(int p_mode) {
+        if((p_mode < GridModel.MODE_DESKTOP) || (p_mode > GridModel.MODE_SMALL)){
+            throw new RuntimeException("Only values between " + String.valueOf(GridModel.MODE_DESKTOP) +
+                  " and " + String.valueOf(GridModel.MODE_SMALL) + " are allowed for mode !");
+        }
+        if(!isModeEnabled(p_mode)){
+            throw new RuntimeException("Can't get the value for a disabled mode. Please enabe mode " + 
+                  String.valueOf(p_mode) + " first !");
+        }
+        synchronized(this){
+            return footerHeight[p_mode];
+        }
+    }
+
+    /**
+     * Gets the footer height as a formatted string also containing the unit which the value is related to.
      * @return The formatted footer height.
      */
     public String getFormattedFooterHeight() {
@@ -370,12 +751,23 @@ public class GridModel extends ThemeEngineModel{
     }
 
     /**
+     * Gets the footer height as a formatted string also containing the unit which the value is related to.
+     * @param p_mode The mode, which the formatted footer height is to be got for.
+     * @return The formatted footer height.
+     */
+    public String getFormattedFooterHeight(int p_mode) {
+        return formatValue(getFooterHeight(p_mode), unit);
+    }
+
+    /**
      * Set the value of footerHeight
      * @param footerHeight new value of footerHeight
      */
     public void setFooterHeight(int footerHeight) {
-        checkStatus(this.footerHeight, footerHeight);
-        this.footerHeight = footerHeight;
+        synchronized(this){
+            checkStatus(this.footerHeight[getMode()], footerHeight);
+            this.footerHeight[getMode()] = footerHeight;
+        }
     }
 
     /**
@@ -386,11 +778,11 @@ public class GridModel extends ThemeEngineModel{
      */
     public int getWidthForColumns(int p_columnCount) throws ThemeConfigException{
         // Abort with an exception, when tried to specify an invalid number of columns
-        if((p_columnCount < 0) || (p_columnCount > this.columnCount)){
+        if((p_columnCount < 0) || (p_columnCount > this.columnCount[getMode()])){
             throw new ThemeConfigException("Tried to specify an invalid number of columns to get the effective width "
                     + "in pixels. Only a value between 1 and \"columnCount\" is allowed !");
         }
-        return (p_columnCount * columnWidth) + ((p_columnCount -1) * (leftMargin + rightMargin));
+        return (p_columnCount * getColumnWidth()) + ((p_columnCount -1) * (getLeftMargin() + getRightMargin()));
     }
 
     /**
@@ -409,7 +801,28 @@ public class GridModel extends ThemeEngineModel{
      * @return the value of cssFile
      */
     public String getCssFile() {
-        return cssFile;
+        synchronized(this){
+            return cssFile[getMode()];
+        }
+    }
+
+    /**
+     * Get the value of cssFile
+     * @param p_mode The mode, which the CSS file is to be got for.
+     * @return the value of cssFile
+     */
+    public String getCssFile(int p_mode) {
+        if((p_mode < GridModel.MODE_DESKTOP) || (p_mode > GridModel.MODE_SMALL)){
+            throw new RuntimeException("Only values between " + String.valueOf(GridModel.MODE_DESKTOP) +
+                  " and " + String.valueOf(GridModel.MODE_SMALL) + " are allowed for mode !");
+        }
+        if(!isModeEnabled(p_mode)){
+            throw new RuntimeException("Can't get the value for a disabled mode. Please enabe mode " + 
+                  String.valueOf(p_mode) + " first !");
+        }
+        synchronized(this){
+            return cssFile[p_mode];
+        }
     }
 
     /**
@@ -417,314 +830,401 @@ public class GridModel extends ThemeEngineModel{
      * @param cssFile new value of cssFile
      */
     public void setCssFile(String cssFile) {
-        checkStatus(this.cssFile, cssFile);
-        this.cssFile = cssFile;
+        synchronized(this){
+            checkStatus(this.cssFile[getMode()], cssFile);
+            this.cssFile[getMode()] = cssFile;
+        }
+    }
+    
+    /**
+     * Gets the unit for the dimensions defined in the grid
+     * @return 
+     */
+    public String getUnit(){
+        return unit;
+    }
+    
+    /**
+     * 
+     * @param p_actionEl
+     * @param p_fileName
+     * @return 
+     */
+    public String generateGenericCSSCode(CmsJspActionElement p_actionEl, String p_fileName){
+        String              result;
+        SimpleDateFormat    format       = new SimpleDateFormat("E, MMM dd yyyy, HH:mm:ss");
+        StringWriter        out          = new StringWriter();
+        int                 initialMode;
+        int                 lastLimit;
+        int                 currentLimit;
+        String              currentCss;
+        String              fileName;
+        
+        synchronized(this){
+            // Process the file name
+            fileName = p_fileName;
+            if((fileName != null) && (fileName.trim().length() > 0)){
+                fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+            }else{
+                fileName = "";
+            }
+            
+            // Remember initial mode and start with desktop mode.
+            initialMode = getMode();
+            
+            out.append("/*").append("\n");
+            out.append(" Document : ").append(fileName).append("\n");
+
+            out.append(" Created on ").append(format.format(new Date())).append("\n");
+            out.append(" Copyright (C) 2012 Robert Diawara").append("\n");
+            out.append("\n");
+            out.append(" This file is part of skinnDriva.").append("\n");
+            out.append("\n");
+            out.append(" OpenCms Theme Engine is free software: you can redistribute it and/or modify").append("\n");
+            out.append(" it under the terms of the GNU Lesser General Public License as published by").append("\n");
+            out.append(" the Free Software Foundation, either version 3 of the License, or").append("\n");
+            out.append(" (at your option) any later version.").append("\n");
+            out.append("\n");
+            out.append(" OpenCms Theme Engine is distributed in the hope that it will be useful,").append("\n");
+            out.append(" but WITHOUT ANY WARRANTY; without even the implied warranty of").append("\n");
+            out.append(" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the").append("\n");
+            out.append(" GNU Lesser General Public License for more details.").append("\n");
+            out.append("\n");
+            out.append(" You should have received a copy of the GNU Lesser General Public License").append("\n");
+            out.append(" along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.").append("\n");
+            out.append("\n");
+            out.append(" -----------------------------------------------------------------------------------").append("\n");
+            out.append("\n");
+            out.append(" Grid for OpenCms Theme Engine ~ Core CSS.  This is automatically generated CSS code.").append("\n");
+            out.append(" Please do not modify.  Learn more ~ http://www.diawara.com/ \n*/\n\n");
+            
+            
+            // Generate CSS code
+            setMode(GridModel.MODE_DESKTOP);
+            currentLimit = getPageWidth() + 30;
+            currentCss = p_actionEl.link(getCssFile());
+            out.append("/*The CSS File for large screens. */\n");
+            out.append("@import url(").append(currentCss).append(") screen and (min-width: ").append(String.valueOf(currentLimit)).
+                  append(unit).append(") and (min-device-width: ").append(String.valueOf(GridModel.DESKTOP_SIZE_LIMIT)).append("px);");
+            lastLimit = currentLimit;
+            
+            if(isModeEnabled(GridModel.MODE_MEDIUM)){
+                setMode(GridModel.MODE_MEDIUM);
+                currentLimit = getPageWidth() + 30;
+                currentCss = p_actionEl.link(getCssFile());
+                out.append("\n\n/*The CSS File for medium size screens. */\n");
+                out.append("@import url(").append(currentCss).append(") screen and (min-width: ").append(String.valueOf(currentLimit)).
+                      append(unit).append(") and (max-width: ").append(String.valueOf(lastLimit - 1)).append(unit).
+                      append(") and (min-device-width: ").append(String.valueOf(GridModel.DESKTOP_SIZE_LIMIT)).append("px);\n");
+                out.append("@import url(").append(currentCss).append(") screen and (min-width: ").append(String.valueOf(currentLimit)).
+                      append(unit).append(") and (max-width: ").append(String.valueOf(lastLimit - 1)).append(unit).
+                      append(") and (max-device-width: ").append(String.valueOf(GridModel.DESKTOP_SIZE_LIMIT - 1)).append("px);");
+                lastLimit = currentLimit;
+                
+                if(isModeEnabled(GridModel.MODE_SMALL)){
+                    setMode(GridModel.MODE_SMALL);
+                    currentCss = p_actionEl.link(getCssFile());
+                    out.append("\n\n/*The CSS File for small size screens. */\n");
+                    out.append("@import url(").append(currentCss).append(") screen and (max-width: ").append(String.valueOf(lastLimit - 1)).
+                          append(unit).append(") and (min-device-width: ").append(String.valueOf(GridModel.DESKTOP_SIZE_LIMIT)).append("px);\n");
+                    out.append("@import url(").append(currentCss).append(") screen and (max-width: ").append(String.valueOf(lastLimit - 1)).
+                          append(unit).append(") and (max-device-width: ").append(String.valueOf(GridModel.DESKTOP_SIZE_LIMIT - 1)).append("px);");
+                }
+            }else if(isModeEnabled(GridModel.MODE_SMALL)){
+                setMode(GridModel.MODE_SMALL);
+                currentCss = p_actionEl.link(getCssFile());
+                out.append("\n\n/*The CSS File for medium and small size screens. */\n");
+                out.append("@import url(").append(currentCss).append(") screen and (max-width: ").append(String.valueOf(lastLimit - 1)).
+                      append(unit).append(") and (min-device-width: ").append(String.valueOf(GridModel.DESKTOP_SIZE_LIMIT)).append("px);\n");
+                out.append("@import url(").append(currentCss).append(") screen and (max-width: ").append(String.valueOf(lastLimit - 1)).
+                      append(unit).append(") and (max-device-width: ").append(String.valueOf(GridModel.DESKTOP_SIZE_LIMIT - 1)).append("px);");
+            }
+            
+            /*
+            out.append("\n\n@media screen and (max-width: ").append(String.valueOf(lastLimit -1)).
+                  append(unit).append(") and (min-device-width: ").append(String.valueOf(GridModel.DESKTOP_SIZE_LIMIT)).append("px){\n");
+            out.append("}");
+            */
+            
+            // Reset to remembered initial mode.
+            setMode(initialMode);
+            
+            // Create the result string
+            result = out.toString();
+        }
+        return result;
     }
 
     /**
-     * Generates the CSS code which represents the implentation of the grid.
+     * Generates the CSS code which represents the implementation of the grid.
      * @return The CSS Code.
      * @throws ThemeConfigException When something fails during the code generation.
      */
     public String generateCSSCode() throws ThemeConfigException{
-        StringWriter     out        = new StringWriter();
+        StringWriter     out               = new StringWriter();
         int              loopCount;
-        SimpleDateFormat format     = new SimpleDateFormat("E, MMM dd yyyy, HH:mm:ss");
-        String           fileName   = getCssFile();
+        SimpleDateFormat format            = new SimpleDateFormat("E, MMM dd yyyy, HH:mm:ss");
+        String           fileName;
+        String           prefix;
+        String           result;
+        String           containerMaxWidth;
+        String           containerMinWidth;
         
-        if((fileName != null) && (fileName.trim().length() > 0)){
-            fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
-        }else{
-            fileName = "";
+        synchronized(this){
+            // Process the file name
+            fileName    = getCssFile();
+            if((fileName != null) && (fileName.trim().length() > 0)){
+                fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+            }else{
+                fileName = "";
+            }
+            
+            // Process the prefix
+            switch(getMode()){
+                case GridModel.MODE_MEDIUM:
+                    prefix = "m_";
+                    containerMaxWidth = getFormattedPageWidth(GridModel.MODE_DESKTOP);
+                    containerMinWidth = getFormattedPageWidth();
+                    break;
+                case GridModel.MODE_SMALL:
+                    prefix = "s_";
+                    containerMaxWidth = getFormattedPageWidth(GridModel.MODE_MEDIUM);
+                    containerMinWidth = "310px";
+                    break;
+                default:
+                    prefix = "";
+                    containerMaxWidth = "100%";
+                    containerMinWidth = getFormattedPageWidth(GridModel.MODE_DESKTOP);
+            }
+
+            out.append("/*").append("\n");
+            out.append(" Document : ").append(fileName).append("\n");
+
+            out.append(" Created on ").append(format.format(new Date())).append("\n");
+            out.append(" Copyright (C) 2012 Robert Diawara").append("\n");
+            out.append("\n");
+            out.append(" This file is part of OpenCms Theme Engine.").append("\n");
+            out.append("\n");
+            out.append(" OpenCms Theme Engine is free software: you can redistribute it and/or modify").append("\n");
+            out.append(" it under the terms of the GNU Lesser General Public License as published by").append("\n");
+            out.append(" the Free Software Foundation, either version 3 of the License, or").append("\n");
+            out.append(" (at your option) any later version.").append("\n");
+            out.append("\n");
+            out.append(" OpenCms Theme Engine is distributed in the hope that it will be useful,").append("\n");
+            out.append(" but WITHOUT ANY WARRANTY; without even the implied warranty of").append("\n");
+            out.append(" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the").append("\n");
+            out.append(" GNU Lesser General Public License for more details.").append("\n");
+            out.append("\n");
+            out.append(" You should have received a copy of the GNU Lesser General Public License").append("\n");
+            out.append(" along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.").append("\n");
+            out.append("\n");
+            out.append(" -----------------------------------------------------------------------------------").append("\n");
+            out.append("\n");
+            out.append(" Grid for OpenCms Theme Engine ~ Core CSS.  This is automatically generated CSS code.").append("\n");
+            out.append(" Please do not modify.  Learn more ~ http://www.diawara.com/").append("\n");
+            out.append("*/").append("\n");
+            out.append("\n");
+            out.append("\n");
+            out.append("\n");
+            out.append("/* `Individual formats").append("\n");
+            out.append("----------------------------------------------------------------------------------------------------*/").append("\n");
+            out.append("\n");
+            out.append("#GRID_HEADER{").append("\n");
+            out.append("    height              : ").append(getFormattedHeaderHeight()).append(";").append("\n");
+            out.append("}").append("\n");
+            out.append("\n");
+            out.append("#GRID_FOOTER{").append("\n");
+            out.append("    height              : ").append(getFormattedFooterHeight()).append(";").append("\n");
+            out.append("}").append("\n");
+            out.append("\n");
+            out.append("#GRID_TOOLBAR{").append("\n");
+            out.append("    height              : ").append(getFormattedToolbarHeight()).append(";").append("\n");
+            out.append("}").append("\n");
+            out.append("\n");
+            out.append("/*").append("\n");
+            out.append("  Forces backgrounds to span full width,").append("\n");
+            out.append("  even if there is horizontal scrolling.").append("\n");
+            out.append("  Increase this if your layout is wider.").append("\n");
+            out.append("\n");
+            out.append("  Note: IE6 works fine without this fix.").append("\n");
+            out.append("*/").append("\n");
+            out.append("\n");
+            out.append("body {").append("\n");
+            out.append("    min-width           : ").append(containerMinWidth).append(";\n");
+            out.append("}").append("\n");
+            out.append("\n");
+            out.append("/* Container").append("\n");
+            out.append("----------------------------------------------------------------------------------------------------*/").append("\n");
+            out.append("\n");
+            out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" {").append("\n");
+            out.append("    margin-left         : auto;").append("\n");
+            out.append("    margin-right        : auto;").append("\n");
+            out.append("    width               : ").append(getFormattedPageWidth()).append(";").append("\n");
+            out.append("}").append("\n\n");
+            out.append(".").append(prefix).append("container_full {").append("\n");
+            out.append("    margin-left         : auto;").append("\n");
+            out.append("    margin-right        : auto;").append("\n");
+            out.append("    min-width           : ").append(containerMinWidth).append(";\n");
+            out.append("    max-width           : ").append(containerMaxWidth).append(";\n");
+            out.append("    width               : 100%;").append("\n");
+            out.append("    overflow            : auto;").append("\n");
+            out.append("}").append("\n\n");
+            out.append("/* Grid >> Global").append("\n");
+            out.append("----------------------------------------------------------------------------------------------------*/").append("\n\n");
+            out.append(".").append(prefix).append("grid_1");
+            for(loopCount = 2; loopCount <= getColumnCount(); loopCount ++){
+                out.append(",").append("\n").append(".").append(prefix).append("grid_").append(String.valueOf(loopCount));
+            }
+            out.append(",").append("\n").append(".").append(prefix).append("grid_full");
+            out.append(" {").append("\n");
+            out.append("    display             : inline;").append("\n");
+            out.append("    float               : left;").append("\n");
+            out.append("}").append("\n\n");
+            out.append(".").append(prefix).append("grid_1");
+            for(loopCount = 2; loopCount <= getColumnCount(); loopCount ++){
+                out.append(",").append("\n").append(".").append(prefix).append("grid_").append(String.valueOf(loopCount));
+            }
+            out.append(" {").append("\n");
+            out.append("    margin              : ").append(getFormattedTopMargin()).append(" ").append(getFormattedRightMargin()).append(" ").
+                  append(getFormattedBottomMargin()).append(" ").append(getFormattedLeftMargin()).append(";").append("\n");
+            out.append("}").append("\n\n");
+            out.append("\n").append(".").append(prefix).append("grid_full");
+            out.append(" {").append("\n");
+            out.append("    margin              : ").append(getFormattedTopMargin()).append(" 1% ").append(getFormattedBottomMargin()).append(" 1%;");
+            out.append("\n}").append("\n\n");
+            out.append(".").append(prefix).append("push_1, .").append(prefix).append("pull_1");
+            for(loopCount = 2; loopCount < getColumnCount(); loopCount ++){
+                out.append(",").append("\n");
+                out.append(".").append(prefix).append("push_").append(String.valueOf(loopCount)).append(", .").append(prefix).append("pull_").
+                      append(String.valueOf(loopCount));
+            }
+            out.append(" {").append("\n");
+            out.append("    position            : relative;").append("\n");
+            out.append("}").append("\n");
+            out.append("\n");
+            out.append("/* Grid >> Children (Alpha ~ First, Omega ~ Last)").append("\n");
+            out.append("----------------------------------------------------------------------------------------------------*/").append("\n");
+            out.append("\n");
+            out.append(".").append(prefix).append("alpha {").append("\n");
+            out.append(orientation == GridModel.ORIENTATION_LEFT ? "    margin-left        : 0;" : "    margin-right        : 0;").append("\n");
+            out.append("}").append("\n");
+            out.append("\n");
+            out.append(".").append(prefix).append("omega {").append("\n");
+            out.append(orientation == GridModel.ORIENTATION_LEFT ? "    margin-right        : 0;" : "    margin-left         : 0;").append("\n");
+            out.append("}").append("\n");
+            out.append("\n");
+            out.append("/* Grid >> ").append(String.valueOf(getColumnCount())).append(" Columns").append("\n");
+            out.append("----------------------------------------------------------------------------------------------------*/").append("\n");
+            out.append("\n");
+            for(loopCount = 1; loopCount <= getColumnCount(); loopCount ++){
+                out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" .").append(prefix).
+                      append("grid_").append(String.valueOf(loopCount)).append(" {").append("\n");
+                out.append("    width               : ").append(getFormattedWidthForColumns(loopCount)).append(";").append("\n");
+                out.append("}").append("\n\n");
+            }
+            out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" .").append(prefix).
+                  append("grid_full,\n.").append(prefix).append("container_full .").append(prefix).append("grid_full {\n");
+            out.append("    width               : 98%;\n");
+            out.append("}").append("\n\n");
+            out.append("/* Invisible Elements").append("\n");
+            out.append("----------------------------------------------------------------------------------------------------*/").append("\n");
+            out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" .").append(prefix).
+                  append("grid_hidden,\n.").append(prefix).append("container_full .").append(prefix).append("grid_hidden{\n");
+            out.append("    display             : none;").append("\n");
+            out.append("    visibility          : hidden;").append("\n");
+            out.append("    font-size           : 0;").append("\n");
+            out.append("    line-height         : 0;").append("\n");
+            out.append("    width               : 0;").append("\n");
+            out.append("    height              : 0;").append("\n");
+            out.append("}\n\n");
+            out.append("/* Prefix Extra Space >> ").append(String.valueOf(getColumnCount())).append(" Columns").append("\n");
+            out.append("----------------------------------------------------------------------------------------------------*/").append("\n");
+            out.append("\n");
+            for(loopCount = 1; loopCount < getColumnCount(); loopCount ++){
+                out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" .").append(prefix).
+                      append("prefix_").append(String.valueOf(loopCount)).append(" {").append("\n");
+                out.append(orientation == GridModel.ORIENTATION_LEFT ? "    padding-left        : " : "    padding-right       : ");
+                out.append(formatValue(loopCount * (getLeftMargin() + getColumnWidth() + getRightMargin()), "px")).append(";").append("\n");
+                out.append("}").append("\n\n");
+            }
+            out.append("/* Suffix Extra Space >> ").append(unit).append(" Columns").append("\n");
+            out.append("----------------------------------------------------------------------------------------------------*/").append("\n");
+            out.append("\n");
+            for(loopCount = 1; loopCount < getColumnCount(); loopCount ++){
+                out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" .").append(prefix).
+                      append("suffix_").append(String.valueOf(loopCount)).append(" {").append("\n");
+
+                out.append(orientation == GridModel.ORIENTATION_LEFT ? "    padding-right       : " : "    padding-left        : ");
+                out.append(formatValue(loopCount * (getLeftMargin() + getColumnWidth() + getRightMargin()), "px")).append(";").append("\n");
+                out.append("}").append("\n\n");
+            }
+            out.append("/* Push Space >> ").append(String.valueOf(getColumnCount())).append(" Columns").append("\n");
+            out.append("----------------------------------------------------------------------------------------------------*/").append("\n");
+            out.append("\n");
+            for(loopCount = 1; loopCount < getColumnCount(); loopCount ++){
+                out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" .").append(prefix).
+                      append("push_").append(String.valueOf(loopCount)).append(" {").append("\n");
+                out.append(orientation == GridModel.ORIENTATION_LEFT ? "    left                : " : "    right               : ");
+                out.append(formatValue(loopCount * (getLeftMargin() + getColumnWidth() + getRightMargin()), "px")).append(";").append("\n");
+                out.append("}").append("\n\n");
+            }
+            out.append("/* Pull Space >> ").append(String.valueOf(getColumnCount())).append(" Columns").append("\n");
+            out.append("----------------------------------------------------------------------------------------------------*/").append("\n");
+            out.append("\n");
+            for(loopCount = 1; loopCount < getColumnCount(); loopCount ++){
+                out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" .").append(prefix).
+                      append("pull_").append(String.valueOf(loopCount)).append(" {").append("\n");
+                out.append(orientation == GridModel.ORIENTATION_LEFT ? "    left                : -" : "    right               : -");
+                out.append(formatValue(loopCount * (getLeftMargin() + getColumnWidth() + getRightMargin()), "px")).append(";").append("\n");
+                out.append("}").append("\n\n");
+            }
+            out.append("/* Clear Floated Elements").append("\n");
+            out.append("----------------------------------------------------------------------------------------------------*/").append("\n");
+            out.append("\n");
+            out.append("/* http://sonspring.com/journal/clearing-floats */").append("\n");
+            out.append("\n");
+            out.append(".").append(prefix).append("clear {").append("\n");
+            out.append("    clear               : both;").append("\n");
+            out.append("    display             : block;").append("\n");
+            out.append("    overflow            : hidden;").append("\n");
+            out.append("    visibility          : hidden;").append("\n");
+            out.append("    width               : 0;").append("\n");
+            out.append("    height              : 0;").append("\n");
+            out.append("}").append("\n");
+            out.append("\n");
+            out.append("/* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */").append("\n");
+            out.append("\n");
+            out.append(".clearfix:before,").append("\n");
+            out.append(".clearfix:after,").append("\n");
+            out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(":before,").append("\n");
+            out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(":after {").append("\n");
+            out.append("    content             : '.';").append("\n");
+            out.append("    display             : block;").append("\n");
+            out.append("    overflow            : hidden;").append("\n");
+            out.append("    visibility          : hidden;").append("\n");
+            out.append("    font-size           : 0;").append("\n");
+            out.append("    line-height         : 0;").append("\n");
+            out.append("    width               : 0;").append("\n");
+            out.append("    height              : 0;").append("\n");
+            out.append("}").append("\n");
+            out.append("\n");
+            out.append(".clearfix:after,").append("\n");
+            out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(":after {").append("\n");
+            out.append("    clear               : both;").append("\n");
+            out.append("}").append("\n");
+            out.append("\n");
+            out.append("/*").append("\n");
+            out.append("  The following zoom:1 rule is specifically for IE6 + IE7.").append("\n");
+            out.append("  Move to separate stylesheet or delete if invalid CSS is a problem.").append("\n");
+            out.append("*/").append("\n");
+            out.append("\n");
+            out.append(".clearfix,").append("\n");
+            out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" {").append("\n");
+            out.append("    zoom                : 1;").append("\n");
+            out.append("}");
+            
+            result = out.toString();
         }
-        
-        writeln(out, "/*");
-        write  (out, " Document : ");
-        writeln(out, fileName);
-        write  (out, " Created on ");
-        writeln(out, format.format(new Date()));
-        writeln(out, " Copyright (C) 2012 Robert Diawara");
-        writeln(out);
-        writeln(out, " This file is part of OpenCms Theme Engine.");
-        writeln(out);
-        writeln(out, " OpenCms Theme Engine is free software: you can redistribute it and/or modify");
-        writeln(out, " it under the terms of the GNU Lesser General Public License as published by");
-        writeln(out, " the Free Software Foundation, either version 3 of the License, or");
-        writeln(out, " (at your option) any later version.");
-        writeln(out);
-        writeln(out, " OpenCms Theme Engine is distributed in the hope that it will be useful,");
-        writeln(out, " but WITHOUT ANY WARRANTY; without even the implied warranty of");
-        writeln(out, " MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the");
-        writeln(out, " GNU Lesser General Public License for more details.");
-        writeln(out);
-        writeln(out, " You should have received a copy of the GNU Lesser General Public License");
-        writeln(out, " along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.");
-        writeln(out);
-        writeln(out, " -----------------------------------------------------------------------------------");
-        writeln(out);
-        writeln(out, "  Grid for OpenCms Theme Engine ~ Core CSS.  This is automatically generated CSS code.");
-        writeln(out, "  Please do not modify.  Learn more ~ http://www.diawara.com/");
-        writeln(out, "*/");
-        writeln(out);
-        writeln(out);
-        writeln(out);
-        writeln(out, "/* `Individual formats");
-        writeln(out, "----------------------------------------------------------------------------------------------------*/");
-        writeln(out);
-        writeln(out, "#GRID_HEADER{");
-        write  (out, "    height             : ");
-        write  (out, getFormattedHeaderHeight());
-        writeln(out, ";");
-        writeln(out, "}");
-        writeln(out);
-        writeln(out, "#GRID_FOOTER{");
-        write  (out, "    height             : ");
-        write  (out, getFormattedFooterHeight());
-        writeln(out, ";");
-        writeln(out, "}");
-        writeln(out);
-        writeln(out, "#GRID_TOOLBAR{");
-        write  (out, "    height             : ");
-        write  (out, getFormattedToolbarHeight());
-        writeln(out, ";");
-        writeln(out, "}");
-        writeln(out);
-        writeln(out, "/*");
-        writeln(out, "  Forces backgrounds to span full width,");
-        writeln(out, "  even if there is horizontal scrolling.");
-        writeln(out, "  Increase this if your layout is wider.");
-        writeln(out);
-        writeln(out, "  Note: IE6 works fine without this fix.");
-        writeln(out, "*/");
-        writeln(out);
-        writeln(out, "body {");
-        writeln(out, "    min-width          : " + getFormattedPageWidth() + ";");
-        writeln(out, "}");
-        writeln(out);
-        writeln(out, "/* `Container");
-        writeln(out, "----------------------------------------------------------------------------------------------------*/");
-        writeln(out);
-        write  (out, ".container_");
-        write  (out, String.valueOf(columnCount));
-        writeln(out, " {");
-        writeln(out, "    margin-left        : auto;");
-        writeln(out, "    margin-right       : auto;");
-        write  (out, "    width              : ");
-        write  (out, getFormattedPageWidth());
-        writeln(out, ";");
-        writeln(out, "}");
-        writeln(out);
-        writeln(out, "/* `Grid >> Global");
-        writeln(out, "----------------------------------------------------------------------------------------------------*/");
-        writeln(out);
-        write  ( out, ".grid_1");
-        for(loopCount = 2; loopCount <= columnCount; loopCount ++){
-            writeln(out, ",");
-            write(out, ".grid_");
-            write(out, String.valueOf(loopCount));
-        }
-        writeln(out, " {");
-        writeln(out, "    display            : inline;");
-        writeln(out, "    float              : left;");
-        write  (out, "    margin             : ");
-        write  (out, getFormattedTopMargin());
-        write  (out, " ");
-        write  (out, getFormattedRightMargin());
-        write  (out, " ");
-        write  (out, getFormattedBottomMargin());
-        write  (out, " ");
-        write  (out, getFormattedLeftMargin());
-        writeln(out, ";");
-        writeln(out, "}");
-        writeln(out);
-        write  (out, ".push_1, .pull_1");
-        for(loopCount = 2; loopCount < columnCount; loopCount ++){
-            writeln(out, ",");
-            write(out, ".push_");
-            write(out, String.valueOf(loopCount));
-            write(out, ", .pull_");
-            write(out, String.valueOf(loopCount));
-        }
-        writeln(out, " {");
-        writeln(out, "    position           : relative;");
-        writeln(out, "}");
-        writeln(out);
-        writeln(out, "/* `Grid >> Children (Alpha ~ First, Omega ~ Last)");
-        writeln(out, "----------------------------------------------------------------------------------------------------*/");
-        writeln(out);
-        writeln(out, ".alpha {");
-        writeln(out, orientation == GridModel.ORIENTATION_LEFT ? "    margin-left        : 0;" : "    margin-right       : 0;");
-        writeln(out, "}");
-        writeln(out);
-        writeln(out, ".omega {");
-        writeln(out, orientation == GridModel.ORIENTATION_LEFT ? "    margin-right       : 0;" : "    margin-left        : 0;");
-        writeln(out, "}");
-        writeln(out);
-        write  (out, "/* `Grid >> ");
-        write  (out, String.valueOf(columnCount));
-        writeln(out, " Columns");
-        writeln(out, "----------------------------------------------------------------------------------------------------*/");
-        writeln(out);
-        for(loopCount = 1; loopCount <= columnCount; loopCount ++){
-            write(out, ".container_");
-            write(out, String.valueOf(columnCount));
-            write(out, " .grid_");
-            write(out, String.valueOf(loopCount));
-            writeln(out, " {");
-            write(out, "    width              : ");
-            write(out, getFormattedWidthForColumns(loopCount));
-            writeln(out, ";");
-            writeln(out, "}");
-            writeln(out);
-        }
-        write  (out, "/* Prefix Extra Space >> ");
-        write  (out, String.valueOf(columnCount));
-        writeln(out, " Columns");
-        writeln(out, "----------------------------------------------------------------------------------------------------*/");
-        writeln(out);
-        for(loopCount = 1; loopCount < columnCount; loopCount ++){
-            write(out, ".container_");
-            write(out, String.valueOf(columnCount));
-            write(out, " .prefix_");
-            write(out, String.valueOf(loopCount));
-            writeln(out, " {");
-            write(out, orientation == GridModel.ORIENTATION_LEFT ? "    padding-left       : " : "    padding-right      : ");
-            write(out, this.formatValue(loopCount * (leftMargin + columnWidth + rightMargin), "px"));
-            writeln(out, ";");
-            writeln(out, "}");
-            writeln(out);
-        }
-        write  (out, "/* Suffix Extra Space >> ");
-        write  (out, String.valueOf(columnCount));
-        writeln(out, " Columns");
-        writeln(out, "----------------------------------------------------------------------------------------------------*/");
-        writeln(out);
-        for(loopCount = 1; loopCount < columnCount; loopCount ++){
-            write(out, ".container_");
-            write(out, String.valueOf(columnCount));
-            write(out, " .suffix_");
-            write(out, String.valueOf(loopCount));
-            writeln(out, " {");
-            write(out, orientation == GridModel.ORIENTATION_LEFT ? "    padding-right      : " : "    padding-left       : ");
-            write(out, this.formatValue(loopCount * (leftMargin + columnWidth + rightMargin), "px"));
-            writeln(out, ";");
-            writeln(out, "}");
-            writeln(out);
-        }
-        write  (out, "/* Push Space >> ");
-        write  (out, String.valueOf(columnCount));
-        writeln(out, " Columns");
-        writeln(out, "----------------------------------------------------------------------------------------------------*/");
-        writeln(out);
-        for(loopCount = 1; loopCount < columnCount; loopCount ++){
-            write(out, ".container_");
-            write(out, String.valueOf(columnCount));
-            write(out, " .push_");
-            write(out, String.valueOf(loopCount));
-            writeln(out, " {");
-            write(out, orientation == GridModel.ORIENTATION_LEFT ? "    left               : " : "    right              : ");
-            write(out, this.formatValue(loopCount * (leftMargin + columnWidth + rightMargin), "px"));
-            writeln(out, ";");
-            writeln(out, "}");
-            writeln(out);
-        }
-        write  (out, "/* Pull Space >> ");
-        write  (out, String.valueOf(columnCount));
-        writeln(out, " Columns");
-        writeln(out, "----------------------------------------------------------------------------------------------------*/");
-        writeln(out);
-        for(loopCount = 1; loopCount < columnCount; loopCount ++){
-            write(out, ".container_");
-            write(out, String.valueOf(columnCount));
-            write(out, " .pull_");
-            write(out, String.valueOf(loopCount));
-            writeln(out, " {");
-            write(out, orientation == GridModel.ORIENTATION_LEFT ? "    left               : -" : "    right              : -");
-            write(out, this.formatValue(loopCount * (leftMargin + columnWidth + rightMargin), "px"));
-            writeln(out, ";");
-            writeln(out, "}");
-            writeln(out);
-        }
-        writeln(out, "/* Clear Floated Elements");
-        writeln(out, "----------------------------------------------------------------------------------------------------*/");
-        writeln(out);
-        writeln(out, "/* http://sonspring.com/journal/clearing-floats */");
-        writeln(out);
-        writeln(out, ".clear {");
-        writeln(out, "    clear              : both;");
-        writeln(out, "    display            : block;");
-        writeln(out, "    overflow           : hidden;");
-        writeln(out, "    visibility         : hidden;");
-        writeln(out, "    width              : 0;");
-        writeln(out, "    height             : 0;");
-        writeln(out, "}");
-        writeln(out);
-        writeln(out, "/* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */");
-        writeln(out);
-        writeln(out, ".clearfix:before,");
-        writeln(out, ".clearfix:after,");
-        write  (out, ".container_");
-        write  (out, String.valueOf(columnCount));
-        writeln(out, ":before,");
-        write  (out, ".container_");
-        write  (out, String.valueOf(columnCount));
-        writeln(out, ":after {");
-        writeln(out, "    content            : '.';");
-        writeln(out, "    display            : block;");
-        writeln(out, "    overflow           : hidden;");
-        writeln(out, "    visibility         : hidden;");
-        writeln(out, "    font-size          : 0;");
-        writeln(out, "    line-height        : 0;");
-        writeln(out, "    width              : 0;");
-        writeln(out, "    height             : 0;");
-        writeln(out, "}");
-        writeln(out);
-        writeln(out, ".clearfix:after,");
-        write  (out, ".container_");
-        write  (out, String.valueOf(columnCount));
-        writeln(out, ":after {");
-        writeln(out, "    clear              : both;");
-        writeln(out, "}");
-        writeln(out);
-        writeln(out, "/*");
-        writeln(out, "  The following zoom:1 rule is specifically for IE6 + IE7.");
-        writeln(out, "  Move to separate stylesheet or delete if invalid CSS is a problem.");
-        writeln(out, "*/");
-        writeln(out);
-        writeln(out, ".clearfix,");
-        write  (out, ".container_");
-        write  (out, String.valueOf(columnCount));
-        writeln(out, " {");
-        writeln(out, "    zoom               : 1;");
-        writeln(out, "}");
-        
-        return out.toString();
-    }
-    
-    /**
-     * Writes data to a StringWriter
-     * @param p_out The StringWriter, where the data are to be written to.
-     * @param p_str The string to be written to the StringWriter
-     */
-    private void write(StringWriter p_out, String p_str){
-        p_out.append(p_str);
-    }
-    
-    /**
-     * Writes data to a StringWriter and begins a new line after the data have been written.
-     * @param p_out The StringWriter, where the data are to be written to.
-     * @param p_str The string to be written to the StringWriter
-     */
-    private void writeln(StringWriter p_out, String p_str){
-        p_out.append(p_str);
-        p_out.append("\n");
-    }
-    
-    /**
-     * Writes a new line to a StrinWriter.
-     * @param p_out The StringWriter, where the newline character has to be written to.
-     */
-    private void writeln(StringWriter p_out){
-        p_out.append("\n");
+        return result;
     }
 }

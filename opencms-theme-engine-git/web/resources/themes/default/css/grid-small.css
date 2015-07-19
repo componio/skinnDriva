@@ -1,0 +1,208 @@
+/*
+ Document : grid-small.css
+ Created on Sun, Jul 19 2015, 18:26:30
+ Copyright (C) 2012 Robert Diawara
+
+ This file is part of OpenCms Theme Engine.
+
+ OpenCms Theme Engine is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ OpenCms Theme Engine is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
+
+ -----------------------------------------------------------------------------------
+
+ Grid for OpenCms Theme Engine ~ Core CSS.  This is automatically generated CSS code.
+ Please do not modify.  Learn more ~ http://www.diawara.com/
+*/
+
+
+
+/* `Individual formats
+----------------------------------------------------------------------------------------------------*/
+
+#GRID_HEADER{
+    height              : 70px;
+}
+
+#GRID_FOOTER{
+    height              : 50px;
+}
+
+#GRID_TOOLBAR{
+    height              : 50px;
+}
+
+/*
+  Forces backgrounds to span full width,
+  even if there is horizontal scrolling.
+  Increase this if your layout is wider.
+
+  Note: IE6 works fine without this fix.
+*/
+
+body {
+    min-width           : 250px;
+}
+
+/* Container
+----------------------------------------------------------------------------------------------------*/
+
+.s_container_2 {
+    margin-left         : auto;
+    margin-right        : auto;
+    width               : 508px;
+}
+
+.s_container_full {
+    margin-left         : auto;
+    margin-right        : auto;
+    min-width           : 250px;
+    max-width           : 750px;
+    width               : 100%;
+    overflow            : auto;
+}
+
+/* Grid >> Global
+----------------------------------------------------------------------------------------------------*/
+
+.s_grid_1,
+.s_grid_2,
+.s_grid_full {
+    display             : inline;
+    float               : left;
+}
+
+.s_grid_1,
+.s_grid_2 {
+    margin              : 2px 2px 2px 2px;
+}
+
+
+.s_grid_full {
+    margin              : 2px 1% 2px 1%;
+}
+
+.s_push_1, .s_pull_1 {
+    position            : relative;
+}
+
+/* Grid >> Children (Alpha ~ First, Omega ~ Last)
+----------------------------------------------------------------------------------------------------*/
+
+.s_alpha {
+    margin-left        : 0;
+}
+
+.s_omega {
+    margin-right        : 0;
+}
+
+/* Grid >> 2 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.s_container_2 .s_grid_1 {
+    width               : 250px;
+}
+
+.s_container_2 .s_grid_2 {
+    width               : 504px;
+}
+
+.s_container_2 .s_grid_full,
+.s_container_full .s_grid_full {
+    width               : 98%;
+}
+
+/* Invisible Elements
+----------------------------------------------------------------------------------------------------*/
+.s_container_2 .s_grid_hidden,
+.s_container_full .s_grid_hidden{
+    display             : none;
+    visibility          : hidden;
+    font-size           : 0;
+    line-height         : 0;
+    width               : 0;
+    height              : 0;
+}
+
+/* Prefix Extra Space >> 2 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.s_container_2 .s_prefix_1 {
+    padding-left        : 254px;
+}
+
+/* Suffix Extra Space >> px Columns
+----------------------------------------------------------------------------------------------------*/
+
+.s_container_2 .s_suffix_1 {
+    padding-right       : 254px;
+}
+
+/* Push Space >> 2 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.s_container_2 .s_push_1 {
+    left                : 254px;
+}
+
+/* Pull Space >> 2 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.s_container_2 .s_pull_1 {
+    left                : -254px;
+}
+
+/* Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+
+/* http://sonspring.com/journal/clearing-floats */
+
+.s_clear {
+    clear               : both;
+    display             : block;
+    overflow            : hidden;
+    visibility          : hidden;
+    width               : 0;
+    height              : 0;
+}
+
+/* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
+
+.clearfix:before,
+.clearfix:after,
+.s_container_2:before,
+.s_container_2:after {
+    content             : '.';
+    display             : block;
+    overflow            : hidden;
+    visibility          : hidden;
+    font-size           : 0;
+    line-height         : 0;
+    width               : 0;
+    height              : 0;
+}
+
+.clearfix:after,
+.s_container_2:after {
+    clear               : both;
+}
+
+/*
+  The following zoom:1 rule is specifically for IE6 + IE7.
+  Move to separate stylesheet or delete if invalid CSS is a problem.
+*/
+
+.clearfix,
+.s_container_2 {
+    zoom                : 1;
+}

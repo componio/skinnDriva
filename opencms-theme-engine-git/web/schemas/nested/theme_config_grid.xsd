@@ -4,7 +4,7 @@
  Created on Di, Feb 21 2012, 21:56:16
  Copyright (C) 2012 Robert Diawara
 
- This file is part of OpenCms Theme Engine.
+ This file is part of OpenCms Theme Engine. 
 
  OpenCms Theme Engine is free software: you can redistribute it and/or modify
  it under the terms of the GNU Lesser General Public License as published by
@@ -65,8 +65,8 @@
                 <rule element="header-height" regex="^\d{1,3}$" message="Only numbers between 0 and 999 are allowed for Header Height !"/>
                 <rule element="footer-height" regex="^\d{1,3}$" message="Only numbers between 0 and 999 are allowed for Footer Height !"/>
                 <rule element="toolbar-height" regex="^\d{1,3}$" message="Only numbers between 0 and 999 are allowed for Toolbar Height !"/>
-                <rule element="column-count" regex="^(12)|(16)|(24)$" message="Only 12, 16 or 24 allowed for Column Count !"/>
-                <rule element="column-width" regex="^([3-6][0|5])|(70)$" message="Only numbers between 30 and 70 and divisible by 5 allowed for Column Width !"/>
+                <rule element="column-count" regex="^(2)|(6)|(12)|(16)|(24)$" message="Only 2, 6, 12, 16 or 24 allowed for Column Count !"/>
+                <rule element="column-width" regex="^([0-9]*)$" message="Only numbers allowed for Column Width !"/>
                 <rule element="orientation" regex="^(left)|(right)$" message="Only 'left' or 'right' allowed for the Orientation !"/>
                 <rule element="top-margin" regex="^((\d)|(1[0-5]))$" message="Numbers between 1 and 15 allowed for the Top Margin !"/>
                 <rule element="right-margin" regex="^((\d)|(1[0-5]))$" message="Numbers between 1 and 15 allowed for the Right Margin !"/>

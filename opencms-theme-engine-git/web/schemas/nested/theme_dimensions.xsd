@@ -43,8 +43,12 @@
             <xsd:element name="footer-inner-height" type="OpenCmsString" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="margins" type="OpenCmsThemeMargin" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="css-file" type="OpenCmsVfsFile" minOccurs="0" maxOccurs="1"/>
+            <!--
+            <xsd:element name="medium-size-css-file" type="OpenCmsVfsFile" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="small-size-css-file" type="OpenCmsVfsFile" minOccurs="0" maxOccurs="1"/>
+            -->
         </xsd:sequence>
-        <xsd:attribute name="language" type="OpenCmsLocale" use="optional"/>
+        <xsd:attribute name="language" type="OpenCmsLocale" use="optional"/> 
     </xsd:complexType>
     <xsd:annotation>
         <xsd:appinfo>

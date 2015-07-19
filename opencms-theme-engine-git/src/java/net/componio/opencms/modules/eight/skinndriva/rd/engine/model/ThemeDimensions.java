@@ -54,6 +54,10 @@ public class ThemeDimensions extends ThemeEngineModel{
     private ThemeMargins margins;
     /** Holds the value of the property cssFile. */
     private String cssFile;
+    /** Holds the value of the property mediumSizeCssFile. */
+    private String mediumSizeCssFile;
+    /** Holds the value of the property smallSizeCssFile. */
+    private String smallSizeCssFile;
 
     /** Integer constant defining a three column layout. */
     public static final int THREE_COL_LAYOUT           = 0;
@@ -61,7 +65,7 @@ public class ThemeDimensions extends ThemeEngineModel{
     public static final int TWO_COL_LAYOUT_NOLEFTPANE  = 1;
     /** Integer constant defining a two column layout with the left pane visible and the right pane invisible. */
     public static final int TWO_COL_LAYOUT_NORIGHTPANE = 2;
-    /** Integer constant defining a one column layount. */
+    /** Integer constant defining a one column layout. */
     public static final int ONE_COL_LAYOUT             = 3;
 
     /**
@@ -646,6 +650,38 @@ public class ThemeDimensions extends ThemeEngineModel{
     }
 
     /**
+     * Get the value of mediumSizeCssFile
+     * @return the value of mediumSizeCssFile
+     */
+    public String getMediumSizeCssFile() {
+        return mediumSizeCssFile;
+    }
+
+    /**
+     * Set the value of mediumSizeCssFile
+     * @param mediumSizeCssFile new value of mediumSizeCssFile
+     */
+    public void setMediumSizeCssFile(String mediumSizeCssFile) {
+        this.mediumSizeCssFile = mediumSizeCssFile;
+    }
+    
+    /**
+     * Get the value of smallSizeCssFile
+     * @return the value of smallSizeCssFile
+     */
+    public String getSmallSizeCssFile() {
+        return smallSizeCssFile;
+    }
+
+    /**
+     * Set the value of smallSizeCssFile
+     * @param smallSizeCssFile new value of smallSizeCssFile
+     */
+    public void setSmallSizeCssFile(String smallSizeCssFile) {
+        this.smallSizeCssFile = smallSizeCssFile;
+    }
+    
+    /**
      * Generates the CSS code which implements the dimensions for the theme.
      * @return The generated CSS code.
      */
@@ -767,11 +803,7 @@ public class ThemeDimensions extends ThemeEngineModel{
         writeln(out, "}");
         writeln(out);
         writeln(out, "div.dataarea-content_00{");
-<<<<<<< HEAD
         writeln(out, "    width              : " + getFormattedDataAreaInnerWidth(ThemeDimensions.ONE_COL_LAYOUT) + ";");
-=======
-        writeln(out, "    width              : " + getFormattedDataAreaInnerWidth(ThemeDimensions.ONE_COL_LAYOUT) + ";"); 
->>>>>>> 658c3789ba306595d25a6d602e528835fc324c56
         writeln(out, "    min-height         : 20px;");
         writeln(out, "    position           : relative;");
         writeln(out, "    margin             : " + topMargin + " " + rightMargin + " " + contentBottomMargin + " " + leftMargin + ";");

@@ -55,6 +55,7 @@ import  java.util.Locale;
 import  java.util.regex.Pattern;
 import  java.util.regex.Matcher;
 import  java.util.HashMap;
+import org.opencms.jsp.CmsJspActionElement;
 
 /**
  * Provides methods to access, save and get theme configurations and theme
@@ -76,6 +77,7 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
         public static final String SHOWRIGHTHANDBAR      = "show-righthand-bar"; 
         public static final String SHOWTOOLBAR           = "show-toolbar"; 
         public static final String MAINTEMPLATE          = "main-template";
+        public static final String RESPONSIVECSS         = "responsive-css-file";
         private static final class DIMENSIONS{
             public static final String _ROOT             = "dimensions";
             public static final String UNIT              = "dimensions[1]/unit";
@@ -87,6 +89,8 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
             public static final String TOOLBARHEIGHT     = "dimensions[1]/toolbar-inner-height";
             public static final String FOOTERHEIGHT      = "dimensions[1]/footer-inner-height";
             public static final String CSSFILE           = "dimensions[1]/css-file";
+            public static final String MEDIUMCSSFILE     = "dimensions[1]/medium-size-css-file";
+            public static final String SMALLCSSFILE      = "dimensions[1]/small-size-css-file";
             private static final class MARGINS{
                 public static final String _ROOT         = "dimensions[1]/margins";
                 public static final String TOP           = "dimensions[1]/margins[1]/top-margin";
@@ -109,6 +113,12 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
             public static final String LEFTMARGIN        = "left-margin";
             public static final String CSSFILE           = "css-file";
         }
+        private static final class MEDIUM_SIZE_GRID{
+            public static final String _ROOT             = "medium-size-grid";
+        }
+        private static final class SMALL_SIZE_GRID{
+            public static final String _ROOT             = "small-size-grid";
+        }
         private static final class SCRIPTS{
             public static final String _ROOT             = "scripts";
             public static final String INCLUDE           = "scripts[1]/script-include";
@@ -124,6 +134,9 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
                 public static final String URI           = "uri";
                 public static final String GROUP         = "group";
                 public static final String MEDIA         = "media";
+                public static final String LARGESCREEN   = "large-screen";
+                public static final String MEDIUMSCREEN  = "medium-screen";
+                public static final String SMALLSCREEN   = "small-screen";
                 public static final String USERAGENT     = "user-agent";
             }
         }
@@ -225,7 +238,7 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
         String                   configURI;
         CmsJspXmlContentBean     contentBean;
         I_CmsXmlContentContainer contentContainer;
-        ThemeConfig              current           = null;
+        ThemeConfig              current;
         ArrayList<ThemeConfig>   result            = new ArrayList<ThemeConfig>();
 
         synchronized(ThemeConfigController.class){
@@ -276,7 +289,7 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
         int                  typeId;
         String               resName;
         CmsResource          res;
-        String               configId    = p_configId;
+        String               configId;
         List<CmsResource>    changedRes;
         
         synchronized(ThemeConfigController.class){
@@ -460,11 +473,11 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
                         cmsObj.lockResource(res);
                         changedRes = writeResourceData(cmsObj, res, p_config);
 
-                        siteRoot = OpenCms.getSiteManager().getCurrentSite(cmsObj).getSiteRoot();
-                        resName = res.getRootPath();
-                        if(resName.startsWith(siteRoot)){
-                            resName = resName.substring(siteRoot.length());
-                        }
+//                      siteRoot = OpenCms.getSiteManager().getCurrentSite(cmsObj).getSiteRoot();
+//                      resName = res.getRootPath();
+//                      if(resName.startsWith(siteRoot)){
+//                          resName = resName.substring(siteRoot.length());
+//                      }
 
                         p_config.setUnchanged();
                         cmsObj.unlockResource(res);
@@ -539,7 +552,7 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
                             }
                         }
                         ThemeConfigController.cachedThemesList = newList;
-                        newList = null;
+//                      newList = null;
                     }
                 }
             }catch(CmsException cmsEx){
@@ -589,13 +602,16 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
         String                   styleGroup;
         String                   styleMedia;
         String                   userAgent;
-        ArrayList<String>        userAgents;
+        List<String>             userAgents;
         I_CmsXmlContentContainer scriptsContainer;
         I_CmsXmlContentContainer stylesContainer;
         I_CmsXmlContentContainer formattersContainer;
         I_CmsXmlContentContainer paramsContainer;
         I_CmsXmlContentContainer gridContainer;
         I_CmsXmlContentContainer userAgentsContainer;
+        boolean                  useForLargeScreens;
+        boolean                  useForMediumScreens;
+        boolean                  useForSmallScreens;
 
         tmp = contentShow(p_contentBean, p_container, "name", null);
         if((tmp != null) && (tmp.matches(filter))){
@@ -618,6 +634,9 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
 
             tmp = contentShow(p_contentBean, p_container, FieldNames.MAINTEMPLATE, null);
             result.setMainTemplate(tmp);
+
+            tmp = contentShow(p_contentBean, p_container, FieldNames.RESPONSIVECSS, null);
+            result.setResponsiveCssFile(tmp);
 
             tmp = contentShow(p_contentBean, p_container, FieldNames.DIMENSIONS.UNIT, "px");
             result.setUnit(tmp);
@@ -668,64 +687,171 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
                 result.getDimensions().setCssFile(tmp);
             }
             
+            tmp = contentShow(p_contentBean, p_container, FieldNames.DIMENSIONS.MEDIUMCSSFILE, null);
+            if(tmp != null){
+                result.getDimensions().setMediumSizeCssFile(tmp);
+            }
+            
+            tmp = contentShow(p_contentBean, p_container, FieldNames.DIMENSIONS.SMALLCSSFILE, null);
+            if(tmp != null){
+                result.getDimensions().setSmallSizeCssFile(tmp);
+            }
+            
             // load the grid
             gridContainer = p_contentBean.contentloop(p_container, FieldNames.GRID._ROOT);
             if(gridContainer.hasMoreResources()){
                 grid = result.getGrid();
+                grid.setMode(GridModel.MODE_DESKTOP);
                 
                 tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.HEADERHEIGHT, "180"));
                 if(tmpInt != 0){
                     grid.setHeaderHeight(tmpInt);
                 }
-
                 tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.FOOTERHEIGHT, "130"));
                 if(tmpInt != 0){
                     grid.setFooterHeight(tmpInt);
                 }
-
                 tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.TOOLBARHEIGHT, "130"));
                 if(tmpInt != 0){
                     grid.setToolbarHeight(tmpInt);
                 }
-
                 tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.COLUMNCOUNT, "12"));
                 if(tmpInt != 0){
                     grid.setColumnCount(tmpInt);
                 }
-
-                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.COLUMNWIDTH, "40"));
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.COLUMNWIDTH, "60"));
                 if(tmpInt != 0){
                     grid.setColumnWidth(tmpInt);
                 }
-
                 tmp = contentShow(p_contentBean, gridContainer, FieldNames.GRID.ORIENTATION, "left");
                 tmpInt = tmp.equals("left") ? GridModel.ORIENTATION_LEFT : GridModel.ORIENTATION_RIGHT;
                 grid.setOrientation(tmpInt);
-
                 tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.TOPMARGIN, "10"));
                 if(tmpInt != 0){
                     grid.setTopMargin(tmpInt);
                 }
-
                 tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.RIGHTMARGIN, "10"));
                 if(tmpInt != 0){
                     grid.setRightMargin(tmpInt);
                 }
-
                 tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.BOTTOMMARGIN, "10"));
                 if(tmpInt != 0){
                     grid.setBottomMargin(tmpInt);
                 }
-
                 tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.LEFTMARGIN, "10"));
                 if(tmpInt != 0){
                     grid.setLeftMargin(tmpInt);
                 }
-
                 tmp = contentShow(p_contentBean, gridContainer, FieldNames.GRID.CSSFILE, null);
                 if(tmp != null){
                     grid.setCssFile(tmp);
                 }
+             }
+            
+            // load the medium size grid
+            gridContainer = p_contentBean.contentloop(p_container, FieldNames.MEDIUM_SIZE_GRID._ROOT);
+            if(gridContainer.hasMoreResources()){
+                grid = result.getGrid();
+                grid.enableMode(GridModel.MODE_MEDIUM);
+                grid.setMode(GridModel.MODE_MEDIUM);
+                
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.HEADERHEIGHT, "90"));
+                if(tmpInt != 0){
+                    grid.setHeaderHeight(tmpInt);
+                }
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.FOOTERHEIGHT, "70"));
+                if(tmpInt != 0){
+                    grid.setFooterHeight(tmpInt);
+                }
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.TOOLBARHEIGHT, "70"));
+                if(tmpInt != 0){
+                    grid.setToolbarHeight(tmpInt);
+                }
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.COLUMNCOUNT, "6"));
+                if(tmpInt != 0){
+                    grid.setColumnCount(tmpInt);
+                }
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.COLUMNWIDTH, "60"));
+                if(tmpInt != 0){
+                    grid.setColumnWidth(tmpInt);
+                }
+                tmp = contentShow(p_contentBean, gridContainer, FieldNames.GRID.ORIENTATION, "left");
+                tmpInt = tmp.equals("left") ? GridModel.ORIENTATION_LEFT : GridModel.ORIENTATION_RIGHT;
+                grid.setOrientation(tmpInt);
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.TOPMARGIN, "5"));
+                if(tmpInt != 0){
+                    grid.setTopMargin(tmpInt);
+                }
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.RIGHTMARGIN, "5"));
+                if(tmpInt != 0){
+                    grid.setRightMargin(tmpInt);
+                }
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.BOTTOMMARGIN, "5"));
+                if(tmpInt != 0){
+                    grid.setBottomMargin(tmpInt);
+                }
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.LEFTMARGIN, "5"));
+                if(tmpInt != 0){
+                    grid.setLeftMargin(tmpInt);
+                }
+                tmp = contentShow(p_contentBean, gridContainer, FieldNames.GRID.CSSFILE, null);
+                if(tmp != null){
+                    grid.setCssFile(tmp);
+                }
+                grid.setMode(GridModel.MODE_DESKTOP);
+            }
+
+            // load the small size grid
+            gridContainer = p_contentBean.contentloop(p_container, FieldNames.SMALL_SIZE_GRID._ROOT);
+            if(gridContainer.hasMoreResources()){
+                grid = result.getGrid();
+                grid.enableMode(GridModel.MODE_SMALL);
+                grid.setMode(GridModel.MODE_SMALL);
+                
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.HEADERHEIGHT, "90"));
+                if(tmpInt != 0){
+                    grid.setHeaderHeight(tmpInt);
+                }
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.FOOTERHEIGHT, "70"));
+                if(tmpInt != 0){
+                    grid.setFooterHeight(tmpInt);
+                }
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.TOOLBARHEIGHT, "70"));
+                if(tmpInt != 0){
+                    grid.setToolbarHeight(tmpInt);
+                }
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.COLUMNCOUNT, "2"));
+                if(tmpInt != 0){
+                    grid.setColumnCount(tmpInt);
+                }
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.COLUMNWIDTH, "60"));
+                if(tmpInt != 0){
+                    grid.setColumnWidth(tmpInt);
+                }
+                tmp = contentShow(p_contentBean, gridContainer, FieldNames.GRID.ORIENTATION, "left");
+                tmpInt = tmp.equals("left") ? GridModel.ORIENTATION_LEFT : GridModel.ORIENTATION_RIGHT;
+                grid.setOrientation(tmpInt);
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.TOPMARGIN, "2"));
+                if(tmpInt != 0){
+                    grid.setTopMargin(tmpInt);
+                }
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.RIGHTMARGIN, "2"));
+                if(tmpInt != 0){
+                    grid.setRightMargin(tmpInt);
+                }
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.BOTTOMMARGIN, "2"));
+                if(tmpInt != 0){
+                    grid.setBottomMargin(tmpInt);
+                }
+                tmpInt = Integer.parseInt(contentShow(p_contentBean, gridContainer, FieldNames.GRID.LEFTMARGIN, "2"));
+                if(tmpInt != 0){
+                    grid.setLeftMargin(tmpInt);
+                }
+                tmp = contentShow(p_contentBean, gridContainer, FieldNames.GRID.CSSFILE, null);
+                if(tmp != null){
+                    grid.setCssFile(tmp);
+                }
+                grid.setMode(GridModel.MODE_DESKTOP);
             }
 
             // Add all script references
@@ -775,6 +901,13 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
                 styleUri = this.contentShow(p_contentBean, stylesContainer, FieldNames.STYLES.STYLE.URI, null);
                 styleGroup = this.contentShow(p_contentBean, stylesContainer, FieldNames.STYLES.STYLE.GROUP, null);
                 styleMedia = this.contentShow(p_contentBean, stylesContainer, FieldNames.STYLES.STYLE.MEDIA, null);
+                useForLargeScreens = this.contentShow(p_contentBean, stylesContainer, FieldNames.STYLES.STYLE.LARGESCREEN, "true").equals("true");
+                useForMediumScreens = this.contentShow(p_contentBean, stylesContainer, FieldNames.STYLES.STYLE.MEDIUMSCREEN, "true").equals("true");
+                useForSmallScreens = this.contentShow(p_contentBean, stylesContainer, FieldNames.STYLES.STYLE.SMALLSCREEN, "true").equals("true");
+                
+                
+                
+                
                 userAgents = new ArrayList<String>();
                 
                 // Compose the list with user agents from backend
@@ -788,7 +921,8 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
                 
                 // Add the style to the theme config
                 if(styleUri != null){
-                    result.addStyle(styleUri, styleGroup, styleMedia, userAgents);
+                    result.addStyle(styleUri, styleGroup, styleMedia, userAgents, 
+                          useForLargeScreens, useForMediumScreens, useForSmallScreens);
                 }
             }
             
@@ -966,6 +1100,9 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
         String            styleUriPath;
         String            styleGroupPath;
         String            styleMediaPath;
+        String            styleLargeScreenPath;
+        String            styleMediumScreenPath;
+        String            styleSmallScreenPath;
         String            styleUserAgentPath;
         String            orientationStr;
         String            gridPath;
@@ -975,7 +1112,7 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
         String            formatterMinWidthPath;
         String            formatterMaxWidthPath;
         String            formatterPreviewPath;
-        String            formatterSearchablePath;
+        int               gridMode;
         
         // Write the Name and the booleans which determine, if the lefthand bar and the
         // righthand bar have to be displayed
@@ -1000,6 +1137,13 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
         }
         if((p_config.getMainTemplate() != null) && (p_config.getMainTemplate().trim().length() > 0)){
             fileContent.addValue(p_cmsObj, FieldNames.MAINTEMPLATE, locale, 0).setStringValue(p_cmsObj, p_config.getMainTemplate());
+        }
+        
+        if(!fileContent.getValues(FieldNames.RESPONSIVECSS, locale).isEmpty()){
+            fileContent.removeValue(FieldNames.RESPONSIVECSS, locale, 0);
+        }
+        if((p_config.getResponsiveCssFile() != null) && (p_config.getResponsiveCssFile().trim().length() > 0)){
+            fileContent.addValue(p_cmsObj, FieldNames.RESPONSIVECSS, locale, 0).setStringValue(p_cmsObj, p_config.getResponsiveCssFile());
         }
         
         // Write the dimensions
@@ -1035,6 +1179,22 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
                      p_cmsObj, dim.getCssFile());
         }
         
+        if(!fileContent.getValues(FieldNames.DIMENSIONS.MEDIUMCSSFILE, locale).isEmpty()){
+            fileContent.removeValue(FieldNames.DIMENSIONS.MEDIUMCSSFILE, locale, 0);
+        }
+        if((dim.getMediumSizeCssFile() != null) && (dim.getMediumSizeCssFile().trim().length() > 0)){
+             fileContent.addValue(p_cmsObj, FieldNames.DIMENSIONS.MEDIUMCSSFILE, locale, 0).setStringValue(
+                     p_cmsObj, dim.getMediumSizeCssFile());
+        }
+        
+        if(!fileContent.getValues(FieldNames.DIMENSIONS.SMALLCSSFILE, locale).isEmpty()){
+            fileContent.removeValue(FieldNames.DIMENSIONS.SMALLCSSFILE, locale, 0);
+        }
+        if((dim.getSmallSizeCssFile() != null) && (dim.getSmallSizeCssFile().trim().length() > 0)){
+             fileContent.addValue(p_cmsObj, FieldNames.DIMENSIONS.SMALLCSSFILE, locale, 0).setStringValue(
+                     p_cmsObj, dim.getSmallSizeCssFile());
+        }
+        
         if(margins.getTopMargin() != 0){
             if(fileContent.getValues(FieldNames.DIMENSIONS.MARGINS._ROOT, locale).isEmpty()){
                 fileContent.addValue(p_cmsObj, FieldNames.DIMENSIONS.MARGINS._ROOT, locale, 0);
@@ -1068,10 +1228,19 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
         if(!fileContent.getValues(FieldNames.GRID._ROOT, locale).isEmpty()){
             fileContent.removeValue(FieldNames.GRID._ROOT, locale, 0);
         }
+        if(!fileContent.getValues(FieldNames.MEDIUM_SIZE_GRID._ROOT, locale).isEmpty()){
+            fileContent.removeValue(FieldNames.MEDIUM_SIZE_GRID._ROOT, locale, 0);
+        }
+        if(!fileContent.getValues(FieldNames.SMALL_SIZE_GRID._ROOT, locale).isEmpty()){
+            fileContent.removeValue(FieldNames.SMALL_SIZE_GRID._ROOT, locale, 0);
+        }
         if(p_config.hasGrid()){
             grid = p_config.getGrid();
-            gridPath = FieldNames.GRID._ROOT + "[1]/";
+            gridMode = grid.getMode();
             orientationStr = grid.getOrientation() == GridModel.ORIENTATION_LEFT ? "left" : "right";
+            
+            grid.setMode(GridModel.MODE_DESKTOP);
+            gridPath = FieldNames.GRID._ROOT + "[1]/";
             fileContent.addValue(p_cmsObj, FieldNames.GRID._ROOT, locale, 0);
             
             fileContent.getValue(gridPath + FieldNames.GRID.HEADERHEIGHT, locale).setStringValue(p_cmsObj, 
@@ -1096,6 +1265,64 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
                     String.valueOf(grid.getLeftMargin()));
             fileContent.getValue(gridPath + FieldNames.GRID.CSSFILE, locale).setStringValue(p_cmsObj, 
                     grid.getCssFile());
+            
+            if(grid.isModeEnabled(GridModel.MODE_MEDIUM)){
+                grid.setMode(GridModel.MODE_MEDIUM);
+                gridPath = FieldNames.MEDIUM_SIZE_GRID._ROOT + "[1]/";
+                fileContent.addValue(p_cmsObj, FieldNames.MEDIUM_SIZE_GRID._ROOT, locale, 0);
+                fileContent.getValue(gridPath + FieldNames.GRID.HEADERHEIGHT, locale).setStringValue(p_cmsObj, 
+                        String.valueOf(grid.getHeaderHeight()));
+                fileContent.getValue(gridPath + FieldNames.GRID.FOOTERHEIGHT, locale).setStringValue(p_cmsObj, 
+                        String.valueOf(grid.getFooterHeight()));
+                fileContent.getValue(gridPath + FieldNames.GRID.TOOLBARHEIGHT, locale).setStringValue(p_cmsObj, 
+                        String.valueOf(grid.getToolbarHeight()));
+                fileContent.getValue(gridPath + FieldNames.GRID.COLUMNCOUNT, locale).setStringValue(p_cmsObj, 
+                        String.valueOf(grid.getColumnCount()));
+                fileContent.getValue(gridPath + FieldNames.GRID.COLUMNWIDTH, locale).setStringValue(p_cmsObj, 
+                        String.valueOf(grid.getColumnWidth()));
+                fileContent.getValue(gridPath + FieldNames.GRID.ORIENTATION, locale).setStringValue(p_cmsObj, 
+                        orientationStr);
+                fileContent.getValue(gridPath + FieldNames.GRID.TOPMARGIN, locale).setStringValue(p_cmsObj, 
+                        String.valueOf(grid.getTopMargin()));
+                fileContent.getValue(gridPath + FieldNames.GRID.RIGHTMARGIN, locale).setStringValue(p_cmsObj, 
+                        String.valueOf(grid.getRightMargin()));
+                fileContent.getValue(gridPath + FieldNames.GRID.BOTTOMMARGIN, locale).setStringValue(p_cmsObj, 
+                        String.valueOf(grid.getBottomMargin()));
+                fileContent.getValue(gridPath + FieldNames.GRID.LEFTMARGIN, locale).setStringValue(p_cmsObj, 
+                        String.valueOf(grid.getLeftMargin()));
+                fileContent.getValue(gridPath + FieldNames.GRID.CSSFILE, locale).setStringValue(p_cmsObj, 
+                        grid.getCssFile());
+            }
+        
+            if(grid.isModeEnabled(GridModel.MODE_SMALL)){           
+                grid.setMode(GridModel.MODE_SMALL);
+                gridPath = FieldNames.SMALL_SIZE_GRID._ROOT + "[1]/";
+                fileContent.addValue(p_cmsObj, FieldNames.SMALL_SIZE_GRID._ROOT, locale, 0);
+                fileContent.getValue(gridPath + FieldNames.GRID.HEADERHEIGHT, locale).setStringValue(p_cmsObj, 
+                        String.valueOf(grid.getHeaderHeight()));
+                fileContent.getValue(gridPath + FieldNames.GRID.FOOTERHEIGHT, locale).setStringValue(p_cmsObj, 
+                        String.valueOf(grid.getFooterHeight()));
+                fileContent.getValue(gridPath + FieldNames.GRID.TOOLBARHEIGHT, locale).setStringValue(p_cmsObj, 
+                        String.valueOf(grid.getToolbarHeight()));
+                fileContent.getValue(gridPath + FieldNames.GRID.COLUMNCOUNT, locale).setStringValue(p_cmsObj, 
+                        String.valueOf(grid.getColumnCount()));
+                fileContent.getValue(gridPath + FieldNames.GRID.COLUMNWIDTH, locale).setStringValue(p_cmsObj, 
+                        String.valueOf(grid.getColumnWidth()));
+                fileContent.getValue(gridPath + FieldNames.GRID.ORIENTATION, locale).setStringValue(p_cmsObj, 
+                        orientationStr);
+                fileContent.getValue(gridPath + FieldNames.GRID.TOPMARGIN, locale).setStringValue(p_cmsObj, 
+                        String.valueOf(grid.getTopMargin()));
+                fileContent.getValue(gridPath + FieldNames.GRID.RIGHTMARGIN, locale).setStringValue(p_cmsObj, 
+                        String.valueOf(grid.getRightMargin()));
+                fileContent.getValue(gridPath + FieldNames.GRID.BOTTOMMARGIN, locale).setStringValue(p_cmsObj, 
+                        String.valueOf(grid.getBottomMargin()));
+                fileContent.getValue(gridPath + FieldNames.GRID.LEFTMARGIN, locale).setStringValue(p_cmsObj, 
+                        String.valueOf(grid.getLeftMargin()));
+                fileContent.getValue(gridPath + FieldNames.GRID.CSSFILE, locale).setStringValue(p_cmsObj, 
+                        grid.getCssFile());
+
+                grid.setMode(gridMode);
+            }
         }
         
         // Write the script references, if there are.
@@ -1206,6 +1433,18 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
                 genericSb.append(FieldNames.STYLES.STYLE.USERAGENT);
                 styleUserAgentPath = genericSb.toString();
                 
+                genericSb = new StringBuffer(baseSb);
+                genericSb.append(FieldNames.STYLES.STYLE.LARGESCREEN);
+                styleLargeScreenPath = genericSb.toString();
+                
+                genericSb = new StringBuffer(baseSb);
+                genericSb.append(FieldNames.STYLES.STYLE.MEDIUMSCREEN);
+                styleMediumScreenPath = genericSb.toString();
+                
+                genericSb = new StringBuffer(baseSb);
+                genericSb.append(FieldNames.STYLES.STYLE.SMALLSCREEN);
+                styleSmallScreenPath = genericSb.toString();
+                
                 // Add the element for the style, if not present yet.
                 if(fileContent.getValues(FieldNames.STYLES.STYLE._ROOT, locale).size() <= loopCount){
                     fileContent.addValue(p_cmsObj, FieldNames.STYLES.STYLE._ROOT, locale, loopCount);
@@ -1221,6 +1460,18 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
                     // Remove all elements for user agents, if there are
                     while(!fileContent.getValues(styleUserAgentPath, locale).isEmpty()){
                         fileContent.removeValue(styleUserAgentPath, locale, 0);
+                    }
+                    // Remove the flag for large screen usage, if there is one
+                    while(!fileContent.getValues(styleLargeScreenPath, locale).isEmpty()){
+                        fileContent.removeValue(styleLargeScreenPath, locale, 0);
+                    }
+                    // Remove the flag for medium screen usage, if there is one
+                    while(!fileContent.getValues(styleMediumScreenPath, locale).isEmpty()){
+                        fileContent.removeValue(styleMediumScreenPath, locale, 0);
+                    }
+                    // Remove the flag for small screen usage, if there is one
+                    while(!fileContent.getValues(styleSmallScreenPath, locale).isEmpty()){
+                        fileContent.removeValue(styleSmallScreenPath, locale, 0);
                     }
                 }
                  
@@ -1244,6 +1495,15 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
                         fileContent.addValue(p_cmsObj, styleUserAgentPath, locale, userAgentsCount).setStringValue(p_cmsObj, userAgentsIt.next());
                     }
                 }
+                
+                // Add the flag for large screen usage
+                fileContent.addValue(p_cmsObj, styleLargeScreenPath, locale, 0).setStringValue(p_cmsObj, styles[loopCount].isUsedForLargeScreens() ? "true" : "false");
+                
+                // Add the flag for medium screen usage
+                fileContent.addValue(p_cmsObj, styleMediumScreenPath, locale, 0).setStringValue(p_cmsObj, styles[loopCount].isUsedForMediumScreens()? "true" : "false");
+                
+                // Add the flag for small screen usage
+                fileContent.addValue(p_cmsObj, styleSmallScreenPath, locale, 0).setStringValue(p_cmsObj, styles[loopCount].isUsedForSmallScreens()? "true" : "false");
             }
         }
         
@@ -1411,29 +1671,92 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
      * @param p_config The theme configuration which the grid is defined in.
      * @return A CmsResource representing the VFS resource, where the CSS code is saved to.
      * @throws CmsException When one of the underlying VFS operations fails.
-     * @throws ThemeConfigException Wraps other underlying exception, which may occurr during the 
+     * @throws ThemeConfigException Wraps other underlying exception, which may occur during the 
      * execution of this method. 
      */
     protected CmsResource writeGridCss(CmsObject p_cmsObj, ThemeConfig p_config) throws CmsException, ThemeConfigException{
-        GridModel   grid    = p_config.hasGrid() ? p_config.getGrid() : null;
-        String      resName;
-        CmsResource res;
-        CmsFile     file;
-        CmsResource result  = null;
+        GridModel           grid         = p_config.hasGrid() ? p_config.getGrid() : null;
+        String              resName;
+        CmsResource         res;
+        CmsFile             file;
+        CmsResource         result       = null;
+        int                 initialMode;
+        CmsJspActionElement actionEl;
         
         if((grid != null) && (grid.isChanged())){
-            resName = grid.getCssFile();
-            if((resName != null) && (resName.trim().length() > 0)){
-                res = p_cmsObj.readResource(resName);
-                if(res.isFile()){
-                    file = p_cmsObj.readFile(res);
-                    p_cmsObj.lockResource(file);
-                    file.setContents(grid.generateCSSCode().getBytes());
-                    p_cmsObj.writeFile(file);
-                    p_cmsObj.unlockResource(file);
-                    result = file;
+            synchronized(grid){
+                
+                // Generate the CSS file with the media queries.
+                resName = p_config.getResponsiveCssFile();
+                if((resName != null) && (resName.trim().length() > 0)){
+                    res = p_cmsObj.readResource(resName);
+                    if(res.isFile()){
+                        actionEl = new CmsJspActionElement(getPageContext(), getRequest(), getResponse());
+                        
+                        file = p_cmsObj.readFile(res);
+                        p_cmsObj.lockResource(file);
+                        file.setContents(grid.generateGenericCSSCode(actionEl, resName).getBytes());
+                        p_cmsObj.writeFile(file);
+                        p_cmsObj.unlockResource(file);
+                        result = file;
+                    }
+                    
+                }
+                
+                initialMode = grid.getMode();
+
+                // Write the CSS file for normal desktop screens
+                grid.setMode(GridModel.MODE_DESKTOP);
+                resName = grid.getCssFile();
+                if((resName != null) && (resName.trim().length() > 0)){
+                    res = p_cmsObj.readResource(resName);
+                    if(res.isFile()){
+                        file = p_cmsObj.readFile(res);
+                        p_cmsObj.lockResource(file);
+                        file.setContents(grid.generateCSSCode().getBytes());
+                        p_cmsObj.writeFile(file);
+                        p_cmsObj.unlockResource(file);
+                        result = file;
+                    }
+                }
+                
+                // Write the CSS file for medium sized screens
+                if(grid.isModeEnabled(GridModel.MODE_MEDIUM)){
+                    grid.setMode(GridModel.MODE_MEDIUM);
+                    resName = grid.getCssFile();
+                    if((resName != null) && (resName.trim().length() > 0)){
+                        res = p_cmsObj.readResource(resName);
+                        if(res.isFile()){
+                            file = p_cmsObj.readFile(res);
+                            p_cmsObj.lockResource(file);
+                            file.setContents(grid.generateCSSCode().getBytes());
+                            p_cmsObj.writeFile(file);
+                            p_cmsObj.unlockResource(file);
+                            result = file;
+                        }
+
+                    }
                 }
 
+                // write the CSS file for small screens
+                if(grid.isModeEnabled(GridModel.MODE_SMALL)){
+                    grid.setMode(GridModel.MODE_SMALL);
+                    resName = grid.getCssFile();
+                    if((resName != null) && (resName.trim().length() > 0)){
+                        res = p_cmsObj.readResource(resName);
+                        if(res.isFile()){
+                            file = p_cmsObj.readFile(res);
+                            p_cmsObj.lockResource(file);
+                            file.setContents(grid.generateCSSCode().getBytes());
+                            p_cmsObj.writeFile(file);
+                            p_cmsObj.unlockResource(file);
+                            result = file;
+                        }
+
+                    }
+                }
+                
+                grid.setMode(initialMode);
             }
         }
         return result;

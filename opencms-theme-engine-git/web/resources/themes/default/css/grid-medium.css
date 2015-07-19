@@ -1,0 +1,300 @@
+/*
+ Document : grid-medium.css
+ Created on Sun, Jul 19 2015, 18:26:30
+ Copyright (C) 2012 Robert Diawara
+
+ This file is part of OpenCms Theme Engine.
+
+ OpenCms Theme Engine is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ OpenCms Theme Engine is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
+
+ -----------------------------------------------------------------------------------
+
+ Grid for OpenCms Theme Engine ~ Core CSS.  This is automatically generated CSS code.
+ Please do not modify.  Learn more ~ http://www.diawara.com/
+*/
+
+
+
+/* `Individual formats
+----------------------------------------------------------------------------------------------------*/
+
+#GRID_HEADER{
+    height              : 90px;
+}
+
+#GRID_FOOTER{
+    height              : 70px;
+}
+
+#GRID_TOOLBAR{
+    height              : 65px;
+}
+
+/*
+  Forces backgrounds to span full width,
+  even if there is horizontal scrolling.
+  Increase this if your layout is wider.
+
+  Note: IE6 works fine without this fix.
+*/
+
+body {
+    min-width           : 750px;
+}
+
+/* Container
+----------------------------------------------------------------------------------------------------*/
+
+.m_container_6 {
+    margin-left         : auto;
+    margin-right        : auto;
+    width               : 750px;
+}
+
+.m_container_full {
+    margin-left         : auto;
+    margin-right        : auto;
+    min-width           : 750px;
+    max-width           : 1020px;
+    width               : 100%;
+    overflow            : auto;
+}
+
+/* Grid >> Global
+----------------------------------------------------------------------------------------------------*/
+
+.m_grid_1,
+.m_grid_2,
+.m_grid_3,
+.m_grid_4,
+.m_grid_5,
+.m_grid_6,
+.m_grid_full {
+    display             : inline;
+    float               : left;
+}
+
+.m_grid_1,
+.m_grid_2,
+.m_grid_3,
+.m_grid_4,
+.m_grid_5,
+.m_grid_6 {
+    margin              : 5px 5px 5px 5px;
+}
+
+
+.m_grid_full {
+    margin              : 5px 1% 5px 1%;
+}
+
+.m_push_1, .m_pull_1,
+.m_push_2, .m_pull_2,
+.m_push_3, .m_pull_3,
+.m_push_4, .m_pull_4,
+.m_push_5, .m_pull_5 {
+    position            : relative;
+}
+
+/* Grid >> Children (Alpha ~ First, Omega ~ Last)
+----------------------------------------------------------------------------------------------------*/
+
+.m_alpha {
+    margin-left        : 0;
+}
+
+.m_omega {
+    margin-right        : 0;
+}
+
+/* Grid >> 6 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.m_container_6 .m_grid_1 {
+    width               : 115px;
+}
+
+.m_container_6 .m_grid_2 {
+    width               : 240px;
+}
+
+.m_container_6 .m_grid_3 {
+    width               : 365px;
+}
+
+.m_container_6 .m_grid_4 {
+    width               : 490px;
+}
+
+.m_container_6 .m_grid_5 {
+    width               : 615px;
+}
+
+.m_container_6 .m_grid_6 {
+    width               : 740px;
+}
+
+.m_container_6 .m_grid_full,
+.m_container_full .m_grid_full {
+    width               : 98%;
+}
+
+/* Invisible Elements
+----------------------------------------------------------------------------------------------------*/
+.m_container_6 .m_grid_hidden,
+.m_container_full .m_grid_hidden{
+    display             : none;
+    visibility          : hidden;
+    font-size           : 0;
+    line-height         : 0;
+    width               : 0;
+    height              : 0;
+}
+
+/* Prefix Extra Space >> 6 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.m_container_6 .m_prefix_1 {
+    padding-left        : 125px;
+}
+
+.m_container_6 .m_prefix_2 {
+    padding-left        : 250px;
+}
+
+.m_container_6 .m_prefix_3 {
+    padding-left        : 375px;
+}
+
+.m_container_6 .m_prefix_4 {
+    padding-left        : 500px;
+}
+
+.m_container_6 .m_prefix_5 {
+    padding-left        : 625px;
+}
+
+/* Suffix Extra Space >> px Columns
+----------------------------------------------------------------------------------------------------*/
+
+.m_container_6 .m_suffix_1 {
+    padding-right       : 125px;
+}
+
+.m_container_6 .m_suffix_2 {
+    padding-right       : 250px;
+}
+
+.m_container_6 .m_suffix_3 {
+    padding-right       : 375px;
+}
+
+.m_container_6 .m_suffix_4 {
+    padding-right       : 500px;
+}
+
+.m_container_6 .m_suffix_5 {
+    padding-right       : 625px;
+}
+
+/* Push Space >> 6 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.m_container_6 .m_push_1 {
+    left                : 125px;
+}
+
+.m_container_6 .m_push_2 {
+    left                : 250px;
+}
+
+.m_container_6 .m_push_3 {
+    left                : 375px;
+}
+
+.m_container_6 .m_push_4 {
+    left                : 500px;
+}
+
+.m_container_6 .m_push_5 {
+    left                : 625px;
+}
+
+/* Pull Space >> 6 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.m_container_6 .m_pull_1 {
+    left                : -125px;
+}
+
+.m_container_6 .m_pull_2 {
+    left                : -250px;
+}
+
+.m_container_6 .m_pull_3 {
+    left                : -375px;
+}
+
+.m_container_6 .m_pull_4 {
+    left                : -500px;
+}
+
+.m_container_6 .m_pull_5 {
+    left                : -625px;
+}
+
+/* Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+
+/* http://sonspring.com/journal/clearing-floats */
+
+.m_clear {
+    clear               : both;
+    display             : block;
+    overflow            : hidden;
+    visibility          : hidden;
+    width               : 0;
+    height              : 0;
+}
+
+/* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
+
+.clearfix:before,
+.clearfix:after,
+.m_container_6:before,
+.m_container_6:after {
+    content             : '.';
+    display             : block;
+    overflow            : hidden;
+    visibility          : hidden;
+    font-size           : 0;
+    line-height         : 0;
+    width               : 0;
+    height              : 0;
+}
+
+.clearfix:after,
+.m_container_6:after {
+    clear               : both;
+}
+
+/*
+  The following zoom:1 rule is specifically for IE6 + IE7.
+  Move to separate stylesheet or delete if invalid CSS is a problem.
+*/
+
+.clearfix,
+.m_container_6 {
+    zoom                : 1;
+}
