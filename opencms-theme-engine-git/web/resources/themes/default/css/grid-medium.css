@@ -1,6 +1,6 @@
 /*
  Document : grid-medium.css
- Created on Sun, Jul 19 2015, 18:26:30
+ Created on Thu, Aug 06 2015, 16:31:00
  Copyright (C) 2012 Robert Diawara
 
  This file is part of OpenCms Theme Engine.
@@ -67,7 +67,7 @@ body {
     margin-right        : auto;
     min-width           : 750px;
     max-width           : 1020px;
-    width               : 100%;
+    width               : 99%;
     overflow            : auto;
 }
 
@@ -116,6 +116,17 @@ body {
 
 .m_omega {
     margin-right        : 0;
+}
+
+/* Grid >> individual box alignment (Left ~ Right)
+----------------------------------------------------------------------------------------------------*/
+
+.m_left_align {
+    float               : left;
+}
+
+.m_right_align {
+    float               : right;
 }
 
 /* Grid >> 6 Columns

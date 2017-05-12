@@ -1,6 +1,6 @@
 /*
- Document : grid-responsive.css
- Created on Mon, Aug 03 2015, 21:39:16
+ Document : responsive.css
+ Created on Thu, Aug 06 2015, 16:31:00
  Copyright (C) 2012 Robert Diawara
 
  This file is part of skinnDriva.
@@ -25,7 +25,7 @@
 */
 
 /*The CSS File for large screens. */
-@import url(/cms/content/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/resources/themes/default/css/grid.css) screen and (min-width: 1050px) and (min-device-width: 1024px);
+@import url(/cms/content/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/resources/themes/default/css/grid-desktop.css) screen and (min-width: 1050px) and (min-device-width: 1024px);
 
 /*The CSS File for medium size screens. */
 @import url(/cms/content/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/resources/themes/default/css/grid-medium.css) screen and (min-width: 780px) and (max-width: 1049px) and (min-device-width: 1024px);

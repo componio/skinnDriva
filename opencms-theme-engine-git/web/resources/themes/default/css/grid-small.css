@@ -1,6 +1,6 @@
 /*
  Document : grid-small.css
- Created on Sun, Jul 19 2015, 18:26:30
+ Created on Thu, Aug 06 2015, 16:31:00
  Copyright (C) 2012 Robert Diawara
 
  This file is part of OpenCms Theme Engine.
@@ -50,7 +50,7 @@
 */
 
 body {
-    min-width           : 250px;
+    min-width           : 310px;
 }
 
 /* Container
@@ -65,9 +65,9 @@ body {
 .s_container_full {
     margin-left         : auto;
     margin-right        : auto;
-    min-width           : 250px;
+    min-width           : 310px;
     max-width           : 750px;
-    width               : 100%;
+    width               : 99%;
     overflow            : auto;
 }
 
@@ -104,6 +104,17 @@ body {
 
 .s_omega {
     margin-right        : 0;
+}
+
+/* Grid >> individual box alignment (Left ~ Right)
+----------------------------------------------------------------------------------------------------*/
+
+.s_left_align {
+    float               : left;
+}
+
+.s_right_align {
+    float               : right;
 }
 
 /* Grid >> 2 Columns

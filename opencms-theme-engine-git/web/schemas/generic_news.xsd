@@ -48,11 +48,6 @@
                 <layout element="teaser" widget="HtmlWidget" configuration="source,link,anchor,formatselect,imagegallery,downloadgallery,linkgallery,htmlgallery,tablegallery,height:150px" />
                 <layout element="body" widget="HtmlWidget" configuration="source,link,anchor,formatselect,imagegallery,downloadgallery,linkgallery,htmlgallery,tablegallery,height:250px" />
             </layouts>
-            <formatters>
-                <formatter type="SIDEBAR_01" minwidth="150" maxwidth="300" uri="/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/formatters/article-sidebar-01.jsp"/>
-                <formatter type="CONTENT" minwidth="500" maxwidth="900" uri="/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/formatters/article-body-01.jsp"/>
-                <formatter type="SIDEBAR_02" minwidth="150" maxwidth="300" uri="/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/formatters/article-sidebar-01.jsp"/>
-            </formatters>
             <validationrules>
                 <rule element="title" regex="^(.+)$" message="Please provide a Title !"/>
                 <rule element="teaser" regex="^(.+)$" message="Please provide a Teaser !"/>

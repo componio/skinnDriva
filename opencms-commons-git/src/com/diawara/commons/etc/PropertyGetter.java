@@ -148,8 +148,10 @@ public class PropertyGetter {
             }
             try{
                 currentBean = currentMethod.invoke(currentBean, new Object[]{});
-            }catch(IllegalAccessException | InvocationTargetException e){
-                throw new RuntimeException("Could not get Property \"" + p_PropertyName + "\" !", e);
+            }catch(IllegalAccessException illegalAccessEx){
+                throw new RuntimeException("Could not get Property \"" + p_PropertyName + "\" !", illegalAccessEx);
+            }catch(InvocationTargetException invocationTargetEx){
+                throw new RuntimeException("Could not get Property \"" + p_PropertyName + "\" !", invocationTargetEx);
             }
         }
         return currentBean;

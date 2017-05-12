@@ -1062,9 +1062,10 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
      * @return The select widget options.
      */
     private List<CmsSelectWidgetOption> getColumnCountWidgetConfiguration(){
-        List<CmsSelectWidgetOption> result = new ArrayList<CmsSelectWidgetOption>();
+        List<CmsSelectWidgetOption> result = new ArrayList<>();
         
         result.add(new CmsSelectWidgetOption("2", true));
+        result.add(new CmsSelectWidgetOption("3", true));
         result.add(new CmsSelectWidgetOption("6", true));
         result.add(new CmsSelectWidgetOption("12", true));
         result.add(new CmsSelectWidgetOption("16", false));
@@ -1077,7 +1078,7 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
      * @return The select widget options.
      */
     private List<CmsSelectWidgetOption> getColumnWidthWidgetConfiguration(){
-        List<CmsSelectWidgetOption> result = new ArrayList<CmsSelectWidgetOption>();
+        List<CmsSelectWidgetOption> result = new ArrayList<>();
         
         result.add(new CmsSelectWidgetOption("30", false));
         result.add(new CmsSelectWidgetOption("35", false));
@@ -1096,7 +1097,7 @@ public class ThemeGridDialog extends ThemeEngineWidgetDialog{
      * @return The select widget options.
      */
     private List<CmsSelectWidgetOption> getOrientationWidgetConfiguration(){
-        List<CmsSelectWidgetOption> result = new ArrayList<CmsSelectWidgetOption>();
+        List<CmsSelectWidgetOption> result = new ArrayList<>();
         
         result.add(new CmsSelectWidgetOption("left", true));
         result.add(new CmsSelectWidgetOption("right", false));

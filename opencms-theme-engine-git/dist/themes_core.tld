@@ -81,7 +81,7 @@
         <description>
             Renders all css styles for responsive grid layouts to the page.
         </description>
-        <name>ThemeStyles</name>
+        <name>ThemeResponsiveStyles</name>
         <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.core.ThemeResponsiveStylesTag</tag-class>
         <body-content>JSP</body-content>
         <attribute>

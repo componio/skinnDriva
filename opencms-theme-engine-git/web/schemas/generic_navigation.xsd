@@ -42,14 +42,6 @@
             <mappings>
                 <mapping element="title" mapto="property:shared:Title" />
             </mappings>
-            <formatters>
-                <formatter type="SIDEBAR_01" minwidth="150" maxwidth="300" uri="/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/formatters/default/SIDEBAR_01.jsp"/>
-                <formatter type="SIDEBAR_02" minwidth="150" maxwidth="300" uri="/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/formatters/default/SIDEBAR_01.jsp"/>
-                <formatter type="HEADER_MENU" uri="/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/formatters/default/HEADER_MENU.jsp"/>
-                <formatter type="HEADER" uri="/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/formatters/default/HEADER.jsp"/>
-                <formatter type="BREADCRUMB_NAV" uri="/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/formatters/default/HEADER.jsp"/>
-                <formatter type="FOOTER" uri="/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/formatters/default/FOOTER.jsp"/>
-            </formatters>
             <validationrules>
                 <rule element="title" regex="^(.+)$" message="Please provide a Title !"/>
                 <rule element="start-level" regex="^[1-9]$|^1[0-9]$" message="Please provide a number between 1 or 19 as start level !"/>

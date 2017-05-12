@@ -78,10 +78,15 @@
             to direcly store the result in an JSTL variable, by using the "var" attribute.
         </description>
         <name>Property</name>
-        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.commons.IsOfflineProjectTag</tag-class>
+        <tag-class>net.componio.opencms.modules.eight.skinndriva.rd.taglib.commons.PropertyTag</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
@@ -126,6 +131,134 @@
         </attribute>
         <attribute>
             <name>startLevel</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Provides the functionality of string manipuilations over regular expressions by providing a regular
+            espression a search string and a replacement string. The string will be validated against the regular
+            eypression and if it matches it will pe replaced according to the defined replacement string.
+        </description>
+        <name>Replace</name>
+        <tag-class>com.diawara.commons.taglib.ReplaceTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>regex</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>searchText</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>replacementString</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Provides the functionality of switching the language of the currently displayed page.
+        </description>
+        <name>SwitchLanguage</name>
+        <tag-class>com.diawara.commons.taglib.SwitchLanguageTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>locale</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>rootFolder</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Provides the valid breadcrumb navigation for the current page.
+        </description>
+        <name>BreadCrumbNavigation</name>
+        <tag-class>com.diawara.commons.taglib.BreadCrumbNavigationTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>startLevel</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Gets the physical URI of the currently rendered detail content when the currently
+            called URI is a detail URI.
+        </description>
+        <name>DetailContent</name>
+        <tag-class>com.diawara.commons.taglib.DetailContentTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Checks if the current request is a detail request.
+        </description>
+        <name>IsDetailRequest</name>
+        <tag-class>com.diawara.commons.taglib.IsDetailRequestTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>var</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>

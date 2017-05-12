@@ -43,12 +43,6 @@
             <mappings>
                 <mapping element="title" mapto="property:shared:Title" />
             </mappings>
-            <formatters>
-                <formatter type="SIDEBAR_01" minwidth="150" maxwidth="300" uri="/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/formatters/default/SIDEBAR_01.jsp"/>
-                <formatter type="SIDEBAR_02" minwidth="150" maxwidth="300" uri="/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/formatters/default/SIDEBAR_02.jsp"/>
-                <formatter type="HEADER" uri="/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/formatters/default/HEADER.jsp"/>
-                <formatter type="FOOTER" uri="/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/formatters/default/FOOTER.jsp"/>
-            </formatters>
             <settings>
                <setting name="top-separator" nice-name="Top Separator" type="string" widget="checkbox" default="false"/>
                <setting name="bottom-separator" nice-name="Bottom Separator" type="string" widget="checkbox" default="true"/>

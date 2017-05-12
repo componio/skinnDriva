@@ -196,8 +196,10 @@ public class PropertySetter {
                 }
                 try{
                     currentBean = currentMethod.invoke(currentBean, new Object[]{});
-                }catch(IllegalAccessException | InvocationTargetException e){
-                    throw new RuntimeException("Could not get Property \"" + p_PropertyName + "\" !", e);
+                }catch(IllegalAccessException illegalAccessEx){
+                    throw new RuntimeException("Could not get Property \"" + p_PropertyName + "\" !", illegalAccessEx);
+                }catch(InvocationTargetException invocationTargetEx){
+                    throw new RuntimeException("Could not get Property \"" + p_PropertyName + "\" !", invocationTargetEx);
                 }
             }else{
                 currentMethod = getSetter(currentBean, currentToken, p_PropertyValue.getClass());
@@ -226,7 +228,9 @@ public class PropertySetter {
                 }
                 try{
                     currentMethod.invoke(currentBean, new Object[]{p_PropertyValue});
-                }catch(IllegalAccessException | InvocationTargetException e){
+                }catch(IllegalAccessException e){
+                    throw new RuntimeException("Could not get Property \"" + p_PropertyName + "\" !", e);
+                }catch(InvocationTargetException e){
                     throw new RuntimeException("Could not get Property \"" + p_PropertyName + "\" !", e);
                 }
             }

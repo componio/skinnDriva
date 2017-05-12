@@ -187,6 +187,7 @@ public class GridModel extends ThemeEngineModel{
                     + String.valueOf(GridModel.ORIENTATION_LEFT) + " (left orientation) or " + 
                     String.valueOf(GridModel.ORIENTATION_RIGHT) + " (right orientation) !");
         }
+        checkStatus(this.orientation, orientation);
         this.orientation = orientation;
     }
 
@@ -228,8 +229,8 @@ public class GridModel extends ThemeEngineModel{
     public void setColumnCount(int columnCount) throws ThemeConfigException{
         // Abort with an exception, when coluzmnCount has an invalid value.
         // Note that only 12 or 16 are accepted as value.
-        if((columnCount != 2) && (columnCount != 6) && (columnCount != 12) && (columnCount != 16) && (columnCount != 24)){
-            throw new ThemeConfigException("Tried to initialize the grid with an invalid column count. Only 2, 6, 12, 16 and "
+        if((columnCount != 2) && (columnCount != 3) && (columnCount != 6) && (columnCount != 12) && (columnCount != 16) && (columnCount != 24)){
+            throw new ThemeConfigException("Tried to initialize the grid with an invalid column count. Only 2, 3, 6, 12, 16 and "
                     + "24 are allowed as values. Therefore the setter has been aborted !");
         }
         synchronized(this){
@@ -560,7 +561,7 @@ public class GridModel extends ThemeEngineModel{
      * @return the value of pageWidth
      */
     public int getPageWidth() {
-        return getColumnCount() * (getColumnWidth() + getLeftMargin() + getRightMargin());
+        return getColumnCount() * getColumnWidth() + (getColumnCount() + 1) * (getLeftMargin() + getRightMargin());
     }
     
     /**
@@ -577,7 +578,7 @@ public class GridModel extends ThemeEngineModel{
             throw new RuntimeException("Can't get the value for a disabled mode. Please enabe mode " + 
                   String.valueOf(p_mode) + " first !");
         }
-        return getColumnCount(p_mode) * (getColumnWidth(p_mode) + getLeftMargin(p_mode) + getRightMargin(p_mode));
+        return getColumnCount(p_mode) * getColumnWidth(p_mode) + (getColumnCount(p_mode) + 1) * (getLeftMargin(p_mode) + getRightMargin(p_mode));
     }
     
     /**
@@ -1060,14 +1061,18 @@ public class GridModel extends ThemeEngineModel{
             out.append("    margin-left         : auto;").append("\n");
             out.append("    margin-right        : auto;").append("\n");
             out.append("    width               : ").append(getFormattedPageWidth()).append(";").append("\n");
+            out.append("    padding             : 0px 0px 0px 0px;\n");
+            out.append("    z-index             : 10;\n");
             out.append("}").append("\n\n");
             out.append(".").append(prefix).append("container_full {").append("\n");
             out.append("    margin-left         : auto;").append("\n");
             out.append("    margin-right        : auto;").append("\n");
             out.append("    min-width           : ").append(containerMinWidth).append(";\n");
             out.append("    max-width           : ").append(containerMaxWidth).append(";\n");
-            out.append("    width               : 100%;").append("\n");
+            out.append("    padding             : 0px 0px 0px 0px;\n");
+            out.append("    width               : 95%;").append("\n");
             out.append("    overflow            : auto;").append("\n");
+            out.append("    box-sizing          : inherit;").append("\n");
             out.append("}").append("\n\n");
             out.append("/* Grid >> Global").append("\n");
             out.append("----------------------------------------------------------------------------------------------------*/").append("\n\n");
@@ -1075,23 +1080,22 @@ public class GridModel extends ThemeEngineModel{
             for(loopCount = 2; loopCount <= getColumnCount(); loopCount ++){
                 out.append(",").append("\n").append(".").append(prefix).append("grid_").append(String.valueOf(loopCount));
             }
-            out.append(",").append("\n").append(".").append(prefix).append("grid_full");
             out.append(" {").append("\n");
             out.append("    display             : inline;").append("\n");
-            out.append("    float               : left;").append("\n");
-            out.append("}").append("\n\n");
-            out.append(".").append(prefix).append("grid_1");
-            for(loopCount = 2; loopCount <= getColumnCount(); loopCount ++){
-                out.append(",").append("\n").append(".").append(prefix).append("grid_").append(String.valueOf(loopCount));
-            }
-            out.append(" {").append("\n");
+            out.append("    float               : ").append(getOrientation() == GridModel.ORIENTATION_LEFT ? "left;\n" : "right;\n");
+            out.append("    box-sizing          : border-box;").append("\n");
             out.append("    margin              : ").append(getFormattedTopMargin()).append(" ").append(getFormattedRightMargin()).append(" ").
                   append(getFormattedBottomMargin()).append(" ").append(getFormattedLeftMargin()).append(";").append("\n");
             out.append("}").append("\n\n");
-            out.append("\n").append(".").append(prefix).append("grid_full");
+            out.append(".").append(prefix).append("grid_full");
             out.append(" {").append("\n");
-            out.append("    margin              : ").append(getFormattedTopMargin()).append(" 1% ").append(getFormattedBottomMargin()).append(" 1%;");
-            out.append("\n}").append("\n\n");
+            out.append("    display             : inline;").append("\n");
+            out.append("    float               : ").append(getOrientation() == GridModel.ORIENTATION_LEFT ? "left;\n" : "right;\n");
+            out.append("    box-sizing          : border-box;").append("\n");
+            out.append("    margin              : ").append(getFormattedTopMargin()).append(" 0px ").append(getFormattedBottomMargin()).append(" 0px;\n");
+            out.append("}").append("\n\n");
+            out.append(".").append(prefix).append("grid_full:first-child {\n");
+            out.append("    margin-top          : 0px;\n}\n\n");
             out.append(".").append(prefix).append("push_1, .").append(prefix).append("pull_1");
             for(loopCount = 2; loopCount < getColumnCount(); loopCount ++){
                 out.append(",").append("\n");
@@ -1113,6 +1117,15 @@ public class GridModel extends ThemeEngineModel{
             out.append(orientation == GridModel.ORIENTATION_LEFT ? "    margin-right        : 0;" : "    margin-left         : 0;").append("\n");
             out.append("}").append("\n");
             out.append("\n");
+            out.append("/* Grid >> individual box alignment (Left ~ Right)").append("\n");
+            out.append("----------------------------------------------------------------------------------------------------*/").append("\n");
+            out.append("\n");
+            out.append(".").append(prefix).append("left_align {\n");
+            out.append("    float               : left;\n");
+            out.append("}\n\n");
+            out.append(".").append(prefix).append("right_align {\n");
+            out.append("    float               : right;\n");
+            out.append("}\n\n");
             out.append("/* Grid >> ").append(String.valueOf(getColumnCount())).append(" Columns").append("\n");
             out.append("----------------------------------------------------------------------------------------------------*/").append("\n");
             out.append("\n");
@@ -1122,10 +1135,11 @@ public class GridModel extends ThemeEngineModel{
                 out.append("    width               : ").append(getFormattedWidthForColumns(loopCount)).append(";").append("\n");
                 out.append("}").append("\n\n");
             }
-            out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" .").append(prefix).
-                  append("grid_full,\n.").append(prefix).append("container_full .").append(prefix).append("grid_full {\n");
-            out.append("    width               : 98%;\n");
-            out.append("}").append("\n\n");
+            out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" .").append(prefix).append("grid_full,\n");
+            out.append(".").append(prefix).append("container_full .").append(prefix).append("grid_full{\n");
+            out.append("    width               : 100%;\n}\n\n");
+                   
+                    
             out.append("/* Invisible Elements").append("\n");
             out.append("----------------------------------------------------------------------------------------------------*/").append("\n");
             out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" .").append(prefix).
@@ -1174,7 +1188,7 @@ public class GridModel extends ThemeEngineModel{
             for(loopCount = 1; loopCount < getColumnCount(); loopCount ++){
                 out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" .").append(prefix).
                       append("pull_").append(String.valueOf(loopCount)).append(" {").append("\n");
-                out.append(orientation == GridModel.ORIENTATION_LEFT ? "    left                : -" : "    right               : -");
+                out.append(orientation == GridModel.ORIENTATION_LEFT ? "    right                : -" : "    left               : -");
                 out.append(formatValue(loopCount * (getLeftMargin() + getColumnWidth() + getRightMargin()), "px")).append(";").append("\n");
                 out.append("}").append("\n\n");
             }
@@ -1189,7 +1203,7 @@ public class GridModel extends ThemeEngineModel{
             out.append("    overflow            : hidden;").append("\n");
             out.append("    visibility          : hidden;").append("\n");
             out.append("    width               : 0;").append("\n");
-            out.append("    height              : 0;").append("\n");
+            out.append("    height              : 0;").append("\n"); 
             out.append("}").append("\n");
             out.append("\n");
             out.append("/* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */").append("\n");
@@ -1222,6 +1236,87 @@ public class GridModel extends ThemeEngineModel{
             out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" {").append("\n");
             out.append("    zoom                : 1;").append("\n");
             out.append("}");
+            out.append("\n\n\n");
+            
+            out.append("/* Nested classic column layouts >> ").append(String.valueOf(getColumnCount())).append(" Columns").append("\n");
+            out.append("----------------------------------------------------------------------------------------------------*/").append("\n");
+            out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" .").append(prefix).append("table-layout,\n");
+            out.append(".").append(prefix).append("container_full .").append(prefix).append("table-layout,\n");
+            out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" .").append(prefix).append("grid-layout,\n");
+            out.append(".").append(prefix).append("container_full .").append(prefix).append("grid-layout {\n");
+            out.append("    width               : auto;\n");
+            out.append("    height              : auto;\n");
+            out.append("    overflow            : auto;\n");
+            out.append("    z-index             : 10;\n");
+            out.append("    box-sizing          : inherit;\n}\n\n");
+
+            out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" .").append(prefix).append("grid-layout,\n");
+            out.append(".").append(prefix).append("container_full .").append(prefix).append("grid-layout {\n");
+            out.append("    margin              : ").append(getFormattedBottomMargin(getMode())).append(" ").append(getFormattedLeftMargin(getMode()))
+                    .append(" ").append(getFormattedTopMargin(getMode())).append(" ").append(getFormattedRightMargin(getMode())).append(";\n");
+            out.append("    padding             : 0px 0px 0px 0px;\n}\n\n");
+            
+            out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" .").append(prefix).append("table-layout,\n");
+            out.append(".").append(prefix).append("container_full .").append(prefix).append("table-layout {\n");
+            out.append("    margin              : 0px 0px 0px 0px;\n");
+            out.append("    padding             : 0px 0px 0px 0px;\n}\n\n");
+            
+            out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" .").append(prefix).append("table-layout,\n");
+            out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" .").append(prefix).append("grid-layout {\n");
+            out.append("    width               : ").append(containerMinWidth).append(";\n}\n\n");
+           
+            out.append(".").append(prefix).append("container_full .").append(prefix).append("grid-layout,\n");
+            out.append(".").append(prefix).append("container_full .").append(prefix).append("table-layout {\n");
+            out.append("    min-width           : ").append(containerMinWidth).append(";\n}\n\n");
+            
+            out.append(".").append(prefix).append("container_").append(String.valueOf(getColumnCount())).append(" .").append(prefix).append("table-layout {\n");
+            out.append("    display             : table;\n}\n\n");
+            
+            out.append(".").append(prefix).append("table-layout .").append(prefix).append("row {\n");
+            out.append("    padding             : 0px 0px 0px 0px;\n");
+            out.append("    margin              : 0px 0px 0px 0px;\n");
+            out.append("    display             : table-row;\n}\n\n");
+            
+            out.append(".").append(prefix).append("table-layout .").append(prefix).append("row .").append(prefix).append("cell_1");
+            for(loopCount = 2; loopCount <= getColumnCount(); loopCount ++){
+                out.append(",\n.").append(prefix).append("table-layout .").append(prefix).append("row .").append(prefix).append("cell_").append(String.valueOf(loopCount));
+            }
+            out.append(" {\n");
+            out.append("    box-sizing          : border-box;\n");
+            out.append("    padding             : 0px 0px 0px 0px;\n");
+            out.append("    margin              : 0px 0px 0px 0px;\n");
+            out.append("    display             : table-cell;\n}\n\n");
+            
+            out.append(".").append(prefix).append("cell-spacing,\n");
+            out.append(".").append(prefix).append("left-margin,\n");
+            out.append(".").append(prefix).append("right-margin {\n");
+            out.append("    padding             : 0px 0px 0px 0px;\n");
+            out.append("    margin              : 0px 0px 0px 0px;\n");
+            out.append("    display             : table-cell;\n");
+            out.append("    font-size           : 0px;\n");
+            out.append("    line-height         : 0px;\n}\n\n");
+            
+            out.append(".").append(prefix).append("cell-spacing {\n");
+            out.append("    width               : ").append(String.valueOf(getLeftMargin() + getRightMargin())).append(getUnit()).append(";\n}\n\n");
+            
+            out.append(".").append(prefix).append("left-margin {\n");
+            out.append("    width               : ").append(getFormattedLeftMargin()).append(";\n}\n\n");
+            
+            out.append(".").append(prefix).append("right-margin {\n");
+            out.append("    width               : ").append(getFormattedRightMargin()).append(";\n}\n\n");
+            
+            for(loopCount = 1; loopCount <= getColumnCount(); loopCount ++){
+                out.append(".").append(prefix).append("table-layout .").append(prefix).append("row .").append(prefix).append("cell_").append(String.valueOf(loopCount)).append(" {\n");
+                out.append("    width               : ").append(getFormattedWidthForColumns(loopCount)).append(";\n}\n\n");
+            }
+            
+            out.append("/* A box with zero margin and zero padding just containing other content and having the full screen width. \n");
+            out.append("----------------------------------------------------------------------------------------------------*/\n");
+            out.append(".").append(prefix).append("table-layout-box {\n");
+            out.append("    padding             : 0px 0px 0px 0px;\n");
+            out.append("    margin              : 0px 0px 0px 0px;\n");
+            out.append("    background          : transparent;\n");
+            out.append("    border              : none;\n}\n\n");
             
             result = out.toString();
         }

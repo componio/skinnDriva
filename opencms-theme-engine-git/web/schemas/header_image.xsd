@@ -39,9 +39,6 @@
     <xsd:annotation>
         <xsd:appinfo>
             <resourcebundle name="net.componio.opencms.modules.eight.skinndriva.rd.workplace"/>
-            <formatters>
-                <formatter type="HEADER" uri="/system/modules/net.componio.opencms.modules.eight.skinndriva.rd/formatters/default/HEADER.jsp"/>
-            </formatters>
             <defaults>
                 <default element="instance/alt" value="image"/>
                 <default element="instance/h-pos" value="0"/>

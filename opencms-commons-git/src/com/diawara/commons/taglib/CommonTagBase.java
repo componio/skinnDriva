@@ -5,7 +5,7 @@
  * 
  *  This file is part of OpenCms Theme Engine.
  * 
- *  OpenCms Theme Engine is free software: you can redistribute it and/or modify
+ *  OpenCms Theme Engine is free software: you can redistribute it and/or modify 
  *  it under the terms of the GNU Lesser General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
@@ -34,7 +34,7 @@ import  java.io.IOException;
  *
  * @author Robert Diawara
  */
-public class CommonTagBase extends BodyTagSupport{
+public abstract class CommonTagBase extends BodyTagSupport{
     private   String              scope;
     private   String              var;
     
@@ -160,11 +160,27 @@ public class CommonTagBase extends BodyTagSupport{
         return (HttpServletRequest)pageContext.getRequest();
     }
 
-     /**
+    /**
      * Gets the HTTP servlet response associated th the invokec page which contains the tag.
      * @return The HTTP servlet response
      */
     protected HttpServletResponse getResponse(){
         return (HttpServletResponse)pageContext.getResponse();
+    }
+    
+    /**
+     * Escapes the special characters in a string so that the string is usable as regular expression.
+     * @param p_regex The string to be escaped
+     * @return The escaped string
+     */
+    protected String escapeString4Regex(String p_regex){
+        String        result              = p_regex;
+        String        characters2Escape[] = new String[]{"\\","[","]","{","}","?","!","-","+","*",".",":",",","_"};
+        int           loopCount;
+        
+        for(loopCount = 0; loopCount < characters2Escape.length; loopCount ++){
+            result = result.replace(characters2Escape[loopCount], new StringBuilder("\\").append(characters2Escape[loopCount]).toString());
+        }
+        return result;
     }
 }

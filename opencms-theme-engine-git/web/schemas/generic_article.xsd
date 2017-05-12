@@ -54,10 +54,6 @@ along with OpenCms Theme Engine.  If not, see <http://www.gnu.org/licenses/>.
                 <layout element="body" widget="HtmlWidget" configuration="source,link,anchor,formatselect,imagegallery,downloadgallery,linkgallery,htmlgallery,tablegallery,height:250px" />
                 <layout element="category" widget="CategoryWidget" configuration="onlyleafs=false" />
             </layouts>
-            <formatters>
-                <formatter type="CONTENT" minwidth="500" maxwidth="900" uri="/system/modules/com.diawara.opencms.themes/formatters/default/CONTENT.jsp"/>
-                <formatter type="FOOTER" minwidth="500" maxwidth="900" uri="/system/modules/com.diawara.opencms.themes/formatters/default/FOOTER.jsp"/>
-            </formatters>
             <validationrules>
                 <rule element="title" regex="^(.+)$" message="Please provide a Title !"/>
                 <rule element="teaser" regex="^(.+)(\n(.*))*$" message="Please provide a Teaser !"/>

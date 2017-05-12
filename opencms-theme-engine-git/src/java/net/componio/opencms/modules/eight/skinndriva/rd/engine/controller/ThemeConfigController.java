@@ -626,6 +626,9 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
             tmp = contentShow(p_contentBean, p_container, FieldNames.SHOWLEFTHANDBAR, "true");
             result.setShowLeftHandBar(tmp.toLowerCase().equals("true"));
 
+            tmp = contentShow(p_contentBean, p_container, FieldNames.SHOWRIGHTHANDBAR, "true");
+            result.setShowRightHandBar(tmp.toLowerCase().equals("true"));
+
             tmp = contentShow(p_contentBean, p_container, FieldNames.SHOWTOOLBAR, "true");
             result.setShowToolBar(tmp.toLowerCase().equals("true"));
 
@@ -1683,46 +1686,30 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
         int                 initialMode;
         CmsJspActionElement actionEl;
         
-        if((grid != null) && (grid.isChanged())){
+        if(grid != null){
             synchronized(grid){
-                
-                // Generate the CSS file with the media queries.
-                resName = p_config.getResponsiveCssFile();
-                if((resName != null) && (resName.trim().length() > 0)){
-                    res = p_cmsObj.readResource(resName);
-                    if(res.isFile()){
-                        actionEl = new CmsJspActionElement(getPageContext(), getRequest(), getResponse());
-                        
-                        file = p_cmsObj.readFile(res);
-                        p_cmsObj.lockResource(file);
-                        file.setContents(grid.generateGenericCSSCode(actionEl, resName).getBytes());
-                        p_cmsObj.writeFile(file);
-                        p_cmsObj.unlockResource(file);
-                        result = file;
-                    }
-                    
-                }
-                
-                initialMode = grid.getMode();
+                if(((grid.isChanged()) || (p_config.isChanged()))){
+                    // Generate the CSS file with the media queries.
+                    resName = p_config.getResponsiveCssFile();
+                    if((resName != null) && (resName.trim().length() > 0)){
+                        res = p_cmsObj.readResource(resName);
+                        if(res.isFile()){
+                            actionEl = new CmsJspActionElement(getPageContext(), getRequest(), getResponse());
 
-                // Write the CSS file for normal desktop screens
-                grid.setMode(GridModel.MODE_DESKTOP);
-                resName = grid.getCssFile();
-                if((resName != null) && (resName.trim().length() > 0)){
-                    res = p_cmsObj.readResource(resName);
-                    if(res.isFile()){
-                        file = p_cmsObj.readFile(res);
-                        p_cmsObj.lockResource(file);
-                        file.setContents(grid.generateCSSCode().getBytes());
-                        p_cmsObj.writeFile(file);
-                        p_cmsObj.unlockResource(file);
-                        result = file;
+                            file = p_cmsObj.readFile(res);
+                            p_cmsObj.lockResource(file);
+                            file.setContents(grid.generateGenericCSSCode(actionEl, resName).getBytes());
+                            p_cmsObj.writeFile(file);
+                            p_cmsObj.unlockResource(file);
+                            result = file;
+                        }
+
                     }
-                }
-                
-                // Write the CSS file for medium sized screens
-                if(grid.isModeEnabled(GridModel.MODE_MEDIUM)){
-                    grid.setMode(GridModel.MODE_MEDIUM);
+
+                    initialMode = grid.getMode();
+
+                    // Write the CSS file for normal desktop screens
+                    grid.setMode(GridModel.MODE_DESKTOP);
                     resName = grid.getCssFile();
                     if((resName != null) && (resName.trim().length() > 0)){
                         res = p_cmsObj.readResource(resName);
@@ -1734,29 +1721,46 @@ public class ThemeConfigController extends DefaultController implements I_ThemeC
                             p_cmsObj.unlockResource(file);
                             result = file;
                         }
-
                     }
-                }
 
-                // write the CSS file for small screens
-                if(grid.isModeEnabled(GridModel.MODE_SMALL)){
-                    grid.setMode(GridModel.MODE_SMALL);
-                    resName = grid.getCssFile();
-                    if((resName != null) && (resName.trim().length() > 0)){
-                        res = p_cmsObj.readResource(resName);
-                        if(res.isFile()){
-                            file = p_cmsObj.readFile(res);
-                            p_cmsObj.lockResource(file);
-                            file.setContents(grid.generateCSSCode().getBytes());
-                            p_cmsObj.writeFile(file);
-                            p_cmsObj.unlockResource(file);
-                            result = file;
+                    // Write the CSS file for medium sized screens
+                    if(grid.isModeEnabled(GridModel.MODE_MEDIUM)){
+                        grid.setMode(GridModel.MODE_MEDIUM);
+                        resName = grid.getCssFile();
+                        if((resName != null) && (resName.trim().length() > 0)){
+                            res = p_cmsObj.readResource(resName);
+                            if(res.isFile()){
+                                file = p_cmsObj.readFile(res);
+                                p_cmsObj.lockResource(file);
+                                file.setContents(grid.generateCSSCode().getBytes());
+                                p_cmsObj.writeFile(file);
+                                p_cmsObj.unlockResource(file);
+                                result = file;
+                            }
+
                         }
-
                     }
+
+                    // write the CSS file for small screens
+                    if(grid.isModeEnabled(GridModel.MODE_SMALL)){
+                        grid.setMode(GridModel.MODE_SMALL);
+                        resName = grid.getCssFile();
+                        if((resName != null) && (resName.trim().length() > 0)){
+                            res = p_cmsObj.readResource(resName);
+                            if(res.isFile()){
+                                file = p_cmsObj.readFile(res);
+                                p_cmsObj.lockResource(file);
+                                file.setContents(grid.generateCSSCode().getBytes());
+                                p_cmsObj.writeFile(file);
+                                p_cmsObj.unlockResource(file);
+                                result = file;
+                            }
+
+                        }
+                    }
+
+                    grid.setMode(initialMode);
                 }
-                
-                grid.setMode(initialMode);
             }
         }
         return result;
