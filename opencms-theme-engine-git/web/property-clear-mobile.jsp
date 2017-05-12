@@ -1,7 +1,7 @@
 <%--
  Document : vfs-browser.jsp
  Created on Mi, Mai 01 2013, 14:00:41
- Copyright (C) 2013 Robert Diawara
+ Copyright (C) 2013 Robert Diawara.
 
  This file is part of OpenCms Theme Engine.
 
